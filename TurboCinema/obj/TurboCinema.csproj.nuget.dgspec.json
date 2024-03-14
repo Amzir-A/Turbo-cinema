@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {}
+    "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {}
   },
   "projects": {
-    "c:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
+    "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
+        "projectUniqueName": "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
         "projectName": "TurboCinema",
-        "projectPath": "c:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
+        "projectPath": "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
         "packagesPath": "C:\\Users\\Amzir\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\obj\\",
+        "outputPath": "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Amzir\\AppData\\Roaming\\NuGet\\NuGet.Config"
