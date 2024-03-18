@@ -13,3 +13,10 @@ c:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\obj\Debug\net8.0\refint
 c:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\obj\Debug\net8.0\TurboCinema.pdb
 c:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\obj\Debug\net8.0\TurboCinema.genruntimeconfig.cache
 c:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\obj\Debug\net8.0\ref\TurboCinema.dll
+C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\Spectre.Console.dll
+C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\Spectre.Console.Cli.dll
+C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\de\Spectre.Console.Cli.resources.dll
+C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\fr\Spectre.Console.Cli.resources.dll
+C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\sv\Spectre.Console.Cli.resources.dll
+C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\obj\Debug\net8.0\TurboCinema.csproj.AssemblyReference.cache
+C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\obj\Debug\net8.0\TurboCinema.csproj.CopyComplete

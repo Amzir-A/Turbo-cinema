@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "Y+CaxV81KDxj+ubrcKfCLJLjRqlVr5IqPNhaEU8xPA2pDh/+nHh11NZoXZUhEqL05GzcLivHmQyRu6wTDMsFXA==",
+  "dgSpecHash": "piGVAZpXItPRLFmRXR4Kh88v5Xgs6JMh/Wi3Tb6wdmPNCfRV0q47AAd4ePWmDH0nWhfSQA4guU3VSHqHrcTs5A==",
   "success": true,
   "projectFilePath": "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Amzir\\.nuget\\packages\\spectre.console\\0.48.0\\spectre.console.0.48.0.nupkg.sha512",
+    "C:\\Users\\Amzir\\.nuget\\packages\\spectre.console.cli\\0.48.0\\spectre.console.cli.0.48.0.nupkg.sha512",
+    "C:\\Users\\Amzir\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512"
+  ],
   "logs": []
 }
