@@ -7,6 +7,11 @@ public static class Program
         // AnsiConsole.Markup("[underline red]Hello[/] World!");
         System.Console.OutputEncoding = System.Text.Encoding.UTF8;
 
+        AnsiConsole.Write(
+            new FigletText("TurboCinema")
+                .LeftJustified()
+                .Color(Color.Red));
+
         var naar = AnsiConsole.Prompt(new ConfirmationPrompt("Naar betaalscherm?"));
         if (naar)
         {
