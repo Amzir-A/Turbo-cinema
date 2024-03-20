@@ -1,0 +1,14 @@
+[
+  {
+    "Id": "R1S1",
+    "IsReserved": true
+  },
+  {
+    "Id": "R1S2",
+    "IsReserved": true
+  },
+  {
+    "Id": "R1S3",
+    "IsReserved": false
+  }
+]

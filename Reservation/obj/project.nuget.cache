@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "66lhjbG2SMQmQqWoCcZpyPVUMaUrgtkGcXfd5BDplJPDeFqX/ithwwLIyc6WuFWHyX1xI/7IpFHFya1wc8g12w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\Reservation\\Reservation.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Nolan\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
