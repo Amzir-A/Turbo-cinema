@@ -1,14 +1,17 @@
 [
   {
     "Id": "R1S1",
-    "IsReserved": true
+    "IsReserved": true,
+    "InitiallyReserved": false
   },
   {
     "Id": "R1S2",
-    "IsReserved": true
+    "IsReserved": false,
+    "InitiallyReserved": false
   },
   {
     "Id": "R1S3",
-    "IsReserved": false
+    "IsReserved": false,
+    "InitiallyReserved": false
   }
 ]

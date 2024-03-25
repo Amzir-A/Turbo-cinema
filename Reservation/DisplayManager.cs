@@ -1,5 +1,3 @@
-using System;
-
 public class DisplayManager
 {
     private ReservationSystem reservationSystem;
@@ -24,10 +22,10 @@ public class DisplayManager
 
         // Display Continue option
         Console.BackgroundColor = isContinueSelected ? ConsoleColor.Yellow : ConsoleColor.Black;
-        Console.WriteLine("\nContinue to payment");
+        Console.WriteLine("\nBetalen");
         Console.BackgroundColor = ConsoleColor.Black;
 
-        Console.WriteLine("Use arrow keys to navigate, Enter to select, Escape to exit.");
+        Console.WriteLine("Gebruik de pijltoesten om een stoel te kiezen met enter. Klik vervolgens op betalen om door te gaan.");
     }
 
     public void UpdateSelection(ConsoleKey key)
@@ -60,23 +58,39 @@ public class DisplayManager
             case ConsoleKey.Enter:
                 if (isContinueSelected)
                 {
-                    // Proceed to payment logic
                     ProceedToPayment();
                 }
                 else
                 {
-                    reservationSystem.ReserveSeat(selectedSeatIndex);
+                    bool wasToggled = reservationSystem.ToggleSeatReservation(selectedSeatIndex);
+                    if (!wasToggled)
+                    {
+                        // Optionally, notify the user that the seat is already reserved
+                        Console.WriteLine("\nDeze stoel is al gereserveerd. Druk op een toets om door te gaan.");
+                        Console.ReadKey(true);
+                    }
                 }
                 break;
         }
     }
 
+
     private void ProceedToPayment()
     {
-        Console.Clear();
-        Console.WriteLine("Proceeding to payment...");
-        // Add payment logic here
-        Console.ReadKey();
-        Environment.Exit(0); // Or navigate to the next section
+        if (reservationSystem.GetNewlySelectedSeatsCount() > 0)
+        {
+            Console.Clear();
+            Console.WriteLine("Doorgaan naar betalen...");
+            // Proceed with payment logic here, perhaps including calculating the total price
+            reservationSystem.SaveReservations(); // Save the current reservation state
+            Console.ReadKey();
+            Environment.Exit(0); // Or navigate to the next section of your program
+        }
+        else
+        {
+            // Inform the user that at least one seat must be selected before continuing
+            Console.WriteLine("\nSelecteer a.u.b minstens één stoel. Druk op een toets om door te gaan.");
+            Console.ReadKey(true);
+        }
     }
 }
