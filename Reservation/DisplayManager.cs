@@ -84,7 +84,7 @@ public class DisplayManager
             // Proceed with payment logic here, perhaps including calculating the total price
             reservationSystem.SaveReservations(); // Save the current reservation state
             Console.ReadKey();
-            Environment.Exit(0); // Or navigate to the next section of your program
+            Environment.Exit(0)
         }
         else
         {
