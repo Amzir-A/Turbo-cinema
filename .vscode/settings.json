@@ -1,0 +1,4 @@
+{
+    "dotnet.defaultSolution": "TurboCinema.sln",
+    "csharp.debug.console": "externalTerminal"
+}
