@@ -1,0 +1,62 @@
+{
+    "movies": [
+      {
+        "title": "Dune: Part Two",
+        "release": "29-02-2024",
+        "director": "Denis Villeneuve",
+        "actors": [
+          "Timothee Chalamet",
+          "Zendaya",
+          "Rebecca Ferguson",
+          "Dave Bautista",
+          "Florence Pugh"
+        ],
+        "duration": "166 minutes",
+        "genre": ["Science fiction", "Action"],
+        "age_rating": 12,
+        "description": "In Dune: Part Two, Paul Atreides' legendary journey continues in the company of Chani and the Fremen as he seeks revenge on those who caused his family's downfall. Paul will have to choose between the love of his life and the fate of the universe to avoid the terrible future he alone has foreseen.”"
+      },
+      {
+        "title": "Bob Marley: One Love",
+        "release": "15-02-2024",
+        "director": "Reinaldo Marcus Green",
+        "actors": [
+          "Kingsley Ben-Adir",
+          "Lasaña Lynch",
+          "James Norton"
+        ],
+        "duration": "107 minutes",
+        "genre": ["Musical", "Biography", "Drama"],
+        "age_rating": 12,
+        "description": "One man. One message. One revolution. One legend. Bob Marley: One Love celebrates the life and music of an icon who inspired generations with his message of love and unity. For the first time on the big screen, discover Bob Marley's powerful story of overcoming adversity and the journey behind his revolutionary music."
+      },
+      {
+        "title": "Imaginary",
+        "release": "7-03-2024",
+        "director": "Jeff Wadlow",
+        "actors": [
+          "Betty Buckley",
+          "Matthew Sato",
+          "Veronica Falcon"
+        ],
+        "duration": "104 minutes",
+        "genre": ["Horror"],
+        "age_rating": 16,
+        "description": "The new horror film from Blumhouse Productions, the makers of Five Nights at Freddy's and M3GAN. When Jessica moves back to her parents' house, her stepdaughter Alice finds a teddy bear in the basement that she forms a close bond with."
+      },
+      {
+        "title": "Anyone But You",
+        "release": "4-01-2024",
+        "director": "Will Gluck",
+        "actors": [
+          "Glen Powell",
+          "Sydney Sweeney"
+        ],
+        "duration": "104 minutes",
+        "genre": ["Romance", "Comedy"],
+        "age_rating": 12,
+        "description": "In the comedy Anyone But You, Bea (Sydney Sweeney) and Ben (Glen Powell) seem like the perfect couple, but after a great first date, something happens that causes their fiery attraction to cool to freezing - until they are unexpectedly paired together at a wedding in Australia. And what do two adults do then? Pretend they're a couple, of course."
+      }
+    ]
+  }
+  

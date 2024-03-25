@@ -1,3 +1,4 @@
 {
-    "dotnet.defaultSolution": "Reservation.sln"
+    "dotnet.defaultSolution": "TurboCinema.sln",
+    "csharp.debug.console": "externalTerminal"
 }
