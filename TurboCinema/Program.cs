@@ -1,16 +1,27 @@
 ﻿using Spectre.Console;
+using Newtonsoft.Json;
 
-public static class Program
+
+class Program
 {
-    public static void Main(string[] args)
+    static void Main(string[] args)
     {
-        // AnsiConsole.Markup("[underline red]Hello[/] World!");
-        System.Console.OutputEncoding = System.Text.Encoding.UTF8;
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
 
         AnsiConsole.Write(
             new FigletText("TurboCinema")
-                .LeftJustified()
+                .Centered()
                 .Color(Color.Red));
+
+        AnsiConsole.WriteLine();
+
+        MovieSelector movieSelector = new MovieSelector();
+        movieSelector.DisplayMovies();
+        var selectedMovie = movieSelector.SelectMovie();
+
+        // select seats
+        var reservationSystem = new ReservationSystem();
+        var selectedSeat = reservationSystem.SelectSeats();
 
         var naar = AnsiConsole.Prompt(new ConfirmationPrompt("Naar betaalscherm?"));
         if (naar)
@@ -22,3 +33,4 @@ public static class Program
         Console.ReadLine();
     }
 }
+

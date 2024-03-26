@@ -19,4 +19,5 @@ C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\de\Spe
 C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\fr\Spectre.Console.Cli.resources.dll
 C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\sv\Spectre.Console.Cli.resources.dll
 C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\obj\Debug\net8.0\TurboCinema.csproj.AssemblyReference.cache
-C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\obj\Debug\net8.0\TurboCinema.csproj.CopyComplete
+C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\obj\Debug\net8.0\TurboCin.B6906879.Up2Date
