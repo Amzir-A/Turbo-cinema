@@ -62,7 +62,7 @@ class MovieSelector
             AnsiConsole.Markup("[red]No movies found.[/]");
         }
     }
-    public int SelectMovieByTitle()
+    public int SelectMovie()
     {
         var movieTitles = movies?.Select(m => m.Title).ToList() ?? new List<string>();
 
