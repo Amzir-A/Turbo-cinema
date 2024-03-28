@@ -62,32 +62,24 @@ class MovieSelector
             AnsiConsole.Markup("[red]No movies found.[/]");
         }
     }
-    public int SelectMovie()
+    public int SelectMovieByTitle()
     {
-        return AnsiConsole.Prompt(
-        new TextPrompt<int>("Select movie by ID")
-            .PromptStyle("green")
-            .ValidationErrorMessage("[red]That's not a valid movie ID[/]")
-            .Validate(ID =>
-            {
-                {
-                    if (ID < 1)
-                    {
-                        return ValidationResult.Error("[red]ID can't be a negative number.[/]");
-                    }
-                    else if (ID > movies?.Count)
-                    {
-                        return ValidationResult.Error("[red]ID doesn't exist in the list.[/]");
-                    }
-                    else
-                    {
-                        return ValidationResult.Success();
-                    }
+        var movieTitles = movies?.Select(m => m.Title).ToList() ?? new List<string>();
 
-                }
-            })
-        );
+        var selectedTitle = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Selecteer een [green]film[/]:")
+                .PageSize(10) // Number of items to show before scrolling
+                .MoreChoicesText("[grey](Scroll omhoog of omlaag om meer films te zien)[/]")
+                .AddChoices(movieTitles));
+
+        // Find the selected movie by title (assuming titles are unique)
+        var selectedMovie = movies?.FirstOrDefault(m => m.Title == selectedTitle);
+
+        // Return the movie ID or some identifier
+        return selectedMovie != null ? movies.IndexOf(selectedMovie) + 1 : -1; // Adding 1 to match your 1-based IDs
     }
+
 
     public static List<Movie> LoadMovies()
     {
