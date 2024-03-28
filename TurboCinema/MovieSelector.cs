@@ -62,22 +62,46 @@ class MovieSelector
             AnsiConsole.Markup("[red]No movies found.[/]");
         }
     }
-    public int SelectMovie()
+    public void SelectMovie()
     {
         var movieTitles = movies?.Select(m => m.Title).ToList() ?? new List<string>();
 
         var selectedTitle = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
-                .Title("Selecteer een [green]film[/]:")
+                .Title("Select a [green]movie[/]:")
                 .PageSize(10) // Number of items to show before scrolling
-                .MoreChoicesText("[grey](Scroll omhoog of omlaag om meer films te zien)[/]")
+                .MoreChoicesText("[grey](Scroll up or down to see more movies)[/]")
                 .AddChoices(movieTitles));
 
         // Find the selected movie by title (assuming titles are unique)
         var selectedMovie = movies?.FirstOrDefault(m => m.Title == selectedTitle);
 
-        // Return the movie ID or some identifier
-        return selectedMovie != null ? movies.IndexOf(selectedMovie) + 1 : -1; // Adding 1 to match your 1-based IDs
+        if (selectedMovie != null)
+        {
+            // Clear the console for detailed movie information
+            AnsiConsole.Clear();
+
+            // Display detailed information about the selected movie
+            AnsiConsole.MarkupLine($"[underline yellow]Title:[/] {selectedMovie.Title}");
+            AnsiConsole.MarkupLine($"[underline yellow]Release:[/] {selectedMovie.Release}");
+            AnsiConsole.MarkupLine($"[underline yellow]Director:[/] {selectedMovie.Director}");
+            AnsiConsole.MarkupLine($"[underline yellow]Duration:[/] {selectedMovie.Duration}");
+            AnsiConsole.MarkupLine($"[underline yellow]Genre:[/] {string.Join(", ", selectedMovie.Genre)}");
+            AnsiConsole.MarkupLine($"[underline yellow]Age Rating:[/] {selectedMovie.AgeRating}");
+            AnsiConsole.MarkupLine($"[underline yellow]Actors:[/] {string.Join(", ", selectedMovie.Actors)}");
+            AnsiConsole.Markup($"[underline yellow]Description:[/] {selectedMovie.Description}\n");
+
+            // Wait for user input to continue
+            AnsiConsole.WriteLine("\nPress any key to continue...");
+            Console.ReadKey();
+            
+            // Optionally clear the console again if you plan to move to another screen
+            AnsiConsole.Clear();
+        }
+        else
+        {
+            AnsiConsole.Markup("[red]Movie not found.[/]");
+        }
     }
 
 
