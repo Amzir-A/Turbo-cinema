@@ -69,16 +69,16 @@ class MovieSelector
         var selectedTitle = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("Select a [green]movie[/]:")
-                .PageSize(10) // Number of items to show before scrolling
+                .PageSize(10)
                 .MoreChoicesText("[grey](Scroll up or down to see more movies)[/]")
                 .AddChoices(movieTitles));
 
-        // Find the selected movie by title (assuming titles are unique)
+        // Vind de geselecteerde film op titel
         var selectedMovie = movies?.FirstOrDefault(m => m.Title == selectedTitle);
 
         if (selectedMovie != null)
         {
-            // Clear the console for detailed movie information
+            //clear the console
             AnsiConsole.Clear();
 
             // Display detailed information about the selected movie
@@ -91,11 +91,11 @@ class MovieSelector
             AnsiConsole.MarkupLine($"[underline yellow]Actors:[/] {string.Join(", ", selectedMovie.Actors)}");
             AnsiConsole.Markup($"[underline yellow]Description:[/] {selectedMovie.Description}\n");
 
-            // Wait for user input to continue
+            //wanneer gebruiker op een toets drukt krijgt tie de pop up of tie verder wilt
             AnsiConsole.WriteLine("\nPress any key to continue...");
             Console.ReadKey();
             
-            // Optionally clear the console again if you plan to move to another screen
+            //clear the console
             AnsiConsole.Clear();
         }
         else

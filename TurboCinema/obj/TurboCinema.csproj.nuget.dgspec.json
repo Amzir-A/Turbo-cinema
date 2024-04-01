@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {}
+    "c:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
+    "c:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
+        "projectUniqueName": "c:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
         "projectName": "TurboCinema",
-        "projectPath": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
+        "projectPath": "c:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
         "packagesPath": "C:\\Users\\sven\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\obj\\",
+        "outputPath": "c:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sven\\AppData\\Roaming\\NuGet\\NuGet.Config"
