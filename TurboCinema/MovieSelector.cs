@@ -62,32 +62,48 @@ class MovieSelector
             AnsiConsole.Markup("[red]No movies found.[/]");
         }
     }
-    public int SelectMovie()
+    public void SelectMovie()
     {
-        return AnsiConsole.Prompt(
-        new TextPrompt<int>("Select movie by ID")
-            .PromptStyle("green")
-            .ValidationErrorMessage("[red]That's not a valid movie ID[/]")
-            .Validate(ID =>
-            {
-                {
-                    if (ID < 1)
-                    {
-                        return ValidationResult.Error("[red]ID can't be a negative number.[/]");
-                    }
-                    else if (ID > movies?.Count)
-                    {
-                        return ValidationResult.Error("[red]ID doesn't exist in the list.[/]");
-                    }
-                    else
-                    {
-                        return ValidationResult.Success();
-                    }
+        var movieTitles = movies?.Select(m => m.Title).ToList() ?? new List<string>();
 
-                }
-            })
-        );
+        var selectedTitle = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Select a [green]movie[/]:")
+                .PageSize(10)
+                .MoreChoicesText("[grey](Scroll up or down to see more movies)[/]")
+                .AddChoices(movieTitles));
+
+        // Vind de geselecteerde film op titel
+        var selectedMovie = movies?.FirstOrDefault(m => m.Title == selectedTitle);
+
+        if (selectedMovie != null)
+        {
+            //clear the console
+            AnsiConsole.Clear();
+
+            // Display detailed information about the selected movie
+            AnsiConsole.MarkupLine($"[underline yellow]Title:[/] {selectedMovie.Title}");
+            AnsiConsole.MarkupLine($"[underline yellow]Release:[/] {selectedMovie.Release}");
+            AnsiConsole.MarkupLine($"[underline yellow]Director:[/] {selectedMovie.Director}");
+            AnsiConsole.MarkupLine($"[underline yellow]Duration:[/] {selectedMovie.Duration}");
+            AnsiConsole.MarkupLine($"[underline yellow]Genre:[/] {string.Join(", ", selectedMovie.Genre)}");
+            AnsiConsole.MarkupLine($"[underline yellow]Age Rating:[/] {selectedMovie.AgeRating}");
+            AnsiConsole.MarkupLine($"[underline yellow]Actors:[/] {string.Join(", ", selectedMovie.Actors)}");
+            AnsiConsole.Markup($"[underline yellow]Description:[/] {selectedMovie.Description}\n");
+
+            //wanneer gebruiker op een toets drukt krijgt tie de pop up of tie verder wilt
+            AnsiConsole.WriteLine("\nPress any key to continue...");
+            Console.ReadKey();
+            
+            //clear the console
+            AnsiConsole.Clear();
+        }
+        else
+        {
+            AnsiConsole.Markup("[red]Movie not found.[/]");
+        }
     }
+
 
     public static List<Movie> LoadMovies()
     {
