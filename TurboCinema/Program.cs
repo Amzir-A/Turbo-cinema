@@ -25,7 +25,12 @@ class Program
             bool proceedToSeats = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar stoelenselectie? [green]Ja[/] of ga [red]terug[/]?"));
             if (!proceedToSeats)
             {
+                Console.Clear();
+                movieSelector.DisplayMovies();
+                movieSelector.SelectMovie();
+
                 continue; // Dit zal de lus herstarten, waardoor de gebruiker opnieuw een film kan selecteren.
+                
             }
 
             // Logica voor het selecteren van stoelen hier.
@@ -36,6 +41,9 @@ class Program
             bool proceedToPayment = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar betaalscherm? [green]Ja[/] of [red]Nee[/]?"));
             if (!proceedToPayment)
             {
+                Console.Clear();
+                movieSelector.DisplayMovies();
+                movieSelector.SelectMovie();
                 continue; // Dit zal de lus herstarten, waardoor de gebruiker opnieuw kan beginnen.
             }
 
