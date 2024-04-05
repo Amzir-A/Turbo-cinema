@@ -95,7 +95,6 @@ class MovieSelector
             AnsiConsole.WriteLine("\nPress any key to continue...");
             Console.ReadKey();
             Console.Clear();
-            // Nadat filmdetails getoond zijn en voordat de console wordt schoongemaakt
             DisplayMoviePlaytimes(selectedMovie.Title);
 
         }
@@ -104,41 +103,47 @@ class MovieSelector
             AnsiConsole.Markup("[red]Movie not found.[/]");
         }
     }
+
     public void DisplayMoviePlaytimes(string selectedTitle)
     {
-        try
+        var playtimesJson = File.ReadAllText("Data/playtimes.json") ?? "";
+        var moviePlaytimesList = JsonConvert.DeserializeObject<List<MoviePlaytimes>>(playtimesJson);
+
+        var selectedMoviePlaytimes = moviePlaytimesList?.FirstOrDefault(mp => mp.Title.Equals(selectedTitle, StringComparison.OrdinalIgnoreCase));
+
+        if (selectedMoviePlaytimes?.Playtimes != null && selectedMoviePlaytimes.Playtimes.Any())
         {
-            var playtimesJson = File.ReadAllText("Data/Playtimes.json"); // Dit is om te debuggen
-            Console.WriteLine(playtimesJson); // Dit is om te debuggen
-            
-            var moviePlaytimesList = JsonConvert.DeserializeObject<List<MoviePlaytimes>>(playtimesJson);
-            
-            Console.WriteLine($"Aantal geladen speeltijden: {moviePlaytimesList?.Count ?? 0}"); // Dit is om te debuggen
+            // Start with a clear screen
+            AnsiConsole.Clear();
 
-            var selectedMoviePlaytimes = moviePlaytimesList?.FirstOrDefault(mp => mp.Title.Equals(selectedTitle, StringComparison.OrdinalIgnoreCase));
+            // Use a table to present the playtimes
+            var table = new Table();
+            table.AddColumn("Date and Time");
+            table.AddColumn("Room");
 
-            if (selectedMoviePlaytimes?.Playtimes != null && selectedMoviePlaytimes.Playtimes.Any())
+            foreach (var playtime in selectedMoviePlaytimes.Playtimes)
             {
-                AnsiConsole.MarkupLine($"\n[underline yellow]Speeltijden voor {selectedTitle}[/]");
-
-                foreach (var playtime in selectedMoviePlaytimes.Playtimes)
-                {
-                    AnsiConsole.MarkupLine($"[yellow]{playtime.DateTime}[/] - [yellow]{playtime.Room}[/]");
-                }
-            }
-            else
-            {
-                AnsiConsole.Markup("[red]Geen speeltijden gevonden voor deze film.[/]");
+                // Format the DateTime nicely here (you might need to adjust it to your needs)
+                table.AddRow(playtime.DateTime.ToString("g"), playtime.Room);
             }
 
-            AnsiConsole.WriteLine("\nPress any key to continue...");
-            Console.ReadKey();
+            // Configure the look of the table here with colors, borders, etc.
+            table.Title($"[underline yellow]{selectedTitle} Playtimes[/]");
+            table.Border(TableBorder.Rounded);
+
+            // Finally, render the table to the console
+            AnsiConsole.Write(table);
         }
-        catch (Exception ex)
+        else
         {
-            AnsiConsole.WriteException(ex);
+            AnsiConsole.Markup("[red]Geen speeltijden gevonden voor deze film.[/]");
         }
+
+        // Wait for user input to continue
+        AnsiConsole.WriteLine("\nPress any key to continue...");
+        Console.ReadKey();
     }
+
 
 
     public static List<Movie> LoadMovies()
