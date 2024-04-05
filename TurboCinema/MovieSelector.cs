@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 class MovieSelector
 {
-    List<Movie>? movies = LoadMovies();
+    public List<Movie>? movies = LoadMovies();
 
     public void DisplayMovies()
     {
@@ -69,16 +69,16 @@ class MovieSelector
         var selectedTitle = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("Select a [green]movie[/]:")
-                .PageSize(10)
+                .PageSize(10) // Number of items to show before scrolling
                 .MoreChoicesText("[grey](Scroll up or down to see more movies)[/]")
                 .AddChoices(movieTitles));
 
-        // Vind de geselecteerde film op titel
+        // Find the selected movie by title (assuming titles are unique)
         var selectedMovie = movies?.FirstOrDefault(m => m.Title == selectedTitle);
 
         if (selectedMovie != null)
         {
-            //clear the console
+            // Clear the console for detailed movie information
             AnsiConsole.Clear();
 
             // Display detailed information about the selected movie
@@ -91,16 +91,52 @@ class MovieSelector
             AnsiConsole.MarkupLine($"[underline yellow]Actors:[/] {string.Join(", ", selectedMovie.Actors)}");
             AnsiConsole.Markup($"[underline yellow]Description:[/] {selectedMovie.Description}\n");
 
-            //wanneer gebruiker op een toets drukt krijgt tie de pop up of tie verder wilt
+            // Wait for user input to continue
             AnsiConsole.WriteLine("\nPress any key to continue...");
             Console.ReadKey();
-            
-            //clear the console
-            AnsiConsole.Clear();
+            Console.Clear();
+            // Nadat filmdetails getoond zijn en voordat de console wordt schoongemaakt
+            DisplayMoviePlaytimes(selectedMovie.Title);
+
         }
         else
         {
             AnsiConsole.Markup("[red]Movie not found.[/]");
+        }
+    }
+    public void DisplayMoviePlaytimes(string selectedTitle)
+    {
+        try
+        {
+            var playtimesJson = File.ReadAllText("Data/Playtimes.json"); // Dit is om te debuggen
+            Console.WriteLine(playtimesJson); // Dit is om te debuggen
+            
+            var moviePlaytimesList = JsonConvert.DeserializeObject<List<MoviePlaytimes>>(playtimesJson);
+            
+            Console.WriteLine($"Aantal geladen speeltijden: {moviePlaytimesList?.Count ?? 0}"); // Dit is om te debuggen
+
+            var selectedMoviePlaytimes = moviePlaytimesList?.FirstOrDefault(mp => mp.Title.Equals(selectedTitle, StringComparison.OrdinalIgnoreCase));
+
+            if (selectedMoviePlaytimes?.Playtimes != null && selectedMoviePlaytimes.Playtimes.Any())
+            {
+                AnsiConsole.MarkupLine($"\n[underline yellow]Speeltijden voor {selectedTitle}[/]");
+
+                foreach (var playtime in selectedMoviePlaytimes.Playtimes)
+                {
+                    AnsiConsole.MarkupLine($"[yellow]{playtime.DateTime}[/] - [yellow]{playtime.Room}[/]");
+                }
+            }
+            else
+            {
+                AnsiConsole.Markup("[red]Geen speeltijden gevonden voor deze film.[/]");
+            }
+
+            AnsiConsole.WriteLine("\nPress any key to continue...");
+            Console.ReadKey();
+        }
+        catch (Exception ex)
+        {
+            AnsiConsole.WriteException(ex);
         }
     }
 
@@ -111,5 +147,4 @@ class MovieSelector
         List<Movie>? movies = JsonConvert.DeserializeObject<List<Movie>>(json) ?? new List<Movie>();
         return movies;
     }
-
 }

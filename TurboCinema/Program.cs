@@ -26,7 +26,7 @@ class Program
 
             switch (keuze)
             {
-                case "Films en tijden":
+                case "Films":
                     DisplayAndHandleMovies();
                     break;
                 case "Inloggen in account":
