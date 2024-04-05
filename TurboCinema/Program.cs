@@ -18,8 +18,6 @@ class Program
         {
             // Toon films en laat de gebruiker een film selecteren.
             MovieSelector movieSelector = new MovieSelector();
-            movieSelector.DisplayMovies();
-            movieSelector.SelectMovie();
 
             // Vraag of de gebruiker door wil gaan naar het selecteren van stoelen of terug wil naar filmselectie.
             bool proceedToSeats = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar stoelenselectie? [green]Ja[/] of ga [red]terug[/]?"));
@@ -27,10 +25,9 @@ class Program
             {
                 Console.Clear();
                 movieSelector.DisplayMovies();
-                movieSelector.SelectMovie();
 
                 continue; // Dit zal de lus herstarten, waardoor de gebruiker opnieuw een film kan selecteren.
-                
+
             }
 
             // Logica voor het selecteren van stoelen hier.
@@ -43,7 +40,6 @@ class Program
             {
                 Console.Clear();
                 movieSelector.DisplayMovies();
-                movieSelector.SelectMovie();
                 continue; // Dit zal de lus herstarten, waardoor de gebruiker opnieuw kan beginnen.
             }
 
