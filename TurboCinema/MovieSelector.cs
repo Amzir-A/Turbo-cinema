@@ -1,5 +1,7 @@
 using Spectre.Console;
 using Newtonsoft.Json;
+using System;
+using System.Text;
 
 class MovieSelector
 {
@@ -73,36 +75,57 @@ class MovieSelector
                 .MoreChoicesText("[grey](Scroll up or down to see more movies)[/]")
                 .AddChoices(movieTitles));
 
-        // Find the selected movie by title (assuming titles are unique)
         var selectedMovie = movies?.FirstOrDefault(m => m.Title == selectedTitle);
 
         if (selectedMovie != null)
         {
-            // Clear the console for detailed movie information
-            AnsiConsole.Clear();
+            DisplayMovieDetails(selectedMovie); // Show the movie details
 
-            // Display detailed information about the selected movie
-            AnsiConsole.MarkupLine($"[underline yellow]Title:[/] {selectedMovie.Title}");
-            AnsiConsole.MarkupLine($"[underline yellow]Release:[/] {selectedMovie.Release}");
-            AnsiConsole.MarkupLine($"[underline yellow]Director:[/] {selectedMovie.Director}");
-            AnsiConsole.MarkupLine($"[underline yellow]Duration:[/] {selectedMovie.Duration}");
-            AnsiConsole.MarkupLine($"[underline yellow]Genre:[/] {string.Join(", ", selectedMovie.Genre)}");
-            AnsiConsole.MarkupLine($"[underline yellow]Age Rating:[/] {selectedMovie.AgeRating}");
-            AnsiConsole.MarkupLine($"[underline yellow]Actors:[/] {string.Join(", ", selectedMovie.Actors)}");
-            AnsiConsole.Markup($"[underline yellow]Description:[/] {selectedMovie.Description}\n");
-
-            // Wait for user input to continue
-            AnsiConsole.WriteLine("\nPress any key to continue...");
-            Console.ReadKey();
-            Console.Clear();
-            DisplayMoviePlaytimes(selectedMovie.Title);
-
+            // Now we wait for the user to press ENTER
+            AnsiConsole.WriteLine();
+            AnsiConsole.WriteLine("Press ENTER to continue...");
+            Console.ReadLine(); // Waits for the Enter key to be pressed
+            DisplayMoviePlaytimes(selectedTitle); // Show the playtimes
         }
         else
         {
             AnsiConsole.Markup("[red]Movie not found.[/]");
         }
     }
+    public void DisplayMovieDetails(Movie selectedMovie)
+    {
+        // Start with a clear screen
+        AnsiConsole.Clear();
+        // Retain the TurboCinema header
+        AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
+
+        // Construct the movie details as a single string.
+        var details = new StringBuilder();
+        details.AppendLine($"[bold]Title:[/] {selectedMovie.Title}");
+        details.AppendLine($"[bold]Release:[/] {selectedMovie.Release}");
+        details.AppendLine($"[bold]Director:[/] {selectedMovie.Director}");
+        details.AppendLine($"[bold]Duration:[/] {selectedMovie.Duration} minutes");
+        details.AppendLine($"[bold]Genre:[/] {string.Join(", ", selectedMovie.Genre)}");
+        details.AppendLine($"[bold]Age Rating:[/] {selectedMovie.AgeRating}");
+        details.AppendLine($"[bold]Actors:[/] {string.Join(", ", selectedMovie.Actors)}");
+        details.AppendLine($"[bold]Description:[/] {selectedMovie.Description}");
+
+        // Create a panel with the details content
+        var panel = new Panel(details.ToString())
+            .Expand()
+            .Border(BoxBorder.Rounded)
+            .BorderStyle(new Style(Color.Yellow))
+            .Padding(1, 2);
+
+        // Render the panel below the header
+        AnsiConsole.Render(panel);
+        
+        // Wait for user input to continue
+        
+
+    }
+
+    
 
     public void DisplayMoviePlaytimes(string selectedTitle)
     {
@@ -117,9 +140,10 @@ class MovieSelector
             AnsiConsole.Clear();
 
             // Use a table to present the playtimes
-            var table = new Table();
-            table.AddColumn("Date and Time");
-            table.AddColumn("Room");
+            var table = new Table()
+                .Centered()
+                .AddColumn(new TableColumn("Date and Time").Centered())
+                .AddColumn(new TableColumn("Room").Centered());
 
             foreach (var playtime in selectedMoviePlaytimes.Playtimes)
             {
@@ -132,7 +156,7 @@ class MovieSelector
             table.Border(TableBorder.Rounded);
 
             // Finally, render the table to the console
-            AnsiConsole.Write(table);
+            AnsiConsole.Render(table);
         }
         else
         {
