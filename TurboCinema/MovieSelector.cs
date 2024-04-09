@@ -1,61 +1,14 @@
 using Spectre.Console;
 using Newtonsoft.Json;
+using System;
+using System.Text;
 
 class MovieSelector
 {
-    List<Movie>? movies = LoadMovies();
-    static int selectedIndex = 0;
-    static Style? SelectedStyle;
-
-    public MovieSelector()
-    {
-        DisplayMovies();
-
-        while (true)
-        {
-
-            var key = Console.ReadKey(true).Key;
-
-            switch (key)
-            {
-                case ConsoleKey.UpArrow:
-                    selectedIndex = Math.Max(0, selectedIndex - 1);
-                    break;
-                case ConsoleKey.DownArrow:
-                    selectedIndex = Math.Min(movies.Count - 1, selectedIndex + 1);
-                    break;
-                case ConsoleKey.Enter:
-                    Console.Clear();
-                    Console.WriteLine("You selected: " + movies[selectedIndex].Title);
-
-                    AnsiConsole.Clear();
-
-                    Movie selectedMovie = movies[selectedIndex];
-
-                    // Display detailed information about the selected movie
-                    AnsiConsole.MarkupLine($"[underline yellow]Title:[/] {selectedMovie.Title}");
-                    AnsiConsole.MarkupLine($"[underline yellow]Release:[/] {selectedMovie.Release}");
-                    AnsiConsole.MarkupLine($"[underline yellow]Director:[/] {selectedMovie.Director}");
-                    AnsiConsole.MarkupLine($"[underline yellow]Duration:[/] {selectedMovie.Duration}");
-                    AnsiConsole.MarkupLine($"[underline yellow]Genre:[/] {string.Join(", ", selectedMovie.Genre)}");
-                    AnsiConsole.MarkupLine($"[underline yellow]Age Rating:[/] {selectedMovie.AgeRating}");
-                    AnsiConsole.MarkupLine($"[underline yellow]Actors:[/] {string.Join(", ", selectedMovie.Actors)}");
-                    AnsiConsole.Markup($"[underline yellow]Description:[/] {selectedMovie.Description}\n");
-
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    return;
-            }
-
-            DisplayMovies();
-        }
-    }
+    public List<Movie>? movies = LoadMovies();
 
     public void DisplayMovies()
     {
-        Console.Clear();
-        AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
-        AnsiConsole.WriteLine();
 
         if (movies?.Count > 0)
         {
@@ -64,50 +17,43 @@ class MovieSelector
             AnsiConsole.WriteLine();
             AnsiConsole.WriteLine();
 
+            var rule = new Rule();
+            rule.Style = Style.Parse("red dim");
+            AnsiConsole.Write(rule);
 
-            var grid = new Table
-            {
-                Border = TableBorder.SimpleHeavy,
-                BorderStyle = new Style(Color.Red),
-
-            };
-
-            grid.AddColumn(new TableColumn("[red]ID[/]").Centered());
-            grid.AddColumn(new TableColumn("[red]Title[/]").Centered());
-            grid.AddColumn(new TableColumn("[red]Release[/]").Centered());
-            grid.AddColumn(new TableColumn("[red]Director[/]").Centered());
-            grid.AddColumn(new TableColumn("[red]Duration[/]").Centered());
-            grid.AddColumn(new TableColumn("[red]Genre[/]").Centered());
-            grid.AddColumn(new TableColumn("[red]Age Rating[/]").Centered());
-            // grid.AddColumn(new TableColumn("[red]Description[/]").Centered());
+            var grid = new Grid();
+            grid.AddColumns(8);
+            grid.AddRow(new Text[]{
+                new Text("ID", new Style(Color.Red, Color.Black)).Centered(),
+                new Text("Title", new Style(Color.Red, Color.Black)).Centered(),
+                new Text("Release", new Style(Color.Red, Color.Black)).Centered(),
+                new Text("Director", new Style(Color.Red, Color.Black)).Centered(),
+                new Text("Duration", new Style(Color.Red, Color.Black)).Centered(),
+                new Text("Genre", new Style(Color.Red, Color.Black)).Centered(),
+                new Text("Age Rating", new Style(Color.Red, Color.Black)).Centered(),
+                // new Text("Description", new Style(Color.Red, Color.Black)).Centered()
+            });
 
             for (int i = 0; i < movies.Count; i++)
             {
-
-                if (i == selectedIndex)
-                {
-                    SelectedStyle = new Style(Color.White, Color.Black).Background(Color.Grey39);
-                }
-                else
-                {
-                    SelectedStyle = new Style(Color.White, Color.Black);
-                }
-
                 var movie = movies[i];
                 grid.AddRow(new Text[]{
-                    new Text((i + 1).ToString(), SelectedStyle).Centered(),
-                    new Text(movie.Title, SelectedStyle).Centered(),
-                    new Text(movie.Release, SelectedStyle).Centered(),
-                    new Text(movie.Director, SelectedStyle).Centered(),
-                    new Text(movie.Duration, SelectedStyle).Centered(),
-                    new Text(string.Join(", ", movie.Genre), SelectedStyle).Centered(),
-                    new Text(movie.AgeRating, SelectedStyle).Centered(),
-                    // new Text(movie.Description, SelectedStyle).Centered()
+                    new Text((i + 1).ToString(), new Style(Color.White, Color.Black)).Centered(),
+                    new Text(movie.Title, new Style(Color.White, Color.Black)).Centered(),
+                    new Text(movie.Release, new Style(Color.White, Color.Black)).Centered(),
+                    new Text(movie.Director, new Style(Color.White, Color.Black)).Centered(),
+                    new Text(movie.Duration, new Style(Color.White, Color.Black)).Centered(),
+                    new Text(string.Join(", ", movie.Genre), new Style(Color.White, Color.Black)).Centered(),
+                    new Text(movie.AgeRating, new Style(Color.White, Color.Black)).Centered(),
+                    // new Text(movie.Description, new Style(Color.White, Color.Black)).Centered()
                 });
             }
 
-            AnsiConsole.Write(grid);
+            AnsiConsole.Write(grid.Centered());
 
+            var rule2 = new Rule();
+            rule2.Style = Style.Parse("red dim");
+            AnsiConsole.Write(rule2);
             AnsiConsole.WriteLine();
 
             AnsiConsole.Write(new Text("[ End ]", new Style(Color.Yellow, Color.Black)).Centered());
@@ -118,6 +64,122 @@ class MovieSelector
             AnsiConsole.Markup("[red]No movies found.[/]");
         }
     }
+    public void SelectMovie()
+    {
+        var movieTitles = movies?.Select(m => m.Title).ToList() ?? new List<string>();
+
+        var selectedTitle = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Select a [green]movie[/]:")
+                .PageSize(10) // Number of items to show before scrolling
+                .MoreChoicesText("[grey](Scroll up or down to see more movies)[/]")
+                .AddChoices(movieTitles));
+
+        var selectedMovie = movies?.FirstOrDefault(m => m.Title == selectedTitle);
+
+        if (selectedMovie != null)
+        {
+            DisplayMovieDetails(selectedMovie); // Show the movie details
+
+            // Now we wait for the user to press ENTER
+            AnsiConsole.WriteLine();
+            AnsiConsole.WriteLine("Press ENTER to continue...");
+            Console.ReadLine(); // Waits for the Enter key to be pressed
+            DisplayMoviePlaytimes(selectedTitle); // Show the playtimes
+        }
+        else
+        {
+            AnsiConsole.Markup("[red]Movie not found.[/]");
+        }
+    }
+    public void DisplayMovieDetails(Movie selectedMovie)
+    {
+        // Start with a clear screen
+        AnsiConsole.Clear();
+        // Retain the TurboCinema header
+        AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
+
+        // Construct the movie details as a single string.
+        var details = new StringBuilder();
+        details.AppendLine($"[bold]Title:[/] {selectedMovie.Title}");
+        details.AppendLine($"[bold]Release:[/] {selectedMovie.Release}");
+        details.AppendLine($"[bold]Director:[/] {selectedMovie.Director}");
+        details.AppendLine($"[bold]Duration:[/] {selectedMovie.Duration} minutes");
+        details.AppendLine($"[bold]Genre:[/] {string.Join(", ", selectedMovie.Genre)}");
+        details.AppendLine($"[bold]Age Rating:[/] {selectedMovie.AgeRating}");
+        details.AppendLine($"[bold]Actors:[/] {string.Join(", ", selectedMovie.Actors)}");
+        details.AppendLine($"[bold]Description:[/] {selectedMovie.Description}");
+
+        // Create a panel with the details content
+        var panel = new Panel(details.ToString())
+            .Expand()
+            .Border(BoxBorder.Rounded)
+            .BorderStyle(new Style(Color.Yellow))
+            .Padding(1, 2);
+
+        // Render the panel below the header
+        AnsiConsole.Render(panel);
+
+    }
+
+    
+
+    public void DisplayMoviePlaytimes(string selectedTitle)
+    {
+        var playtimesJson = File.ReadAllText("Data/playtimes.json") ?? "";
+        var moviePlaytimesList = JsonConvert.DeserializeObject<List<MoviePlaytimes>>(playtimesJson);
+
+        var selectedMoviePlaytimes = moviePlaytimesList?.FirstOrDefault(mp => mp.Title.Equals(selectedTitle, StringComparison.OrdinalIgnoreCase));
+
+        if (selectedMoviePlaytimes?.Playtimes != null && selectedMoviePlaytimes.Playtimes.Any())
+        {
+            // Start with a clear screen
+            AnsiConsole.Clear();
+
+            // Use a table to present the playtimes
+            var table = new Table()
+                .Centered()
+                .AddColumn(new TableColumn("Date and Time").Centered())
+                .AddColumn(new TableColumn("Room").Centered());
+
+            foreach (var playtime in selectedMoviePlaytimes.Playtimes)
+            {
+                // Format the DateTime nicely here
+                table.AddRow(playtime.DateTime.ToString("g"), playtime.Room);
+            }
+
+            // Configure the look of the table
+            table.Title($"[underline yellow]{selectedTitle} Playtimes[/]");
+            table.Border(TableBorder.Rounded);
+
+            // Render the table to the console
+            AnsiConsole.Render(table);
+
+            // Selection part
+            var selectionPrompt = new SelectionPrompt<string>()
+                .Title("Select a playtime:")
+                .PageSize(10);
+
+            foreach (var playtime in selectedMoviePlaytimes.Playtimes)
+            {
+                selectionPrompt.AddChoice(playtime.DateTime.ToString("g") + " - Room: " + playtime.Room);
+            }
+
+            var selectedOption = AnsiConsole.Prompt(selectionPrompt);
+            AnsiConsole.WriteLine($"You selected: {selectedOption}");
+
+            // Here, handle the selected option as needed
+        }
+        else
+        {
+            AnsiConsole.Markup("[red]Geen speeltijden gevonden voor deze film.[/]");
+        }
+
+        // Wait for user input to continue
+        AnsiConsole.WriteLine("\nPress any key to continue...");
+        Console.ReadKey();
+    }
+
 
 
     public static List<Movie> LoadMovies()
@@ -126,5 +188,4 @@ class MovieSelector
         List<Movie>? movies = JsonConvert.DeserializeObject<List<Movie>>(json) ?? new List<Movie>();
         return movies;
     }
-
 }
