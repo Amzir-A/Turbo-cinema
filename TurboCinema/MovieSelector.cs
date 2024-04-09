@@ -119,9 +119,6 @@ class MovieSelector
 
         // Render the panel below the header
         AnsiConsole.Render(panel);
-        
-        // Wait for user input to continue
-        
 
     }
 
@@ -147,16 +144,31 @@ class MovieSelector
 
             foreach (var playtime in selectedMoviePlaytimes.Playtimes)
             {
-                // Format the DateTime nicely here (you might need to adjust it to your needs)
+                // Format the DateTime nicely here
                 table.AddRow(playtime.DateTime.ToString("g"), playtime.Room);
             }
 
-            // Configure the look of the table here with colors, borders, etc.
+            // Configure the look of the table
             table.Title($"[underline yellow]{selectedTitle} Playtimes[/]");
             table.Border(TableBorder.Rounded);
 
-            // Finally, render the table to the console
+            // Render the table to the console
             AnsiConsole.Render(table);
+
+            // Selection part
+            var selectionPrompt = new SelectionPrompt<string>()
+                .Title("Select a playtime:")
+                .PageSize(10);
+
+            foreach (var playtime in selectedMoviePlaytimes.Playtimes)
+            {
+                selectionPrompt.AddChoice(playtime.DateTime.ToString("g") + " - Room: " + playtime.Room);
+            }
+
+            var selectedOption = AnsiConsole.Prompt(selectionPrompt);
+            AnsiConsole.WriteLine($"You selected: {selectedOption}");
+
+            // Here, handle the selected option as needed
         }
         else
         {
