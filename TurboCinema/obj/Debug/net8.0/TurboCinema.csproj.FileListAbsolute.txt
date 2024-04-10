@@ -68,3 +68,4 @@ C:\Users\sven\school\Turbo-cinema\TurboCinema\obj\Debug\net8.0\refint\TurboCinem
 C:\Users\sven\school\Turbo-cinema\TurboCinema\obj\Debug\net8.0\TurboCinema.pdb
 C:\Users\sven\school\Turbo-cinema\TurboCinema\obj\Debug\net8.0\TurboCinema.genruntimeconfig.cache
 C:\Users\sven\school\Turbo-cinema\TurboCinema\obj\Debug\net8.0\ref\TurboCinema.dll
+C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\Data\playtimes.json

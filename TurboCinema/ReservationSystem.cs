@@ -3,64 +3,125 @@ using Newtonsoft.Json;
 
 class ReservationSystem
 {
-    public static List<Seat> Seats = LoadSeats();
+    public static List<List<Seat>> Seats = LoadSeats();
+    List<Seat> SelectedSeats = new List<Seat>();
+    int x, y = 0;
 
     public ReservationSystem()
     {
-        var grid = new Grid();
-        grid.AddColumns(10);
-        grid.AddRow(new Text[]{
-            new Text("ID", new Style(Color.Red, Color.Black)).Centered(),
-            new Text("Available", new Style(Color.Red, Color.Black)).Centered()
-        });
+        DisplaySeats();
 
-        for (int i = 0; i < Seats.Count; i++)
+        while (true)
         {
-            var seat = Seats[i];
-            grid.AddRow(new Text[]{
-                new Text((i + 1).ToString(), new Style(Color.White, Color.Black)).Centered(),
-                new Text(seat.IsAvailable ? "O" : "X", new Style(Color.White, Color.Black)).Centered()
-            });
-        }
 
-        AnsiConsole.Write(grid);
+            var key = Console.ReadKey(true).Key;
+
+            switch (key)
+            {
+                case ConsoleKey.UpArrow:
+                    y = Math.Max(0, y - 1);
+                    break;
+                case ConsoleKey.DownArrow:
+                    y = Math.Min(Seats.Count - 1, y + 1);
+                    break;
+                case ConsoleKey.LeftArrow:
+                    x = Math.Max(0, x - 1);
+                    break;
+                case ConsoleKey.RightArrow:
+                    x = Math.Min(Seats[y].Count - 1, x + 1);
+                    break;
+                case ConsoleKey.Enter:
+                    AnsiConsole.Clear();
+
+                    Seat selectedSeat = Seats[y][x];
+                    if (SelectedSeats.Contains(selectedSeat))
+                    {
+                        SelectedSeats.Remove(selectedSeat);
+                    }
+                    else
+                    {
+                        if (selectedSeat.IsAvailable)
+                        {
+                            SelectedSeats.Add(selectedSeat);
+                        }
+                    }
+                    break;
+
+                case ConsoleKey.Spacebar:
+                    return;
+
+            }
+
+            DisplaySeats();
+        }
+    }
+
+    public void DisplaySeats()
+    {
+        AnsiConsole.Clear();
+        if (Seats?.Count > 0)
+        {
+            AnsiConsole.Write(new Text("[ Seats ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.WriteLine();
+
+            Table tableSeats = new Table().Centered();
+            tableSeats.Border = TableBorder.None;
+            tableSeats.AddColumns("", "", "", "");
+
+            for (int i = 0; i < Seats.Count; i++)
+            {
+                List<Panel> row = [];
+                for (int j = 0; j < Seats[i].Count; j++)
+                {
+                    string color = Seats[i][j].IsAvailable ? "green" : "red";
+                    Color bgColor = Color.Red;
+
+                    if (i == y && j == x)
+                    {
+                        bgColor = Color.Yellow;
+                    }
+
+                    string check = " ";
+                    if (SelectedSeats.Contains(Seats[i][j]))
+                    {
+                        check = "✓";
+                    }
+
+
+                    row.Add(
+                        new Panel(new Markup($"[white on {color}]  {check}  [/]"))
+                        {
+                            Border = BoxBorder.Heavy,
+                            BorderStyle = new Style(bgColor)
+                        }
+                    );
+                }
+                tableSeats.AddRow(row);
+            }
+
+            AnsiConsole.Write(tableSeats);
+            AnsiConsole.WriteLine();
+            AnsiConsole.Write(new Text("[ End ]", new Style(Color.Yellow, Color.Black)).Centered());
+
+            AnsiConsole.WriteLine();
+            AnsiConsole.WriteLine("Press space to confirm selection.");
+
+        }
+        else
+        {
+            AnsiConsole.WriteLine("No seats available.");
+        }
     }
 
     public int SelectSeats()
     {
-        return AnsiConsole.Prompt(
-        new TextPrompt<int>("Select seat by ID")
-            .PromptStyle("green")
-            .ValidationErrorMessage("[red]That's not a valid seat ID[/]")
-            .Validate(ID =>
-            {
-                {
-                    if (ID < 1)
-                    {
-                        return ValidationResult.Error("[red]ID can't be a negative number.[/]");
-                    }
-                    else if (ID > Seats?.Count)
-                    {
-                        return ValidationResult.Error("[red]ID doesn't exist in the list.[/]");
-                    }
-                    else if (Seats?[ID - 1].IsAvailable == false)
-                    {
-                        return ValidationResult.Error("[red]Seat isn't available.[/]");
-                    }
-                    else
-                    {
-                        return ValidationResult.Success();
-                    }
-
-                }
-            })
-        );
+        return 0;
     }
 
-    public static List<Seat> LoadSeats()
+    public static List<List<Seat>> LoadSeats()
     {
         string json = File.ReadAllText("Data/Reservations.json");
-        List<Seat>? seats = JsonConvert.DeserializeObject<List<Seat>>(json);
-        return seats ?? new List<Seat>();
+        List<List<Seat>>? seats = JsonConvert.DeserializeObject<List<List<Seat>>>(json);
+        return seats ?? new List<List<Seat>>();
     }
 }

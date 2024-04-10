@@ -15,13 +15,13 @@ class Program
             AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
             AnsiConsole.Write(new Rule("Welkom bij TurboCinema!").Centered().RuleStyle("red dim"));
             AnsiConsole.WriteLine();
-            
+
 
             // Toon het hoofdmenu en laat de gebruiker een keuze maken.
             var keuze = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Hoofdmenu")
-                    .PageSize(10)
+                    .PageSize(10).HighlightStyle(Style.Parse("red"))
                     .AddChoices(new[] { "Films", "Inloggen in account", "Menukaart bioscoop", "Afsluiten" }));
 
             switch (keuze)
@@ -47,9 +47,8 @@ class Program
 
     static void DisplayAndHandleMovies()
     {
-        MovieSelector movieSelector = new MovieSelector();
+        MovieSelector movieSelector = new();
         movieSelector.DisplayMovies();
-        movieSelector.SelectMovie();
 
         bool proceedToSeats = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar stoelenselectie? [green]Ja[/] of ga [red]terug[/]?"));
         if (!proceedToSeats) return;
@@ -63,7 +62,7 @@ class Program
 
         // Logica voor betaalscherm hier.
         AnsiConsole.Clear();
-        var betaalscherm = new Betaalscherm();
+        _ = new Betaalscherm();
 
         // Nadat de betaling is voltooid, vraag of ze opnieuw willen beginnen of willen afsluiten.
         bool startOver = AnsiConsole.Prompt(new ConfirmationPrompt("Opnieuw beginnen met een nieuwe film? [green]Ja[/] of [red]Nee[/]?"));

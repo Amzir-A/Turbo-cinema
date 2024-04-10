@@ -1,5 +1,5 @@
 [
-  {
+  [{
     "ID": "R1S1",
     "IsAvailable": true
   },
@@ -10,5 +10,53 @@
   {
     "ID": "R1S3",
     "IsAvailable": false
-  }
+  }],
+  [{
+    "ID": "R2S1",
+    "IsAvailable": true
+  },
+  {
+    "ID": "R2S2",
+    "IsAvailable": true
+  },
+  {
+    "ID": "R2S3",
+    "IsAvailable": true
+  }],
+  [{
+    "ID": "R3S1",
+    "IsAvailable": true
+  },
+  {
+    "ID": "R3S2",
+    "IsAvailable": true
+  },
+  {
+    "ID": "R3S3",
+    "IsAvailable": true
+  }],
+  [{
+    "ID": "R4S1",
+    "IsAvailable": true
+  },
+  {
+    "ID": "R4S2",
+    "IsAvailable": true
+  },
+  {
+    "ID": "R4S3",
+    "IsAvailable": true
+  }],
+  [{
+    "ID": "R5S1",
+    "IsAvailable": true
+  },
+  {
+    "ID": "R5S2",
+    "IsAvailable": true
+  },
+  {
+    "ID": "R5S3",
+    "IsAvailable": true
+  }]
 ]
