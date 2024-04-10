@@ -33,7 +33,7 @@ class MovieSelector
                     Movie selectedMovie = movies[selectedIndex];
                     DisplayMovieDetails(selectedMovie);
 
-                    AnsiConsole.WriteLine("\nPress any key to continue...");
+                    AnsiConsole.WriteLine("\nDruk op een toets om door te gaan...");
                     Console.ReadKey();
 
                     DisplayMoviePlaytimes(selectedMovie);
@@ -198,7 +198,7 @@ class MovieSelector
         }
 
         // Wait for user input to continue
-        AnsiConsole.WriteLine("\nPress any key to continue...");
+        AnsiConsole.WriteLine("\nDruk op een toets om door te gaan...");
         Console.ReadKey();
     }
 

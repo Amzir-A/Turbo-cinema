@@ -104,7 +104,7 @@ class ReservationSystem
             AnsiConsole.Write(new Text("[ End ]", new Style(Color.Yellow, Color.Black)).Centered());
 
             AnsiConsole.WriteLine();
-            AnsiConsole.WriteLine("Press space to confirm selection.");
+            AnsiConsole.WriteLine("Druk op spatie om keuze te bevestigen.");
 
         }
         else
@@ -123,5 +123,11 @@ class ReservationSystem
         string json = File.ReadAllText("Data/Reservations.json");
         List<List<Seat>>? seats = JsonConvert.DeserializeObject<List<List<Seat>>>(json);
         return seats ?? new List<List<Seat>>();
+    }
+
+    public void ProceedToPayment()
+    {
+        Betaalscherm betaalscherm = new Betaalscherm(SelectedSeats);
+        betaalscherm.DisplayPaymentScreen();
     }
 }
