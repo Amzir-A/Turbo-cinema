@@ -1,5 +1,6 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "3NPATcsjHN4XySx6AjnLyHTfwkQ+ytTJONlUwd7t6zSJtrncy/XBQfAowl8bef8XUqzRgoOhLfFnt56c2vQZxw==",
   "success": true,
   "projectFilePath": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
@@ -8,6 +9,16 @@
     "C:\\Users\\svenv\\.nuget\\packages\\spectre.console\\0.48.0\\spectre.console.0.48.0.nupkg.sha512",
     "C:\\Users\\svenv\\.nuget\\packages\\spectre.console.cli\\0.48.0\\spectre.console.cli.0.48.0.nupkg.sha512",
     "C:\\Users\\svenv\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512"
+=======
+  "dgSpecHash": "SPuINUgQOW5WOEYuffk508cj8TgL17oUobJO/9LQJOhu11LRg9jGEgSSLfuACMO/HylJyn3dhxu0Hi/IChQzlA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Nolan\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\Nolan\\.nuget\\packages\\spectre.console\\0.48.0\\spectre.console.0.48.0.nupkg.sha512",
+    "C:\\Users\\Nolan\\.nuget\\packages\\spectre.console.cli\\0.48.0\\spectre.console.cli.0.48.0.nupkg.sha512",
+    "C:\\Users\\Nolan\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512"
+>>>>>>> f835f62c7d90a7c1cb7eae578f18df80a1538b74
   ],
   "logs": []
 }

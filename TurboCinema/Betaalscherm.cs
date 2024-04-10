@@ -2,8 +2,18 @@ using Spectre.Console;
 
 class Betaalscherm
 {
-    public Betaalscherm()
+
+    private List<Seat> selectedSeats;
+    private const int SeatPrice = 7;
+
+    public Betaalscherm(List<Seat> selectedSeats)
     {
+        this.selectedSeats = selectedSeats;
+    }
+    public void DisplayPaymentScreen()
+    {
+
+        int totalPrice = this.selectedSeats.Count * SeatPrice;
         // Ask for the user's favorite fruit
         var methode = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
@@ -35,7 +45,7 @@ class Betaalscherm
                 }));
 
             AnsiConsole.Markup($"[green]U heeft gekozen voor {methode} en {bank}[/]\n\n");
-            Console.WriteLine("Bedrag: €14,34");
+            Console.WriteLine($"Bedrag: €{totalPrice},00");
 
             var betaald = AnsiConsole.Prompt(new ConfirmationPrompt("Wilt u betalen?"));
             AnsiConsole.Clear();

@@ -22,14 +22,14 @@ class Program
                 new SelectionPrompt<string>()
                     .Title("Hoofdmenu")
                     .PageSize(10).HighlightStyle(Style.Parse("red"))
-                    .AddChoices(new[] { "Films", "Inloggen in account", "Menukaart bioscoop", "Afsluiten" }));
+                    .AddChoices(new[] { "Films", "Inloggen", "Menukaart bioscoop", "Afsluiten" }));
 
             switch (keuze)
             {
                 case "Films":
                     DisplayAndHandleMovies();
                     break;
-                case "Inloggen in account":
+                case "Inloggen":
                     // Implementeer inloglogica hier.
                     break;
                 case "Menukaart bioscoop":
@@ -50,7 +50,7 @@ class Program
         MovieSelector movieSelector = new();
         movieSelector.DisplayMovies();
 
-        bool proceedToSeats = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar stoelenselectie? [green]Ja[/] of ga [red]terug[/]?"));
+        bool proceedToSeats = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar stoelenselectie? [green]Ja[/] of [red]nee[/]?"));
         if (!proceedToSeats) return;
 
         // Logica voor het selecteren van stoelen hier.
@@ -62,7 +62,7 @@ class Program
 
         // Logica voor betaalscherm hier.
         AnsiConsole.Clear();
-        _ = new Betaalscherm();
+        reservationSystem.ProceedToPayment();
 
         // Nadat de betaling is voltooid, vraag of ze opnieuw willen beginnen of willen afsluiten.
         bool startOver = AnsiConsole.Prompt(new ConfirmationPrompt("Opnieuw beginnen met een nieuwe film? [green]Ja[/] of [red]Nee[/]?"));
