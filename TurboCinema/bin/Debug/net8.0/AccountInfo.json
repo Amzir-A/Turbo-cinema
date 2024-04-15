@@ -6,5 +6,13 @@
     "DateOfBirth": "2004-05-20",
     "Password": "sven",
     "Email": "oempaloempa"
+  },
+  {
+    "CustomerId": 2,
+    "FirstName": "sd",
+    "LastName": "sd",
+    "DateOfBirth": "2003-03-21",
+    "Password": "door",
+    "Email": null
   }
 ]

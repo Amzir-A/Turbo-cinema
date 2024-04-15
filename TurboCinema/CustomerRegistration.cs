@@ -72,7 +72,6 @@ using Spectre.Console;
             AnsiConsole.MarkupLine("[green]You have successfully logged in![/]");
             // Use AnsiConsole to display customer details
             AnsiConsole.Write(new Panel(new Markup(
-                $"[bold]Customer ID:[/] {customer.CustomerId}\n" +
                 $"[bold]First Name:[/] {customer.FirstName}\n" +
                 $"[bold]Last Name:[/] {customer.LastName}\n" +
                 $"[bold]Date of Birth:[/] {customer.DateOfBirth}\n" +
@@ -89,11 +88,9 @@ using Spectre.Console;
         }
     }
 
-
-
-        private void SaveCustomers(List<Customer> customers, string fileName)
-        {
-            string json = JsonSerializer.Serialize(customers, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(fileName, json);
-        }
+    private void SaveCustomers(List<Customer> customers, string fileName)
+    {
+        string json = JsonSerializer.Serialize(customers, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(fileName, json);
     }
+}
