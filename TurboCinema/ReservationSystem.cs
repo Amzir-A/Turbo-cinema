@@ -4,8 +4,8 @@ using Newtonsoft.Json;
 class ReservationSystem
 {
     public static List<List<Seat>> Seats = LoadSeats();
-    List<Seat> SelectedSeats = new List<Seat>();
-    int x, y = 0;
+    readonly List<Seat> SelectedSeats = [];
+    readonly int x, y = 0;
 
     public ReservationSystem()
     {
