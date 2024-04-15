@@ -30,7 +30,7 @@ class Program
                     DisplayAndHandleMovies();
                     break;
                 case "Inloggen":
-                    // Implementeer inloglogica hier.
+                    HandleLoginOrRegistration();
                     break;
                 case "Menukaart bioscoop":
                     // Implementeer logica voor menukaart hier.
@@ -42,6 +42,28 @@ class Program
                     AnsiConsole.MarkupLine("[red]Ongeldige keuze[/]");
                     break;
             }
+        Console.ReadLine();
+        }
+    }
+
+    static void HandleLoginOrRegistration()
+    {
+        bool proceedToLogin = AnsiConsole.Prompt(new ConfirmationPrompt("Heeft u een account? [green]Ja[/] of [red]nee[/]?"));
+        try
+        {
+            AccountRegistration CustomerRegistration = new AccountRegistration();
+            if (!proceedToLogin)
+            {
+                CustomerRegistration.Register();
+            }
+            else
+            {
+                CustomerRegistration.Login();
+            }
+        }
+        catch (Exception ex)
+        {
+            AnsiConsole.WriteException(ex);
         }
     }
 
@@ -49,6 +71,7 @@ class Program
     {
         MovieSelector movieSelector = new();
         movieSelector.DisplayMovies();
+        AnsiConsole.Clear();
 
         bool proceedToSeats = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar stoelenselectie? [green]Ja[/] of [red]nee[/]?"));
         if (!proceedToSeats) return;

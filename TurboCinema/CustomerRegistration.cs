@@ -13,11 +13,13 @@ using Spectre.Console;
 
             Console.WriteLine("Welcome to Customer Registration!");
 
-            var firstName = AnsiConsole.Ask<string>("Voornaam[/]?");
-            var lastName = AnsiConsole.Ask<string>("Achternaam[/]?");
-            var dateOfBirth = AnsiConsole.Ask<string>("Geboortedatum(JJJJ-MM-DD)[/]?");
+            // Corrected the markup tags by removing them
+            var firstName = AnsiConsole.Ask<string>("What is your first name?");
+            var lastName = AnsiConsole.Ask<string>("What is your last name?");
+            var dateOfBirth = AnsiConsole.Ask<string>("What is your date of birth (YYYY-MM-DD)?");
+            var Email = AnsiConsole.Ask<string>("What is your email address?");
             var password = AnsiConsole.Prompt(
-                            new TextPrompt<string>("Kies een wachtwoord[/]")
+                            new TextPrompt<string>("Please choose a password")
                                 .PromptStyle("red")
                                 .Secret());
             int customerId = customers.Count + 1;
@@ -52,6 +54,42 @@ using Spectre.Console;
 
             return customers;
         }
+
+    public void Login()
+    {
+        List<Customer> customers = LoadCustomers("AccountInfo.json");
+
+        var email = AnsiConsole.Ask<string>("What is your email?");
+        var password = AnsiConsole.Prompt(
+            new TextPrompt<string>("Please enter your password")
+                .PromptStyle("red")
+                .Secret());
+
+        var customer = customers.Find(c => c.Email == email && c.Password == password);
+
+        if (customer != null)
+        {
+            AnsiConsole.MarkupLine("[green]You have successfully logged in![/]");
+            // Use AnsiConsole to display customer details
+            AnsiConsole.Write(new Panel(new Markup(
+                $"[bold]Customer ID:[/] {customer.CustomerId}\n" +
+                $"[bold]First Name:[/] {customer.FirstName}\n" +
+                $"[bold]Last Name:[/] {customer.LastName}\n" +
+                $"[bold]Date of Birth:[/] {customer.DateOfBirth}\n" +
+                $"[bold]Email:[/] {customer.Email}"))
+                .Expand()
+                .Padding(1, 1)
+                .SquareBorder());
+            // Do not display the password for security reasons
+            // Display other details if necessary
+        }
+        else
+        {
+            AnsiConsole.MarkupLine("[red]Login failed. Incorrect email or password.[/]");
+        }
+    }
+
+
 
         private void SaveCustomers(List<Customer> customers, string fileName)
         {

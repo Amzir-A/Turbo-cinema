@@ -73,7 +73,6 @@ C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\Data\p
 <<<<<<< HEAD
 C:\Users\svenv\OneDrive\Documenten\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\Data\playtimes.json
 =======
-=======
 C:\Users\Nolan\Documents\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\Data\playtimes.json
 C:\Users\Nolan\Documents\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\TurboCinema.exe
 C:\Users\Nolan\Documents\GitHub\Turbo-cinema\TurboCinema\bin\Debug\net8.0\TurboCinema.deps.json

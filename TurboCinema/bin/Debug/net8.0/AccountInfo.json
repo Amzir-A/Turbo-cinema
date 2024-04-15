@@ -1,0 +1,10 @@
+[
+  {
+    "CustomerId": 1,
+    "FirstName": "sven",
+    "LastName": "doe",
+    "DateOfBirth": "2004-05-20",
+    "Password": "sven",
+    "Email": "oempaloempa"
+  }
+]
