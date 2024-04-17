@@ -15,6 +15,10 @@ class MovieSelector
         DisplayMovies();
         SelectMovie();
     }
+    public Movie GetSelectedMovie()
+    {
+        return movies[selectedIndex];
+    }
     private void SelectMovie()
     {
         while (true)

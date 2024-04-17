@@ -5,15 +5,18 @@ class Betaalscherm
 
     private List<Seat> selectedSeats;
     private const int SeatPrice = 7;
+    private Movie selectedMovie;
 
-    public Betaalscherm(List<Seat> selectedSeats)
+    public Betaalscherm(List<Seat> selectedSeats, Movie selectedMovie)
     {
         this.selectedSeats = selectedSeats;
+        this.selectedMovie = selectedMovie;
     }
     public void DisplayPaymentScreen()
     {
 
         int totalPrice = this.selectedSeats.Count * SeatPrice;
+        AnsiConsole.Markup($"U heeft gekozen voor de film: [green]{selectedMovie.Title}[/]\n");
         // Ask for the user's favorite fruit
         var methode = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
