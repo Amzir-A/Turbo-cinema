@@ -13,10 +13,12 @@ class MovieSelector
     public MovieSelector()
     {
         DisplayMovies();
-
+        SelectMovie();
+    }
+    private void SelectMovie()
+    {
         while (true)
         {
-
             var key = Console.ReadKey(true).Key;
 
             switch (key)
@@ -38,13 +40,12 @@ class MovieSelector
 
                     DisplayMoviePlaytimes(selectedMovie);
 
-                    return;
+                    return; // Verlaat de lus na het tonen van de details en speeltijden.
             }
 
-            DisplayMovies();
+            DisplayMovies(); // Update de weergave na elke actie.
         }
     }
-
 
     public void DisplayMovies()
     {
@@ -119,10 +120,9 @@ class MovieSelector
     {
         // Start with a clear screen
         AnsiConsole.Clear();
-        // Retain the TurboCinema header
+        // behouden the TurboCinema header
         AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
 
-        // Construct the movie details as a single string.
         var details = new StringBuilder();
         details.AppendLine($"[bold]Title:[/] {selectedMovie.Title}");
         details.AppendLine($"[bold]Release:[/] {selectedMovie.Release}");
@@ -133,14 +133,14 @@ class MovieSelector
         details.AppendLine($"[bold]Actors:[/] {string.Join(", ", selectedMovie.Actors)}");
         details.AppendLine($"[bold]Description:[/] {selectedMovie.Description}");
 
-        // Create a panel with the details content
+        //maak een panel with the details content
         var panel = new Panel(details.ToString())
             .Expand()
             .Border(BoxBorder.Rounded)
             .BorderStyle(new Style(Color.Red))
             .Padding(1, 2);
 
-        // Render the panel below the header
+        // Render de panel onder the header
         AnsiConsole.Write(panel);
 
     }

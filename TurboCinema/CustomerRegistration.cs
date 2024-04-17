@@ -12,8 +12,7 @@ using Spectre.Console;
             List<Customer> customers = LoadCustomers("AccountInfo.json");
 
             Console.WriteLine("Welcome to Customer Registration!");
-
-            // Corrected the markup tags by removing them
+            
             var firstName = AnsiConsole.Ask<string>("What is your first name?");
             var lastName = AnsiConsole.Ask<string>("What is your last name?");
             var dateOfBirth = AnsiConsole.Ask<string>("What is your date of birth (YYYY-MM-DD)?");
@@ -70,7 +69,6 @@ using Spectre.Console;
         if (customer != null)
         {
             AnsiConsole.MarkupLine("[green]You have successfully logged in![/]");
-            // Use AnsiConsole to display customer details
             AnsiConsole.Write(new Panel(new Markup(
                 $"[bold]First Name:[/] {customer.FirstName}\n" +
                 $"[bold]Last Name:[/] {customer.LastName}\n" +
@@ -79,8 +77,6 @@ using Spectre.Console;
                 .Expand()
                 .Padding(1, 1)
                 .SquareBorder());
-            // Do not display the password for security reasons
-            // Display other details if necessary
         }
         else
         {
