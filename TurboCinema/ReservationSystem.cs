@@ -9,6 +9,11 @@ class ReservationSystem
 
     public ReservationSystem()
     {
+        navigateseats();
+    }
+
+    public void navigateseats()
+    {
         DisplaySeats();
 
         while (true)

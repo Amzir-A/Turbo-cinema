@@ -155,29 +155,26 @@ class MovieSelector
 
         if (selectedMoviePlaytimes?.Playtimes != null && selectedMoviePlaytimes.Playtimes.Any())
         {
-            // Start with a clear screen
             AnsiConsole.Clear();
 
-            // Use a table to present the playtimes
+            
             var table = new Table()
                 .Centered()
-                .AddColumn(new TableColumn("Date and Time").Centered())
-                .AddColumn(new TableColumn("Room").Centered());
+                .AddColumn(new TableColumn("Datum en tijd").Centered())
+                .AddColumn(new TableColumn("Hall").Centered());
 
             foreach (var playtime in selectedMoviePlaytimes.Playtimes)
             {
-                // Format the DateTime nicely here
+                
                 table.AddRow(playtime.DateTime.ToString("g"), playtime.Room);
             }
 
-            // Configure the look of the table
+            
             table.Title($"[underline yellow]{selectedMovie} Playtimes[/]");
             table.Border(TableBorder.Rounded);
 
-            // Render the table to the console
             AnsiConsole.Write(table);
 
-            // Selection part
             var selectionPrompt = new SelectionPrompt<string>()
                 .Title("Select a playtime:")
                 .PageSize(10).HighlightStyle(Style.Parse("red"));
@@ -190,7 +187,6 @@ class MovieSelector
             var selectedOption = AnsiConsole.Prompt(selectionPrompt);
             AnsiConsole.WriteLine($"You selected: {selectedOption}");
 
-            // Here, handle the selected option as needed
         }
         else
         {
