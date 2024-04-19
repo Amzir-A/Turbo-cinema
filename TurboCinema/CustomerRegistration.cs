@@ -11,14 +11,15 @@ using Spectre.Console;
         {
             List<Customer> customers = LoadCustomers("AccountInfo.json");
 
-            Console.WriteLine("Welcome to Customer Registration!");
+            Console.WriteLine("welkom bij TurboCinema! Maak een account aan om te beginnen.");
             
-            var firstName = AnsiConsole.Ask<string>("What is your first name?");
-            var lastName = AnsiConsole.Ask<string>("What is your last name?");
-            var dateOfBirth = AnsiConsole.Ask<string>("What is your date of birth (YYYY-MM-DD)?");
-            var Email = AnsiConsole.Ask<string>("What is your email address?");
+            var firstName = AnsiConsole.Ask<string>("Wat is je voornaam?");
+            var lastName = AnsiConsole.Ask<string>("Wat is je achternaam?");
+            var dateOfBirth = AnsiConsole.Ask<string>("Wat is je geboortedatum?");
+            var Email = AnsiConsole.Ask<string>("Wat is je email?");
+            var Postcode = AnsiConsole.Ask<string>("Wat is je postcode?");
             var password = AnsiConsole.Prompt(
-                            new TextPrompt<string>("Please choose a password")
+                            new TextPrompt<string>("Voer een wachtwoord in")
                                 .PromptStyle("red")
                                 .Secret());
             int customerId = customers.Count + 1;
@@ -29,8 +30,11 @@ using Spectre.Console;
                 FirstName = firstName,
                 LastName = lastName,
                 DateOfBirth = dateOfBirth,
-                Password = password
-            };
+                Password = password,
+                Email = Email,
+                Postcode = Postcode,
+                Reservations = new List<Reservation>()
+                };
 
             customers.Add(newCustomer);
             SaveCustomers(customers, "AccountInfo.json");
@@ -58,9 +62,9 @@ using Spectre.Console;
     {
         List<Customer> customers = LoadCustomers("AccountInfo.json");
 
-        var email = AnsiConsole.Ask<string>("What is your email?");
+        var email = AnsiConsole.Ask<string>("Voer je email");
         var password = AnsiConsole.Prompt(
-            new TextPrompt<string>("Please enter your password")
+            new TextPrompt<string>("Voer je password in")
                 .PromptStyle("red")
                 .Secret());
 
@@ -73,6 +77,8 @@ using Spectre.Console;
                 $"[bold]First Name:[/] {customer.FirstName}\n" +
                 $"[bold]Last Name:[/] {customer.LastName}\n" +
                 $"[bold]Date of Birth:[/] {customer.DateOfBirth}\n" +
+                $"[bold]Postcode:[/] {customer.Postcode}\n" +
+                $"[bold] Booking:[/] {customer.Reservations}\n" +
                 $"[bold]Email:[/] {customer.Email}"))
                 .Expand()
                 .Padding(1, 1)

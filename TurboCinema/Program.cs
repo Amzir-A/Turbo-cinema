@@ -71,13 +71,14 @@ class Program
     {
         MovieSelector movieSelector = new MovieSelector();
         Movie selectedMovie = movieSelector.GetSelectedMovie(); // Haal de geselecteerde film op.
+        Playtime selectedPlaytime = movieSelector.GetSelectedPlaytime(); // Haal de geselecteerde speeltijd op.
         AnsiConsole.Clear();
 
         bool proceedToSeats = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar stoelenselectie? [green]Ja[/] of [red]nee[/]?"));
         if (!proceedToSeats) return;
 
         // Logica voor het selecteren van stoelen hier.
-        var reservationSystem = new ReservationSystem(selectedMovie); // Geef de geselecteerde film door aan het reserveringssysteem.
+        var reservationSystem = new ReservationSystem(selectedMovie, selectedPlaytime); // Geef de geselecteerde film door aan het reserveringssysteem.
         var selectedSeat = reservationSystem.SelectSeats();
 
         bool proceedToPayment = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar betaalscherm? [green]Ja[/] of [red]Nee[/]?"));
