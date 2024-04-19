@@ -184,19 +184,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\sven\\.nuget\\packages\\": {}
+    "C:\\Users\\Nolan\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
+      "projectUniqueName": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
       "projectName": "TurboCinema",
-      "projectPath": "c:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
-      "packagesPath": "C:\\Users\\sven\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\obj\\",
+      "projectPath": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
+      "packagesPath": "C:\\Users\\Nolan\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\sven\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Nolan\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
