@@ -11,14 +11,14 @@ using Spectre.Console;
         {
             List<Customer> customers = LoadCustomers("AccountInfo.json");
 
-            Console.WriteLine("Welcome to Customer Registration!");
+            Console.WriteLine("Welkom bij TurboCinema!");
             
-            var firstName = AnsiConsole.Ask<string>("What is your first name?");
-            var lastName = AnsiConsole.Ask<string>("What is your last name?");
-            var dateOfBirth = AnsiConsole.Ask<string>("What is your date of birth (YYYY-MM-DD)?");
-            var Email = AnsiConsole.Ask<string>("What is your email address?");
+            var firstName = AnsiConsole.Ask<string>("Voornaam: ");
+            var lastName = AnsiConsole.Ask<string>("Achternaam: ");
+            var dateOfBirth = AnsiConsole.Ask<string>("Geboortedatum (YYYY-MM-DD): ");
+            var Email = AnsiConsole.Ask<string>("E-mail adres: ");
             var password = AnsiConsole.Prompt(
-                            new TextPrompt<string>("Please choose a password")
+                            new TextPrompt<string>("Kies een wachtwoord: ")
                                 .PromptStyle("red")
                                 .Secret());
             int customerId = customers.Count + 1;
@@ -58,9 +58,9 @@ using Spectre.Console;
     {
         List<Customer> customers = LoadCustomers("AccountInfo.json");
 
-        var email = AnsiConsole.Ask<string>("What is your email?");
+        var email = AnsiConsole.Ask<string>("E-Mail Adres: ");
         var password = AnsiConsole.Prompt(
-            new TextPrompt<string>("Please enter your password")
+            new TextPrompt<string>("Wachtwoord: ")
                 .PromptStyle("red")
                 .Secret());
 
@@ -68,19 +68,19 @@ using Spectre.Console;
 
         if (customer != null)
         {
-            AnsiConsole.MarkupLine("[green]You have successfully logged in![/]");
+            AnsiConsole.MarkupLine("[green]Inloggen succesvol![/]");
             AnsiConsole.Write(new Panel(new Markup(
-                $"[bold]First Name:[/] {customer.FirstName}\n" +
-                $"[bold]Last Name:[/] {customer.LastName}\n" +
-                $"[bold]Date of Birth:[/] {customer.DateOfBirth}\n" +
-                $"[bold]Email:[/] {customer.Email}"))
+                $"[bold]Voornaam:[/] {customer.FirstName}\n" +
+                $"[bold]Achternaam:[/] {customer.LastName}\n" +
+                $"[bold]Geboortedatum:[/] {customer.DateOfBirth}\n" +
+                $"[bold]E-mail:[/] {customer.Email}"))
                 .Expand()
                 .Padding(1, 1)
                 .SquareBorder());
         }
         else
         {
-            AnsiConsole.MarkupLine("[red]Login failed. Incorrect email or password.[/]");
+            AnsiConsole.MarkupLine("[red]Inloggen mislukt. E-Mail of wachtwoord incorrect.[/]");
         }
     }
 

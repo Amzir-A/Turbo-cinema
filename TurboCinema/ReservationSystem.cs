@@ -77,7 +77,7 @@ public void NavigateSeats()
         AnsiConsole.Clear();
         if (Seats?.Count > 0)
         {
-            AnsiConsole.Write(new Text("[ Seats ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Stoelen ]", new Style(Color.Yellow, Color.Black)).Centered());
             AnsiConsole.WriteLine();
 
             Table tableSeats = new Table().Centered();
@@ -117,7 +117,7 @@ public void NavigateSeats()
 
             AnsiConsole.Write(tableSeats);
             AnsiConsole.WriteLine();
-            AnsiConsole.Write(new Text("[ End ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Eind ]", new Style(Color.Yellow, Color.Black)).Centered());
 
             AnsiConsole.WriteLine();
             AnsiConsole.WriteLine("Druk op spatie om keuze te bevestigen.");
@@ -125,7 +125,7 @@ public void NavigateSeats()
         }
         else
         {
-            AnsiConsole.WriteLine("No seats available.");
+            AnsiConsole.WriteLine("Geen stoelen beschikbaar.");
         }
     }
 

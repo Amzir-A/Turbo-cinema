@@ -60,7 +60,7 @@ class MovieSelector
         if (movies?.Count > 0)
         {
             // AnsiConsole.MarkupLine("[[bold yellow] Star Wars Movies [/]]");
-            AnsiConsole.Write(new Text("[ Movies ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Films ]", new Style(Color.Yellow, Color.Black)).Centered());
             AnsiConsole.WriteLine();
             AnsiConsole.WriteLine();
 
@@ -73,12 +73,12 @@ class MovieSelector
             };
 
             grid.AddColumn(new TableColumn("[red]ID[/]").Centered());
-            grid.AddColumn(new TableColumn("[red]Title[/]").Centered());
+            grid.AddColumn(new TableColumn("[red]Titel[/]").Centered());
             grid.AddColumn(new TableColumn("[red]Release[/]").Centered());
-            grid.AddColumn(new TableColumn("[red]Director[/]").Centered());
-            grid.AddColumn(new TableColumn("[red]Duration[/]").Centered());
+            grid.AddColumn(new TableColumn("[red]Regie[/]").Centered());
+            grid.AddColumn(new TableColumn("[red]Lengte[/]").Centered());
             grid.AddColumn(new TableColumn("[red]Genre[/]").Centered());
-            grid.AddColumn(new TableColumn("[red]Age Rating[/]").Centered());
+            grid.AddColumn(new TableColumn("[red]Leeftijd[/]").Centered());
             // grid.AddColumn(new TableColumn("[red]Description[/]").Centered());
 
             for (int i = 0; i < movies.Count; i++)
@@ -110,12 +110,12 @@ class MovieSelector
 
             AnsiConsole.WriteLine();
 
-            AnsiConsole.Write(new Text("[ End ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Eind ]", new Style(Color.Yellow, Color.Black)).Centered());
 
         }
         else
         {
-            AnsiConsole.Markup("[red]No movies found.[/]");
+            AnsiConsole.Markup("[red]Geen films gevonden.[/]");
         }
     }
 
@@ -128,14 +128,14 @@ class MovieSelector
         AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
 
         var details = new StringBuilder();
-        details.AppendLine($"[bold]Title:[/] {selectedMovie.Title}");
+        details.AppendLine($"[bold]Titel:[/] {selectedMovie.Title}");
         details.AppendLine($"[bold]Release:[/] {selectedMovie.Release}");
-        details.AppendLine($"[bold]Director:[/] {selectedMovie.Director}");
-        details.AppendLine($"[bold]Duration:[/] {selectedMovie.Duration} minutes");
+        details.AppendLine($"[bold]Regie:[/] {selectedMovie.Director}");
+        details.AppendLine($"[bold]Lengte:[/] {selectedMovie.Duration} minutes");
         details.AppendLine($"[bold]Genre:[/] {string.Join(", ", selectedMovie.Genre)}");
-        details.AppendLine($"[bold]Age Rating:[/] {selectedMovie.AgeRating}");
-        details.AppendLine($"[bold]Actors:[/] {string.Join(", ", selectedMovie.Actors)}");
-        details.AppendLine($"[bold]Description:[/] {selectedMovie.Description}");
+        details.AppendLine($"[bold]Leeftijd:[/] {selectedMovie.AgeRating}");
+        details.AppendLine($"[bold]Cast:[/] {string.Join(", ", selectedMovie.Actors)}");
+        details.AppendLine($"[bold]Beschrijving:[/] {selectedMovie.Description}");
 
         //maak een panel with the details content
         var panel = new Panel(details.ToString())
@@ -165,7 +165,7 @@ class MovieSelector
             var table = new Table()
                 .Centered()
                 .AddColumn(new TableColumn("Datum en tijd").Centered())
-                .AddColumn(new TableColumn("Hall").Centered());
+                .AddColumn(new TableColumn("Zaal").Centered());
 
             foreach (var playtime in selectedMoviePlaytimes.Playtimes)
             {
@@ -174,22 +174,22 @@ class MovieSelector
             }
 
             
-            table.Title($"[underline yellow]{selectedMovie} Playtimes[/]");
+            table.Title($"[underline yellow]{selectedMovie} Speeltijden[/]");
             table.Border(TableBorder.Rounded);
 
             AnsiConsole.Write(table);
 
             var selectionPrompt = new SelectionPrompt<string>()
-                .Title("Select a playtime:")
+                .Title("Selecteer een tijdstip:")
                 .PageSize(10).HighlightStyle(Style.Parse("red"));
 
             foreach (var playtime in selectedMoviePlaytimes.Playtimes)
             {
-                selectionPrompt.AddChoice(playtime.DateTime.ToString("g") + " - Room: " + playtime.Room);
+                selectionPrompt.AddChoice(playtime.DateTime.ToString("g") + " - Zaal: " + playtime.Room);
             }
 
             var selectedOption = AnsiConsole.Prompt(selectionPrompt);
-            AnsiConsole.WriteLine($"You selected: {selectedOption}");
+            AnsiConsole.WriteLine($"Uw keuze: {selectedOption}");
 
         }
         else
