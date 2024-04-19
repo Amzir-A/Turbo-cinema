@@ -6,55 +6,71 @@ class ReservationSystem
     public static List<List<Seat>> Seats = LoadSeats();
     List<Seat> SelectedSeats = new List<Seat>();
     int x, y = 0;
+    Movie? SelectedMovie;
 
-    public ReservationSystem()
+    public ReservationSystem(Movie selectedMovie)
     {
-        DisplaySeats();
-
-        while (true)
-        {
-
-            var key = Console.ReadKey(true).Key;
-
-            switch (key)
-            {
-                case ConsoleKey.UpArrow:
-                    y = Math.Max(0, y - 1);
-                    break;
-                case ConsoleKey.DownArrow:
-                    y = Math.Min(Seats.Count - 1, y + 1);
-                    break;
-                case ConsoleKey.LeftArrow:
-                    x = Math.Max(0, x - 1);
-                    break;
-                case ConsoleKey.RightArrow:
-                    x = Math.Min(Seats[y].Count - 1, x + 1);
-                    break;
-                case ConsoleKey.Enter:
-                    AnsiConsole.Clear();
-
-                    Seat selectedSeat = Seats[y][x];
-                    if (SelectedSeats.Contains(selectedSeat))
-                    {
-                        SelectedSeats.Remove(selectedSeat);
-                    }
-                    else
-                    {
-                        if (selectedSeat.IsAvailable)
-                        {
-                            SelectedSeats.Add(selectedSeat);
-                        }
-                    }
-                    break;
-
-                case ConsoleKey.Spacebar:
-                    return;
-
-            }
-
-            DisplaySeats();
-        }
+        NavigateSeats();
+        this.SelectedMovie = selectedMovie;
     }
+
+public void NavigateSeats()
+{
+    DisplaySeats();
+
+    while (true)
+    {
+        var key = Console.ReadKey(true).Key;
+
+        switch (key)
+        {
+            case ConsoleKey.UpArrow:
+                y = Math.Max(0, y - 1);
+                break;
+            case ConsoleKey.DownArrow:
+                y = Math.Min(Seats.Count - 1, y + 1);
+                break;
+            case ConsoleKey.LeftArrow:
+                x = Math.Max(0, x - 1);
+                break;
+            case ConsoleKey.RightArrow:
+                x = Math.Min(Seats[y].Count - 1, x + 1);
+                break;
+            case ConsoleKey.Enter:
+                AnsiConsole.Clear();
+
+                Seat selectedSeat = Seats[y][x];
+                if (SelectedSeats.Contains(selectedSeat))
+                {
+                    SelectedSeats.Remove(selectedSeat);
+                }
+                else
+                {
+                    if (selectedSeat.IsAvailable)
+                    {
+                        SelectedSeats.Add(selectedSeat);
+                    }
+                }
+                break;
+
+            case ConsoleKey.Spacebar:
+                if (SelectedSeats.Count > 0)
+                {
+                    ProceedToPayment();
+                    return;
+                }
+                if (SelectedSeats.Count == 0)
+                {
+                    AnsiConsole.MarkupLine("[red]Geen stoel geselecteerd. Selecteer ten minste één stoel om door te gaan.[/]");
+                    // Niet terugkeren, gebruiker kan verder gaan met selecteren.
+                }
+                break;
+        }
+
+        DisplaySeats();
+    }
+}
+
 
     public void DisplaySeats()
     {
@@ -127,7 +143,10 @@ class ReservationSystem
 
     public void ProceedToPayment()
     {
-        Betaalscherm betaalscherm = new Betaalscherm(SelectedSeats);
-        betaalscherm.DisplayPaymentScreen();
+        if (SelectedMovie != null)
+        {
+            Betaalscherm betaalscherm = new Betaalscherm(SelectedSeats, SelectedMovie);
+            betaalscherm.DisplayPaymentScreen();
+        }
     }
 }

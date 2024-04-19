@@ -13,10 +13,16 @@ class MovieSelector
     public MovieSelector()
     {
         DisplayMovies();
-
+        SelectMovie();
+    }
+    public Movie GetSelectedMovie()
+    {
+        return movies[selectedIndex];
+    }
+    private void SelectMovie()
+    {
         while (true)
         {
-
             var key = Console.ReadKey(true).Key;
 
             switch (key)
@@ -38,13 +44,12 @@ class MovieSelector
 
                     DisplayMoviePlaytimes(selectedMovie);
 
-                    return;
+                    return; // Verlaat de lus na het tonen van de details en speeltijden.
             }
 
-            DisplayMovies();
+            DisplayMovies(); // Update de weergave na elke actie.
         }
     }
-
 
     public void DisplayMovies()
     {
@@ -119,10 +124,9 @@ class MovieSelector
     {
         // Start with a clear screen
         AnsiConsole.Clear();
-        // Retain the TurboCinema header
+        // behouden the TurboCinema header
         AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
 
-        // Construct the movie details as a single string.
         var details = new StringBuilder();
         details.AppendLine($"[bold]Title:[/] {selectedMovie.Title}");
         details.AppendLine($"[bold]Release:[/] {selectedMovie.Release}");
@@ -133,14 +137,14 @@ class MovieSelector
         details.AppendLine($"[bold]Actors:[/] {string.Join(", ", selectedMovie.Actors)}");
         details.AppendLine($"[bold]Description:[/] {selectedMovie.Description}");
 
-        // Create a panel with the details content
+        //maak een panel with the details content
         var panel = new Panel(details.ToString())
             .Expand()
             .Border(BoxBorder.Rounded)
             .BorderStyle(new Style(Color.Red))
             .Padding(1, 2);
 
-        // Render the panel below the header
+        // Render de panel onder the header
         AnsiConsole.Write(panel);
 
     }
@@ -155,29 +159,26 @@ class MovieSelector
 
         if (selectedMoviePlaytimes?.Playtimes != null && selectedMoviePlaytimes.Playtimes.Any())
         {
-            // Start with a clear screen
             AnsiConsole.Clear();
 
-            // Use a table to present the playtimes
+            
             var table = new Table()
                 .Centered()
-                .AddColumn(new TableColumn("Date and Time").Centered())
-                .AddColumn(new TableColumn("Room").Centered());
+                .AddColumn(new TableColumn("Datum en tijd").Centered())
+                .AddColumn(new TableColumn("Hall").Centered());
 
             foreach (var playtime in selectedMoviePlaytimes.Playtimes)
             {
-                // Format the DateTime nicely here
+                
                 table.AddRow(playtime.DateTime.ToString("g"), playtime.Room);
             }
 
-            // Configure the look of the table
+            
             table.Title($"[underline yellow]{selectedMovie} Playtimes[/]");
             table.Border(TableBorder.Rounded);
 
-            // Render the table to the console
             AnsiConsole.Write(table);
 
-            // Selection part
             var selectionPrompt = new SelectionPrompt<string>()
                 .Title("Select a playtime:")
                 .PageSize(10).HighlightStyle(Style.Parse("red"));
@@ -190,7 +191,6 @@ class MovieSelector
             var selectedOption = AnsiConsole.Prompt(selectionPrompt);
             AnsiConsole.WriteLine($"You selected: {selectedOption}");
 
-            // Here, handle the selected option as needed
         }
         else
         {

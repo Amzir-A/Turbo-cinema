@@ -69,15 +69,15 @@ class Program
 
     static void DisplayAndHandleMovies()
     {
-        MovieSelector movieSelector = new();
-        movieSelector.DisplayMovies();
+        MovieSelector movieSelector = new MovieSelector();
+        Movie selectedMovie = movieSelector.GetSelectedMovie(); // Haal de geselecteerde film op.
         AnsiConsole.Clear();
 
         bool proceedToSeats = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar stoelenselectie? [green]Ja[/] of [red]nee[/]?"));
         if (!proceedToSeats) return;
 
         // Logica voor het selecteren van stoelen hier.
-        var reservationSystem = new ReservationSystem();
+        var reservationSystem = new ReservationSystem(selectedMovie); // Geef de geselecteerde film door aan het reserveringssysteem.
         var selectedSeat = reservationSystem.SelectSeats();
 
         bool proceedToPayment = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar betaalscherm? [green]Ja[/] of [red]Nee[/]?"));
@@ -95,5 +95,6 @@ class Program
             return;
         }
     }
+
 }
 
