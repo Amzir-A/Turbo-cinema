@@ -73,12 +73,13 @@ using Spectre.Console;
         if (customer != null)
         {
             AnsiConsole.MarkupLine("[green]You have successfully logged in![/]");
+            string reservationInfo = string.Join("\n", customer.Reservations.Select(r => $"- {r.MovieTitle} on {r.PlayTime:g}"));
             AnsiConsole.Write(new Panel(new Markup(
                 $"[bold]First Name:[/] {customer.FirstName}\n" +
                 $"[bold]Last Name:[/] {customer.LastName}\n" +
                 $"[bold]Date of Birth:[/] {customer.DateOfBirth}\n" +
                 $"[bold]Postcode:[/] {customer.Postcode}\n" +
-                $"[bold] Booking:[/] {customer.Reservations}\n" +
+                $"[bold] Booking:[/]\n {reservationInfo}\n" +
                 $"[bold]Email:[/] {customer.Email}"))
                 .Expand()
                 .Padding(1, 1)

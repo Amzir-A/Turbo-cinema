@@ -50,7 +50,6 @@ public class Betaalscherm
 
     private void ProcessPayment(int totalPrice)
     {
-        // Simuleer een betalingsproces
         AnsiConsole.Status()
             .Start("Betaling verwerken...", ctx =>
             {

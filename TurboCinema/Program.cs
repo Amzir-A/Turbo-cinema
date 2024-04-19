@@ -92,8 +92,7 @@ class Program
         bool startOver = AnsiConsole.Prompt(new ConfirmationPrompt("Opnieuw beginnen met een nieuwe film? [green]Ja[/] of [red]Nee[/]?"));
         if (!startOver)
         {
-            // Dit zal terugkeren naar het hoofdmenu in plaats van de applicatie te sluiten.
-            return;
+            Environment.Exit(0);
         }
     }
 

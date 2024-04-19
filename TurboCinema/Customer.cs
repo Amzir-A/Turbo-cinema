@@ -7,7 +7,7 @@ public class Customer
     public string Password { get; set; }
     public string Email { get; set; }
     public string Postcode { get; set; }
-    public List<Reservation> Reservations { get; set; } // Toevoeging om reserveringen te houden
+    public List<Reservation> Reservations { get; set; }
 
     public Customer()
     {
