@@ -43,21 +43,21 @@ public class Betaalscherm
         }
         else
         {
+            string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
             ProcessPayment(totalPrice);
-            AnsiConsole.Markup("[yellow]U heeft geen account; de reservering wordt niet gekoppeld aan een account.[/]");
+            NoAccount(email, totalPrice);
         }
     }
 
     private void ProcessPayment(int totalPrice)
     {
-        AnsiConsole.Status()
-            .Start("Betaling verwerken...", ctx =>
-            {
-                System.Threading.Thread.Sleep(2000);
-                ctx.SpinnerStyle(Style.Parse("green"));
-                ctx.Status($"€{totalPrice} is betaald.");
-            });
+        AnsiConsole.Markup($"Processing payment of €{totalPrice}...");
+        System.Threading.Thread.Sleep(2000);
+        
+        AnsiConsole.MarkupLine(" done!");
+        AnsiConsole.MarkupLine($"€{totalPrice} has been paid.\n");
     }
+
 
     private Customer FindCustomerByEmail(string email)
     {
@@ -67,7 +67,7 @@ public class Betaalscherm
 
     private void SaveReservation(Customer customer, int totalPrice)
     {
-        var reservation = new Reservation(selectedMovie.Title, selectedPlaytime.DateTime, selectedSeats);
+        var reservation = new Reservation(selectedMovie.Title, selectedPlaytime.DateTime, selectedSeats, selectedPlaytime.Room);
         customer.Reservations.Add(reservation);
         SaveCustomers(customer, "AccountInfo.json");
     }
@@ -95,5 +95,17 @@ public class Betaalscherm
 
         string json = JsonSerializer.Serialize(customers, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(fileName, json);
+    }
+
+    private void NoAccount(string email, int totalPrice)
+    {
+        Customer nonAccountCustomer = new Customer()
+        {
+            Email = email,
+            Reservations = new List<Reservation>()
+        };
+        var reservation = new Reservation(selectedMovie.Title, selectedPlaytime.DateTime, selectedSeats, selectedPlaytime.Room);
+        nonAccountCustomer.Reservations.Add(reservation);
+        SaveCustomers(nonAccountCustomer, "AccountInfo.json");
     }
 }

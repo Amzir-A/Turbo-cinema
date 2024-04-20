@@ -73,13 +73,14 @@ using Spectre.Console;
         if (customer != null)
         {
             AnsiConsole.MarkupLine("[green]You have successfully logged in![/]");
-            string reservationInfo = string.Join("\n", customer.Reservations.Select(r => $"- {r.MovieTitle} on {r.PlayTime:g}"));
+            string reservationInfo = string.Join("\n", customer.Reservations.Select(r =>
+            $"- {r.MovieTitle} on {r.PlayTime:g} in Room: {r.Room}"));
             AnsiConsole.Write(new Panel(new Markup(
-                $"[bold]First Name:[/] {customer.FirstName}\n" +
-                $"[bold]Last Name:[/] {customer.LastName}\n" +
-                $"[bold]Date of Birth:[/] {customer.DateOfBirth}\n" +
+                $"[bold]voornaam:[/] {customer.FirstName}\n" +
+                $"[bold]achternaam:[/] {customer.LastName}\n" +
+                $"[bold]Geboortedatum:[/] {customer.DateOfBirth}\n" +
                 $"[bold]Postcode:[/] {customer.Postcode}\n" +
-                $"[bold] Booking:[/]\n {reservationInfo}\n" +
+                $"[bold] Bookings:[/]\n {reservationInfo}\n" +
                 $"[bold]Email:[/] {customer.Email}"))
                 .Expand()
                 .Padding(1, 1)
@@ -87,7 +88,7 @@ using Spectre.Console;
         }
         else
         {
-            AnsiConsole.MarkupLine("[red]Login failed. Incorrect email or password.[/]");
+            AnsiConsole.MarkupLine("[red]Login failed. Incorrecte email of password.[/]");
         }
     }
 

@@ -1,12 +1,12 @@
 [
   {
-    "CustomerId": 1,
-    "FirstName": "sven",
-    "LastName": "doe",
-    "DateOfBirth": "20-05-2004",
-    "Password": "Joep",
+    "CustomerId": 0,
+    "FirstName": null,
+    "LastName": null,
+    "DateOfBirth": null,
+    "Password": null,
     "Email": "Svenvm2004",
-    "Postcode": "3065HB",
+    "Postcode": null,
     "Reservations": [
       {
         "MovieTitle": "Dune: Part Two",
@@ -15,18 +15,17 @@
           {
             "ID": "R1S1",
             "IsAvailable": true
-          }
-        ]
-      },
-      {
-        "MovieTitle": "Anyone But You",
-        "PlayTime": "0001-01-01T00:00:00",
-        "SelectedSeats": [
+          },
           {
-            "ID": "R1S1",
+            "ID": "R2S1",
+            "IsAvailable": true
+          },
+          {
+            "ID": "R3S1",
             "IsAvailable": true
           }
-        ]
+        ],
+        "Room": null
       }
     ]
   }
