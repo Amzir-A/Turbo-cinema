@@ -6,12 +6,13 @@ class ReservationSystem
     public static List<List<Seat>> Seats = LoadSeats();
     List<Seat> SelectedSeats = new List<Seat>();
     int x, y = 0;
-    Movie? SelectedMovie;
+    Movie SelectedMovie;
+    List<string> errors = [];
 
     public ReservationSystem(Movie selectedMovie)
     {
         NavigateSeats();
-        this.SelectedMovie = selectedMovie;
+        SelectedMovie = selectedMovie;
     }
 
 public void NavigateSeats()
@@ -46,7 +47,11 @@ public void NavigateSeats()
                 }
                 else
                 {
-                    if (selectedSeat.IsAvailable)
+                    if (SelectedSeats.Count >= 5)
+                    {
+                        errors.Add("Maximaal 5 stoelen per reservering.");
+                    }
+                    else if (selectedSeat.IsAvailable)
                     {
                         SelectedSeats.Add(selectedSeat);
                     }
@@ -68,6 +73,7 @@ public void NavigateSeats()
         }
 
         DisplaySeats();
+        DisplayErrors();
     }
 }
 
@@ -126,6 +132,20 @@ public void NavigateSeats()
         else
         {
             AnsiConsole.WriteLine("Geen stoelen beschikbaar.");
+        }
+    }
+
+    void DisplayErrors()
+    {
+        if (errors.Count > 0)
+        {
+            AnsiConsole.WriteLine();
+            AnsiConsole.WriteLine();
+            foreach (string error in errors)
+            {
+                AnsiConsole.MarkupLine($"[red]{error}[/]");
+            }
+            errors = [];
         }
     }
 
