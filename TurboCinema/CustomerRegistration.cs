@@ -11,13 +11,15 @@ using Spectre.Console;
         {
             List<Customer> customers = LoadCustomers("AccountInfo.json");
 
-            Console.WriteLine("welkom bij TurboCinema! Maak een account aan om te beginnen.");            
-            var firstName = AnsiConsole.Ask<string>("Voornaam: ");
-            var lastName = AnsiConsole.Ask<string>("Achternaam: ");
-            var dateOfBirth = AnsiConsole.Ask<string>("Geboortedatum (YYYY-MM-DD): ");
-            var Email = AnsiConsole.Ask<string>("E-mail adres: ");
+            Console.WriteLine("welkom bij TurboCinema! Maak een account aan om te beginnen.");
+            
+            var firstName = AnsiConsole.Ask<string>("Wat is je voornaam?");
+            var lastName = AnsiConsole.Ask<string>("Wat is je achternaam?");
+            var dateOfBirth = AnsiConsole.Ask<string>("Wat is je geboortedatum?");
+            var Email = AnsiConsole.Ask<string>("Wat is je email?");
+            var Postcode = AnsiConsole.Ask<string>("Wat is je postcode?");
             var password = AnsiConsole.Prompt(
-                            new TextPrompt<string>("Kies een wachtwoord: ")
+                            new TextPrompt<string>("Voer een wachtwoord in")
                                 .PromptStyle("red")
                                 .Secret());
             int customerId = customers.Count + 1;
@@ -60,9 +62,9 @@ using Spectre.Console;
     {
         List<Customer> customers = LoadCustomers("AccountInfo.json");
 
-        var email = AnsiConsole.Ask<string>("E-Mail Adres: ");
+        var email = AnsiConsole.Ask<string>("Voer je email");
         var password = AnsiConsole.Prompt(
-            new TextPrompt<string>("Wachtwoord: ")
+            new TextPrompt<string>("Voer je password in")
                 .PromptStyle("red")
                 .Secret());
 
@@ -70,7 +72,7 @@ using Spectre.Console;
 
         if (customer != null)
         {
-            AnsiConsole.MarkupLine("[green]Inloggen succesvol![/]");
+            AnsiConsole.MarkupLine("[green]You have successfully logged in![/]");
             string reservationInfo = string.Join("\n", customer.Reservations.Select(r =>
             $"- {r.MovieTitle} on {r.PlayTime:g} in Room: {r.Room}"));
             AnsiConsole.Write(new Panel(new Markup(
@@ -86,7 +88,7 @@ using Spectre.Console;
         }
         else
         {
-            AnsiConsole.MarkupLine("[red]Inloggen mislukt. E-Mail of wachtwoord incorrect.[/]");
+            AnsiConsole.MarkupLine("[red]Login failed. Incorrecte email of password.[/]");
         }
     }
 
