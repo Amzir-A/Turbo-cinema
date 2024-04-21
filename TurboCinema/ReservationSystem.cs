@@ -6,13 +6,15 @@ class ReservationSystem
     public static List<List<Seat>> Seats = LoadSeats();
     List<Seat> SelectedSeats = new List<Seat>();
     int x, y = 0;
-    Movie? SelectedMovie;
+  
     Playtime? selectedPlaytime;
+    Movie SelectedMovie;
+    List<string> errors = [];
 
     public ReservationSystem(Movie selectedMovie, Playtime selectedPlaytime)
     {
         NavigateSeats();
-        this.SelectedMovie = selectedMovie;
+        SelectedMovie = selectedMovie;
         this.selectedPlaytime = selectedPlaytime;
     }
 
@@ -22,25 +24,33 @@ class ReservationSystem
 
         while (true)
         {
-            var key = Console.ReadKey(true).Key;
+            case ConsoleKey.UpArrow:
+                y = Math.Max(0, y - 1);
+                break;
+            case ConsoleKey.DownArrow:
+                y = Math.Min(Seats.Count - 1, y + 1);
+                break;
+            case ConsoleKey.LeftArrow:
+                x = Math.Max(0, x - 1);
+                break;
+            case ConsoleKey.RightArrow:
+                x = Math.Min(Seats[y].Count - 1, x + 1);
+                break;
+            case ConsoleKey.Enter:
+                AnsiConsole.Clear();
 
-            switch (key)
-            {
-                case ConsoleKey.UpArrow:
-                    y = Math.Max(0, y - 1);
-                    break;
-                case ConsoleKey.DownArrow:
-                    y = Math.Min(Seats.Count - 1, y + 1);
-                    break;
-                case ConsoleKey.LeftArrow:
-                    x = Math.Max(0, x - 1);
-                    break;
-                case ConsoleKey.RightArrow:
-                    x = Math.Min(Seats[y].Count - 1, x + 1);
-                    break;
-                case ConsoleKey.Enter:
-                    Seat selectedSeat = Seats[y][x];
-                    if (SelectedSeats.Contains(selectedSeat))
+                Seat selectedSeat = Seats[y][x];
+                if (SelectedSeats.Contains(selectedSeat))
+                {
+                    SelectedSeats.Remove(selectedSeat);
+                }
+                else
+                {
+                    if (SelectedSeats.Count >= 5)
+                    {
+                        errors.Add("Maximaal 5 stoelen per reservering.");
+                    }
+                    else if (selectedSeat.IsAvailable)
                     {
                         SelectedSeats.Remove(selectedSeat);
                     }
@@ -63,8 +73,8 @@ class ReservationSystem
                     break;
             }
 
-            DisplaySeats();
-        }
+        DisplaySeats();
+        DisplayErrors();
     }
 
 
@@ -74,7 +84,7 @@ class ReservationSystem
         AnsiConsole.Clear();
         if (Seats?.Count > 0)
         {
-            AnsiConsole.Write(new Text("[ Seats ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Stoelen ]", new Style(Color.Yellow, Color.Black)).Centered());
             AnsiConsole.WriteLine();
 
             Table tableSeats = new Table().Centered();
@@ -114,7 +124,7 @@ class ReservationSystem
 
             AnsiConsole.Write(tableSeats);
             AnsiConsole.WriteLine();
-            AnsiConsole.Write(new Text("[ End ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Eind ]", new Style(Color.Yellow, Color.Black)).Centered());
 
             AnsiConsole.WriteLine();
             AnsiConsole.WriteLine("Druk op spatie om keuze te bevestigen.");
@@ -122,7 +132,21 @@ class ReservationSystem
         }
         else
         {
-            AnsiConsole.WriteLine("No seats available.");
+            AnsiConsole.WriteLine("Geen stoelen beschikbaar.");
+        }
+    }
+
+    void DisplayErrors()
+    {
+        if (errors.Count > 0)
+        {
+            AnsiConsole.WriteLine();
+            AnsiConsole.WriteLine();
+            foreach (string error in errors)
+            {
+                AnsiConsole.MarkupLine($"[red]{error}[/]");
+            }
+            errors = [];
         }
     }
 
