@@ -6,24 +6,23 @@ class ReservationSystem
     public static List<List<Seat>> Seats = LoadSeats();
     List<Seat> SelectedSeats = new List<Seat>();
     int x, y = 0;
+  
+    Playtime? selectedPlaytime;
     Movie SelectedMovie;
     List<string> errors = [];
 
-    public ReservationSystem(Movie selectedMovie)
+    public ReservationSystem(Movie selectedMovie, Playtime selectedPlaytime)
     {
         NavigateSeats();
         SelectedMovie = selectedMovie;
+        this.selectedPlaytime = selectedPlaytime;
     }
 
-public void NavigateSeats()
-{
-    DisplaySeats();
-
-    while (true)
+    public void NavigateSeats()
     {
-        var key = Console.ReadKey(true).Key;
+        DisplaySeats();
 
-        switch (key)
+        while (true)
         {
             case ConsoleKey.UpArrow:
                 y = Math.Max(0, y - 1);
@@ -53,29 +52,31 @@ public void NavigateSeats()
                     }
                     else if (selectedSeat.IsAvailable)
                     {
-                        SelectedSeats.Add(selectedSeat);
+                        SelectedSeats.Remove(selectedSeat);
                     }
-                }
-                break;
+                    else
+                    {
+                        if (selectedSeat.IsAvailable)
+                        {
+                            SelectedSeats.Add(selectedSeat);
+                        }
+                    }
+                    break;
 
-            case ConsoleKey.Spacebar:
-                if (SelectedSeats.Count > 0)
-                {
-                    ProceedToPayment();
-                    return;
-                }
-                if (SelectedSeats.Count == 0)
-                {
+                case ConsoleKey.Spacebar:
+                    if (SelectedSeats.Count > 0)
+                    {
+                        ProceedToPayment();
+                        return; 
+                    }
                     AnsiConsole.MarkupLine("[red]Geen stoel geselecteerd. Selecteer ten minste één stoel om door te gaan.[/]");
-                    // Niet terugkeren, gebruiker kan verder gaan met selecteren.
-                }
-                break;
-        }
+                    break;
+            }
 
         DisplaySeats();
         DisplayErrors();
     }
-}
+
 
 
     public void DisplaySeats()
@@ -163,9 +164,9 @@ public void NavigateSeats()
 
     public void ProceedToPayment()
     {
-        if (SelectedMovie != null)
+        if (SelectedMovie != null && selectedPlaytime != null)
         {
-            Betaalscherm betaalscherm = new Betaalscherm(SelectedSeats, SelectedMovie);
+            Betaalscherm betaalscherm = new Betaalscherm(SelectedSeats, SelectedMovie, selectedPlaytime);
             betaalscherm.DisplayPaymentScreen();
         }
     }

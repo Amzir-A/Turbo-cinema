@@ -1,4 +1,4 @@
-class Movie
+public class Movie
 {
     public string Title { get; set; }
     public string Release { get; set; }

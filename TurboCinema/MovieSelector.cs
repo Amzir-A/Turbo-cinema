@@ -2,6 +2,7 @@ using Spectre.Console;
 using Newtonsoft.Json;
 using System;
 using System.Text;
+using System.Dynamic;
 
 class MovieSelector
 {
@@ -18,6 +19,11 @@ class MovieSelector
     public Movie GetSelectedMovie()
     {
         return movies[selectedIndex];
+    }
+
+    public Playtime GetSelectedPlaytime()
+    {
+        return new Playtime();
     }
     private void SelectMovie()
     {

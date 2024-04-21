@@ -11,8 +11,7 @@ using Spectre.Console;
         {
             List<Customer> customers = LoadCustomers("AccountInfo.json");
 
-            Console.WriteLine("Welkom bij TurboCinema!");
-            
+            Console.WriteLine("welkom bij TurboCinema! Maak een account aan om te beginnen.");            
             var firstName = AnsiConsole.Ask<string>("Voornaam: ");
             var lastName = AnsiConsole.Ask<string>("Achternaam: ");
             var dateOfBirth = AnsiConsole.Ask<string>("Geboortedatum (YYYY-MM-DD): ");
@@ -29,8 +28,11 @@ using Spectre.Console;
                 FirstName = firstName,
                 LastName = lastName,
                 DateOfBirth = dateOfBirth,
-                Password = password
-            };
+                Password = password,
+                Email = Email,
+                Postcode = Postcode,
+                Reservations = new List<Reservation>()
+                };
 
             customers.Add(newCustomer);
             SaveCustomers(customers, "AccountInfo.json");
@@ -69,11 +71,15 @@ using Spectre.Console;
         if (customer != null)
         {
             AnsiConsole.MarkupLine("[green]Inloggen succesvol![/]");
+            string reservationInfo = string.Join("\n", customer.Reservations.Select(r =>
+            $"- {r.MovieTitle} on {r.PlayTime:g} in Room: {r.Room}"));
             AnsiConsole.Write(new Panel(new Markup(
-                $"[bold]Voornaam:[/] {customer.FirstName}\n" +
-                $"[bold]Achternaam:[/] {customer.LastName}\n" +
+                $"[bold]voornaam:[/] {customer.FirstName}\n" +
+                $"[bold]achternaam:[/] {customer.LastName}\n" +
                 $"[bold]Geboortedatum:[/] {customer.DateOfBirth}\n" +
-                $"[bold]E-mail:[/] {customer.Email}"))
+                $"[bold]Postcode:[/] {customer.Postcode}\n" +
+                $"[bold] Bookings:[/]\n {reservationInfo}\n" +
+                $"[bold]Email:[/] {customer.Email}"))
                 .Expand()
                 .Padding(1, 1)
                 .SquareBorder());
