@@ -1,12 +1,12 @@
 [
   {
-    "CustomerId": 0,
-    "FirstName": null,
-    "LastName": null,
-    "DateOfBirth": null,
-    "Password": null,
-    "Email": "Svenvm2004",
-    "Postcode": null,
+    "CustomerId": 1,
+    "FirstName": "Sven",
+    "LastName": "doe",
+    "DateOfBirth": "20-05-2004",
+    "Password": "Joep",
+    "Email": "sven",
+    "Postcode": "3065HB",
     "Reservations": [
       {
         "MovieTitle": "Dune: Part Two",
