@@ -51,13 +51,53 @@ public class Betaalscherm
 
     private void ProcessPayment(int totalPrice)
     {
-        AnsiConsole.Markup($"Processing payment of €{totalPrice}...");
-        System.Threading.Thread.Sleep(2000);
-        
-        AnsiConsole.MarkupLine(" done!");
-        AnsiConsole.MarkupLine($"€{totalPrice} has been paid.\n");
+        var methode = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Selecteer [green]betaalmethode[/]?")
+                .PageSize(10)
+                .MoreChoicesText("[grey](Scroll omhoog of omlaag om meer betaalmethodes te zien)[/]")
+                .AddChoices(new[] {
+                    "Ideal", "Visa", "Mastercard",
+                    "Contant [grey](Op locatie)[/]",
+                }));
+    
+        if (methode == "Ideal")
+        {
+            var bank = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Selecteer [green]bank[/]?")
+                .PageSize(10)
+                .MoreChoicesText("[grey](Scroll omhoog of omlaag om meer banken te zien)[/]")
+                .AddChoices(new[] {
+                    "ABN AMRO",
+                    "ING Bank",
+                    "Rabobank",
+                    "SNS Bank",
+                    "ASN Bank",
+                    "RegioBank",
+                    "Triodos Bank",
+                    "Knab",
+                    "Bunq"
+                }));
+    
+            AnsiConsole.Markup($"[green]U heeft gekozen voor {methode} en {bank}[/]\n\n");
+            Console.WriteLine($"Bedrag: €{totalPrice},00");
+    
+            var betaald = AnsiConsole.Prompt(new ConfirmationPrompt("Wilt u betalen?"));
+            AnsiConsole.Clear();
+    
+            if (betaald)
+            {
+                AnsiConsole.Markup("Werwerken betaling...");
+                System.Threading.Thread.Sleep(2000);
+                AnsiConsole.Markup("[green]Betaling gelukt![/]\n");
+            }
+        else
+        {
+            AnsiConsole.Markup("[yellow]Je wordt omgeleid naar het beginscherm...[/]");
+        }
     }
-
+}
 
     private Customer FindCustomerByEmail(string email)
     {
