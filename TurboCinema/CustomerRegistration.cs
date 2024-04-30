@@ -74,7 +74,7 @@ using Spectre.Console;
         {
             AnsiConsole.MarkupLine("[green]You have successfully logged in![/]");
             string reservationInfo = string.Join("\n", customer.Reservations.Select(r =>
-            $"- {r.MovieTitle} on {r.PlayTime:g} in Room: {r.Room} with seats {string.Join(", ", r.SelectedSeats.Select(s => s.ID))}"));
+            $"- {r.MovieTitle} on {r.PlayTime:g} in Room: {r.Room} met de stoelen {string.Join(", ", r.SelectedSeats.Select(s => s.ID))}"));
 
             AnsiConsole.Write(new Panel(new Markup(
                 $"[bold]voornaam:[/] {customer.FirstName}\n" +

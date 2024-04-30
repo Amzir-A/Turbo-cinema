@@ -33,7 +33,7 @@ public class Betaalscherm
             if (customer != null)
             {
                 ProcessPayment(totalPrice);
-                SaveReservation(customer, totalPrice);
+                SaveReservation(customer, totalPrice, selectedPlaytime);
                 AnsiConsole.Markup("[green]Uw reservering is toegevoegd aan uw account.[/]");
             }
             else
@@ -105,7 +105,7 @@ public class Betaalscherm
         return customers.FirstOrDefault(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
     }
 
-    private void SaveReservation(Customer customer, int totalPrice)
+    private void SaveReservation(Customer customer, int totalPrice, Playtime selectedPlaytime)
     {
         var reservation = new Reservation(selectedMovie.Title, selectedPlaytime.DateTime, selectedSeats, selectedPlaytime.Room);
         customer.Reservations.Add(reservation);

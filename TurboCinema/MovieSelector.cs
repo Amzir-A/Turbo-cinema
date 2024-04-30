@@ -9,6 +9,7 @@ class MovieSelector
     List<Movie>? movies = LoadMovies();
     static int selectedIndex = 0;
     static Style? SelectedStyle;
+    private Playtime selectedPlaytime;
 
 
     public MovieSelector()
@@ -23,7 +24,7 @@ class MovieSelector
 
     public Playtime GetSelectedPlaytime()
     {
-        return new Playtime();
+        return selectedPlaytime;
     }
     private void SelectMovie()
     {
@@ -167,7 +168,6 @@ class MovieSelector
         {
             AnsiConsole.Clear();
 
-            
             var table = new Table()
                 .Centered()
                 .AddColumn(new TableColumn("Datum en tijd").Centered())
@@ -175,14 +175,11 @@ class MovieSelector
 
             foreach (var playtime in selectedMoviePlaytimes.Playtimes)
             {
-                
                 table.AddRow(playtime.DateTime.ToString("g"), playtime.Room);
             }
 
-            
-            table.Title($"[underline yellow]{selectedMovie} Speeltijden[/]");
+            table.Title($"[underline yellow]{selectedMovie.Title} Speeltijden[/]");
             table.Border(TableBorder.Rounded);
-
             AnsiConsole.Write(table);
 
             var selectionPrompt = new SelectionPrompt<string>()
@@ -195,8 +192,8 @@ class MovieSelector
             }
 
             var selectedOption = AnsiConsole.Prompt(selectionPrompt);
+            selectedPlaytime = selectedMoviePlaytimes.Playtimes.FirstOrDefault(p => p.DateTime.ToString("g") + " - Zaal: " + p.Room == selectedOption);
             AnsiConsole.WriteLine($"Uw keuze: {selectedOption}");
-
         }
         else
         {

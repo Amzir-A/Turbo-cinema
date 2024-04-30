@@ -6,8 +6,8 @@ class ReservationSystem
     public static List<List<Seat>> Seats = LoadSeats();
     List<Seat> SelectedSeats = new List<Seat>();
     int x, y = 0;
-    Movie? SelectedMovie;
-    Playtime? selectedPlaytime;
+    Movie SelectedMovie;
+    Playtime selectedPlaytime;
 
     public ReservationSystem(Movie selectedMovie, Playtime selectedPlaytime)
     {
