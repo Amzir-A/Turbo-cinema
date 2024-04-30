@@ -9,7 +9,7 @@ using Spectre.Console;
     {
         public void Register()
         {
-            List<Customer> customers = LoadCustomers("AccountInfo.json");
+            List<Customer> customers = LoadCustomers("Data/AccountInfo.json");
 
             Console.WriteLine("welkom bij TurboCinema! Maak een account aan om te beginnen.");
             
@@ -37,7 +37,7 @@ using Spectre.Console;
                 };
 
             customers.Add(newCustomer);
-            SaveCustomers(customers, "AccountInfo.json");
+            SaveCustomers(customers, "Data/AccountInfo.json");
 
         }
 
@@ -60,7 +60,7 @@ using Spectre.Console;
 
     public void Login()
     {
-        List<Customer> customers = LoadCustomers("AccountInfo.json");
+        List<Customer> customers = LoadCustomers("Data/AccountInfo.json");
 
         var email = AnsiConsole.Ask<string>("Voer je email");
         var password = AnsiConsole.Prompt(

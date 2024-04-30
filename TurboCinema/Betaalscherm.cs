@@ -101,7 +101,7 @@ public class Betaalscherm
 
     private Customer FindCustomerByEmail(string email)
     {
-        var customers = LoadCustomers("AccountInfo.json");
+        var customers = LoadCustomers("Data/AccountInfo.json");
         return customers.FirstOrDefault(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
     }
 
@@ -109,7 +109,7 @@ public class Betaalscherm
     {
         var reservation = new Reservation(selectedMovie.Title, selectedPlaytime.DateTime, selectedSeats, selectedPlaytime.Room);
         customer.Reservations.Add(reservation);
-        SaveCustomers(customer, "AccountInfo.json");
+        SaveCustomers(customer, "Data/AccountInfo.json");
     }
 
     private List<Customer> LoadCustomers(string fileName)
@@ -146,6 +146,6 @@ public class Betaalscherm
         };
         var reservation = new Reservation(selectedMovie.Title, selectedPlaytime.DateTime, selectedSeats, selectedPlaytime.Room);
         nonAccountCustomer.Reservations.Add(reservation);
-        SaveCustomers(nonAccountCustomer, "AccountInfo.json");
+        SaveCustomers(nonAccountCustomer, "Data/AccountInfo.json");
     }
 }
