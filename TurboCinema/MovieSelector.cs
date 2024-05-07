@@ -28,6 +28,12 @@ class MovieSelector
     }
     private void SelectMovie()
     {
+        var sortCriteria = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("Hoe wilt u de films sorteren?")
+            .AddChoices(new[] { "Genre", "Actor", "Release Date", "Duration" }));
+
+        DisplaySortedMovies(sortCriteria);
         while (true)
         {
             var key = Console.ReadKey(true).Key;
@@ -57,6 +63,33 @@ class MovieSelector
             DisplayMovies(); // Update de weergave na elke actie.
         }
     }
+
+    public void DisplaySortedMovies(string sortBy)
+    {
+        List<Movie> sortedMovies = new List<Movie>();
+
+        switch (sortBy.ToLower())
+        {
+            case "genre":
+                sortedMovies = movies.OrderBy(m => m.Genre.FirstOrDefault()).ToList();
+                break;
+            case "actor":
+                sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
+                break;
+            case "release":
+                sortedMovies = movies.OrderBy(m => DateTime.Parse(m.Release)).ToList();
+                break;
+            case "duration":
+                sortedMovies = movies.OrderBy(m => int.Parse(m.Duration)).ToList();
+                break;
+            default:
+                sortedMovies = movies.ToList();
+                break;
+        }
+        movies = sortedMovies;
+        DisplayMovies();
+    }
+
 
     public void DisplayMovies()
     {
