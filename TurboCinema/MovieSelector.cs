@@ -81,16 +81,16 @@ class MovieSelector
                 sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
                 break;
             case "release":
-                sortedMovies = movies.OrderBy(m =>
+                sortedMovies = movies.OrderByDescending(m =>
                 {
                     DateTime releaseDate;
                     var dateFormats = new[] {"d-MM-yyyy", "dd-MM-yyyy"};
                     if (DateTime.TryParseExact(m.Release, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out releaseDate))
                     {
-                        AnsiConsole.Markup($"Parsed {m.Title}: {releaseDate}");
+                        Console.WriteLine($"Parsed {m.Title}: {releaseDate}");
                         return releaseDate;
                     }
-                    AnsiConsole.Markup($"Failed to parse date for {m.Title}: {m.Release}");
+                    Console.WriteLine($"Failed to parse date for {m.Title}: {m.Release}");
                     return DateTime.MinValue; // Use MaxValue for reverse sorting if using OrderByDescending
                 }).ToList();
                 break;
