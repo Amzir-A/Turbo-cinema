@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 using System;
 using System.Text;
 using System.Dynamic;
+using System.Globalization;
+using System.Linq;
+using System.Collections.Generic;
 
 class MovieSelector
 {
@@ -34,6 +37,7 @@ class MovieSelector
             .AddChoices(new[] { "Genre", "Actor", "Release Date", "Duration", "Doorgaan zonder sorteren" }));
 
         DisplaySortedMovies(sortCriteria);
+        DisplayMovies();
         while (true)
         {
             var key = Console.ReadKey(true).Key;
@@ -77,12 +81,23 @@ class MovieSelector
                 sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
                 break;
             case "release":
-                sortedMovies = movies.OrderByDescending(m => DateTime.Parse(m.Release)).ToList();
+                sortedMovies = movies.OrderBy(m =>
+                {
+                    DateTime releaseDate;
+                    var dateFormats = new[] {"d-MM-yyyy", "dd-MM-yyyy"};
+                    if (DateTime.TryParseExact(m.Release, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out releaseDate))
+                    {
+                        AnsiConsole.Markup($"Parsed {m.Title}: {releaseDate}");
+                        return releaseDate;
+                    }
+                    AnsiConsole.Markup($"Failed to parse date for {m.Title}: {m.Release}");
+                    return DateTime.MinValue; // Use MaxValue for reverse sorting if using OrderByDescending
+                }).ToList();
                 break;
             case "duration":
                 sortedMovies = movies.OrderByDescending(m => 
                 {
-                    if (!int.TryParse(m.Duration, out int duration))
+                    if (!int.TryParse(m.Duration.Split(' ')[0], out int duration))
                     {
                         duration = int.MaxValue;
                     }
@@ -99,6 +114,7 @@ class MovieSelector
         movies = sortedMovies;
         DisplayMovies();
     }
+
 
 
     public void DisplayMovies()
