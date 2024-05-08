@@ -31,7 +31,7 @@ class MovieSelector
         var sortCriteria = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
             .Title("Hoe wilt u de films sorteren?")
-            .AddChoices(new[] { "Genre", "Actor", "Release Date", "Duration" }));
+            .AddChoices(new[] { "Genre", "Actor", "Release Date", "Duration", "Doorgaan zonder sorteren" }));
 
         DisplaySortedMovies(sortCriteria);
         while (true)
@@ -81,6 +81,9 @@ class MovieSelector
                 break;
             case "duration":
                 sortedMovies = movies.OrderBy(m => int.Parse(m.Duration)).ToList();
+                break;
+            case "Doorgaan zonder sorteren":
+                sortedMovies = movies.ToList();
                 break;
             default:
                 sortedMovies = movies.ToList();
