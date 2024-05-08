@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Your Program",
+        "type": "coreclr",
+        "request": "launch",
+        "program": "TurboCinema/bin/Debug/net8.0/TurboCinema.exe",
+        "args": [],
+        "cwd": "${workspaceFolder}",
+        "console": "internalConsole",
+        "stopAtEntry": false,
+        "preLaunchTask": "Copy Data Files"
+      }
+    ]
+  }

@@ -6,70 +6,67 @@ class ReservationSystem
     public static List<List<Seat>> Seats = LoadSeats();
     List<Seat> SelectedSeats = new List<Seat>();
     int x, y = 0;
-    Movie? SelectedMovie;
+    Movie SelectedMovie;
+    Playtime selectedPlaytime;
 
-    public ReservationSystem(Movie selectedMovie)
+    public ReservationSystem(Movie selectedMovie, Playtime selectedPlaytime)
     {
         NavigateSeats();
         this.SelectedMovie = selectedMovie;
+        this.selectedPlaytime = selectedPlaytime;
     }
 
-public void NavigateSeats()
-{
-    DisplaySeats();
-
-    while (true)
+    public void NavigateSeats()
     {
-        var key = Console.ReadKey(true).Key;
-
-        switch (key)
-        {
-            case ConsoleKey.UpArrow:
-                y = Math.Max(0, y - 1);
-                break;
-            case ConsoleKey.DownArrow:
-                y = Math.Min(Seats.Count - 1, y + 1);
-                break;
-            case ConsoleKey.LeftArrow:
-                x = Math.Max(0, x - 1);
-                break;
-            case ConsoleKey.RightArrow:
-                x = Math.Min(Seats[y].Count - 1, x + 1);
-                break;
-            case ConsoleKey.Enter:
-                AnsiConsole.Clear();
-
-                Seat selectedSeat = Seats[y][x];
-                if (SelectedSeats.Contains(selectedSeat))
-                {
-                    SelectedSeats.Remove(selectedSeat);
-                }
-                else
-                {
-                    if (selectedSeat.IsAvailable)
-                    {
-                        SelectedSeats.Add(selectedSeat);
-                    }
-                }
-                break;
-
-            case ConsoleKey.Spacebar:
-                if (SelectedSeats.Count > 0)
-                {
-                    ProceedToPayment();
-                    return;
-                }
-                if (SelectedSeats.Count == 0)
-                {
-                    AnsiConsole.MarkupLine("[red]Geen stoel geselecteerd. Selecteer ten minste één stoel om door te gaan.[/]");
-                    // Niet terugkeren, gebruiker kan verder gaan met selecteren.
-                }
-                break;
-        }
-
         DisplaySeats();
+
+        while (true)
+        {
+            var key = Console.ReadKey(true).Key;
+
+            switch (key)
+            {
+                case ConsoleKey.UpArrow:
+                    y = Math.Max(0, y - 1);
+                    break;
+                case ConsoleKey.DownArrow:
+                    y = Math.Min(Seats.Count - 1, y + 1);
+                    break;
+                case ConsoleKey.LeftArrow:
+                    x = Math.Max(0, x - 1);
+                    break;
+                case ConsoleKey.RightArrow:
+                    x = Math.Min(Seats[y].Count - 1, x + 1);
+                    break;
+                case ConsoleKey.Enter:
+                    Seat selectedSeat = Seats[y][x];
+                    if (SelectedSeats.Contains(selectedSeat))
+                    {
+                        SelectedSeats.Remove(selectedSeat);
+                    }
+                    else
+                    {
+                        if (selectedSeat.IsAvailable)
+                        {
+                            SelectedSeats.Add(selectedSeat);
+                        }
+                    }
+                    break;
+
+                case ConsoleKey.Spacebar:
+                    if (SelectedSeats.Count > 0)
+                    {
+                        ProceedToPayment();
+                        return; 
+                    }
+                    AnsiConsole.MarkupLine("[red]Geen stoel geselecteerd. Selecteer ten minste één stoel om door te gaan.[/]");
+                    break;
+            }
+
+            DisplaySeats();
+        }
     }
-}
+
 
 
     public void DisplaySeats()
@@ -77,7 +74,7 @@ public void NavigateSeats()
         AnsiConsole.Clear();
         if (Seats?.Count > 0)
         {
-            AnsiConsole.Write(new Text("[ Stoelen ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Seats ]", new Style(Color.Yellow, Color.Black)).Centered());
             AnsiConsole.WriteLine();
 
             Table tableSeats = new Table().Centered();
@@ -117,7 +114,7 @@ public void NavigateSeats()
 
             AnsiConsole.Write(tableSeats);
             AnsiConsole.WriteLine();
-            AnsiConsole.Write(new Text("[ Eind ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ End ]", new Style(Color.Yellow, Color.Black)).Centered());
 
             AnsiConsole.WriteLine();
             AnsiConsole.WriteLine("Druk op spatie om keuze te bevestigen.");
@@ -125,7 +122,7 @@ public void NavigateSeats()
         }
         else
         {
-            AnsiConsole.WriteLine("Geen stoelen beschikbaar.");
+            AnsiConsole.WriteLine("No seats available.");
         }
     }
 
@@ -143,9 +140,9 @@ public void NavigateSeats()
 
     public void ProceedToPayment()
     {
-        if (SelectedMovie != null)
+        if (SelectedMovie != null && selectedPlaytime != null)
         {
-            Betaalscherm betaalscherm = new Betaalscherm(SelectedSeats, SelectedMovie);
+            Betaalscherm betaalscherm = new Betaalscherm(SelectedSeats, SelectedMovie, selectedPlaytime);
             betaalscherm.DisplayPaymentScreen();
         }
     }

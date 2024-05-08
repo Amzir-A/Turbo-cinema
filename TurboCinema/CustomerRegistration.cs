@@ -9,16 +9,17 @@ using Spectre.Console;
     {
         public void Register()
         {
-            List<Customer> customers = LoadCustomers("AccountInfo.json");
+            List<Customer> customers = LoadCustomers("Data/AccountInfo.json");
 
-            Console.WriteLine("Welkom bij TurboCinema!");
+            Console.WriteLine("welkom bij TurboCinema! Maak een account aan om te beginnen.");
             
-            var firstName = AnsiConsole.Ask<string>("Voornaam: ");
-            var lastName = AnsiConsole.Ask<string>("Achternaam: ");
-            var dateOfBirth = AnsiConsole.Ask<string>("Geboortedatum (YYYY-MM-DD): ");
-            var Email = AnsiConsole.Ask<string>("E-mail adres: ");
+            var firstName = AnsiConsole.Ask<string>("Wat is je voornaam?");
+            var lastName = AnsiConsole.Ask<string>("Wat is je achternaam?");
+            var dateOfBirth = AnsiConsole.Ask<string>("Wat is je geboortedatum?");
+            var Email = AnsiConsole.Ask<string>("Wat is je email?");
+            var Postcode = AnsiConsole.Ask<string>("Wat is je postcode?");
             var password = AnsiConsole.Prompt(
-                            new TextPrompt<string>("Kies een wachtwoord: ")
+                            new TextPrompt<string>("Voer een wachtwoord in")
                                 .PromptStyle("red")
                                 .Secret());
             int customerId = customers.Count + 1;
@@ -29,11 +30,14 @@ using Spectre.Console;
                 FirstName = firstName,
                 LastName = lastName,
                 DateOfBirth = dateOfBirth,
-                Password = password
-            };
+                Password = password,
+                Email = Email,
+                Postcode = Postcode,
+                Reservations = new List<Reservation>()
+                };
 
             customers.Add(newCustomer);
-            SaveCustomers(customers, "AccountInfo.json");
+            SaveCustomers(customers, "Data/AccountInfo.json");
 
         }
 
@@ -56,11 +60,11 @@ using Spectre.Console;
 
     public void Login()
     {
-        List<Customer> customers = LoadCustomers("AccountInfo.json");
+        List<Customer> customers = LoadCustomers("Data/AccountInfo.json");
 
-        var email = AnsiConsole.Ask<string>("E-Mail Adres: ");
+        var email = AnsiConsole.Ask<string>("Voer je email");
         var password = AnsiConsole.Prompt(
-            new TextPrompt<string>("Wachtwoord: ")
+            new TextPrompt<string>("Voer je password in")
                 .PromptStyle("red")
                 .Secret());
 
@@ -68,19 +72,24 @@ using Spectre.Console;
 
         if (customer != null)
         {
-            AnsiConsole.MarkupLine("[green]Inloggen succesvol![/]");
+            AnsiConsole.MarkupLine("[green]You have successfully logged in![/]");
+            string reservationInfo = string.Join("\n", customer.Reservations.Select(r =>
+            $"- {r.MovieTitle} on {r.PlayTime:g} in Room: {r.Room} met de stoelen {string.Join(", ", r.SelectedSeats.Select(s => s.ID))}"));
+
             AnsiConsole.Write(new Panel(new Markup(
-                $"[bold]Voornaam:[/] {customer.FirstName}\n" +
-                $"[bold]Achternaam:[/] {customer.LastName}\n" +
+                $"[bold]voornaam:[/] {customer.FirstName}\n" +
+                $"[bold]achternaam:[/] {customer.LastName}\n" +
                 $"[bold]Geboortedatum:[/] {customer.DateOfBirth}\n" +
-                $"[bold]E-mail:[/] {customer.Email}"))
+                $"[bold]Postcode:[/] {customer.Postcode}\n" +
+                $"[bold] Bookings:[/]\n {reservationInfo}\n" +
+                $"[bold]Email:[/] {customer.Email}"))
                 .Expand()
                 .Padding(1, 1)
                 .SquareBorder());
         }
         else
         {
-            AnsiConsole.MarkupLine("[red]Inloggen mislukt. E-Mail of wachtwoord incorrect.[/]");
+            AnsiConsole.MarkupLine("[red]Login failed. Incorrecte email of password.[/]");
         }
     }
 
