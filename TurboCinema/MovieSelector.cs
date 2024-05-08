@@ -77,10 +77,17 @@ class MovieSelector
                 sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
                 break;
             case "release":
-                sortedMovies = movies.OrderBy(m => DateTime.Parse(m.Release)).ToList();
+                sortedMovies = movies.OrderByDescending(m => DateTime.Parse(m.Release)).ToList();
                 break;
             case "duration":
-                sortedMovies = movies.OrderBy(m => int.Parse(m.Duration)).ToList();
+                sortedMovies = movies.OrderByDescending(m => 
+                {
+                    if (!int.TryParse(m.Duration, out int duration))
+                    {
+                        duration = int.MaxValue;
+                    }
+                    return duration;
+                }).ToList();
                 break;
             case "Doorgaan zonder sorteren":
                 sortedMovies = movies.ToList();
