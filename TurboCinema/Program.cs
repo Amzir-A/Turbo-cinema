@@ -22,14 +22,14 @@ class Program
                 new SelectionPrompt<string>()
                     .Title("Hoofdmenu")
                     .PageSize(10).HighlightStyle(Style.Parse("red"))
-                    .AddChoices(new[] { "Films", "Inloggen", "Menukaart bioscoop", "Afsluiten" }));
+                    .AddChoices(new[] { "Films/Reserveren", "Inloggen/Registeren", "Menukaart bioscoop", "Afsluiten" }));
 
             switch (keuze)
             {
-                case "Films":
+                case "Films/Reserveren":
                     DisplayAndHandleMovies();
                     break;
-                case "Inloggen":
+                case "Inloggen/Registeren":
                     HandleLoginOrRegistration();
                     break;
                 case "Menukaart bioscoop":

@@ -48,7 +48,15 @@ class ReservationSystem
                     {
                         if (selectedSeat.IsAvailable)
                         {
-                            SelectedSeats.Add(selectedSeat);
+                            if (SelectedSeats.Count < 5)
+                            {
+                                SelectedSeats.Add(selectedSeat);
+                            }
+                            else
+                            {
+                                AnsiConsole.MarkupLine("[red]U kunt maximaal 5 stoelen reserveren.[/]");
+                                System.Threading.Thread.Sleep(2000);
+                            }
                         }
                     }
                     break;
