@@ -87,11 +87,9 @@ class MovieSelector
                     var dateFormats = new[] {"d-MM-yyyy", "dd-MM-yyyy"};
                     if (DateTime.TryParseExact(m.Release, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out releaseDate))
                     {
-                        Console.WriteLine($"Parsed {m.Title}: {releaseDate}");
                         return releaseDate;
                     }
-                    Console.WriteLine($"Failed to parse date for {m.Title}: {m.Release}");
-                    return DateTime.MinValue; // Use MaxValue for reverse sorting if using OrderByDescending
+                    return DateTime.MinValue;
                 }).ToList();
                 break;
             case "duration":
