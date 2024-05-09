@@ -38,7 +38,11 @@ using Spectre.Console;
 
             customers.Add(newCustomer);
             SaveCustomers(customers, "Data/AccountInfo.json");
-
+            AnsiConsole.MarkupLine("[green]Account aangemaakt![/]");
+            AnsiConsole.MarkupLine("[green]Je kan nu inloggen met je email en wachtwoord.[/]");
+            AnsiConsole.MarkupLine("Druk op enter om terug te gaan naar het hoofdmenu.");
+            Console.ReadLine();
+            
         }
 
         private List<Customer> LoadCustomers(string fileName)
@@ -86,6 +90,7 @@ using Spectre.Console;
                 .Expand()
                 .Padding(1, 1)
                 .SquareBorder());
+
         }
         else
         {
