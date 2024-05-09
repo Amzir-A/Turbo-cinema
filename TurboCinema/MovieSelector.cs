@@ -79,11 +79,10 @@ class MovieSelector
                 var genre = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                     .Title("Selecteer een genre:")
-                    .PageSize(10)
+                    .PageSize(13)
                     .AddChoices(new[] { "Action", "Adventure","Biography", "Comedy", "Superhero", "Supernatural", "Drama", "Horror","Musical", "Mystery", "Romance", "Science fiction","Thriller"})
                 );
                 sortedMovies = movies.Where(m => m.Genre.Contains(genre)).ToList();
-
                 break;
             case "actor":
                 sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
