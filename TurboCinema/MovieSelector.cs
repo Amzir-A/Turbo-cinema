@@ -80,7 +80,7 @@ class MovieSelector
             case "actor":
                 sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
                 break;
-            case "release":
+            case "release date":
                 sortedMovies = movies.OrderByDescending(m =>
                 {
                     DateTime releaseDate;
