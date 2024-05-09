@@ -80,59 +80,51 @@ class ReservationSystem
     public void DisplaySeats()
     {
         AnsiConsole.Clear();
-        if (Seats?.Count > 0)
+        AnsiConsole.Write(new Text("------------------------------ [ SCHERM ] ------------------------------", new Style(Color.Yellow, Color.Black)).Centered());
+        AnsiConsole.WriteLine();
+
+        Table tableSeats = new Table().Centered();
+        tableSeats.Border = TableBorder.None;
+        tableSeats.AddColumns("", "", "", "");
+
+        for (int i = 0; i < Seats.Count; i++)
         {
-            AnsiConsole.Write(new Text("[ Seats ]", new Style(Color.Yellow, Color.Black)).Centered());
-            AnsiConsole.WriteLine();
-
-            Table tableSeats = new Table().Centered();
-            tableSeats.Border = TableBorder.None;
-            tableSeats.AddColumns("", "", "", "");
-
-            for (int i = 0; i < Seats.Count; i++)
+            List<Panel> row = new List<Panel>();
+            for (int j = 0; j < Seats[i].Count; j++)
             {
-                List<Panel> row = [];
-                for (int j = 0; j < Seats[i].Count; j++)
+                string color = Seats[i][j].IsAvailable ? "green" : "red";
+                Color bgColor = Color.Red;
+
+                if (i == y && j == x)
                 {
-                    string color = Seats[i][j].IsAvailable ? "green" : "red";
-                    Color bgColor = Color.Red;
-
-                    if (i == y && j == x)
-                    {
-                        bgColor = Color.Yellow;
-                    }
-
-                    string check = " ";
-                    if (SelectedSeats.Contains(Seats[i][j]))
-                    {
-                        check = "✓";
-                    }
-
-
-                    row.Add(
-                        new Panel(new Markup($"[white on {color}]  {check}  [/]"))
-                        {
-                            Border = BoxBorder.Heavy,
-                            BorderStyle = new Style(bgColor)
-                        }
-                    );
+                    bgColor = Color.Yellow;
                 }
-                tableSeats.AddRow(row);
+
+                string check = " ";
+                if (SelectedSeats.Contains(Seats[i][j]))
+                {
+                    check = "✓";
+                }
+
+                row.Add(
+                    new Panel(new Markup($"[white on {color}]  {Seats[i][j].ID} {check}  [/]"))
+                    {
+                        Border = BoxBorder.Heavy,
+                        BorderStyle = new Style(bgColor)
+                    }
+                );
             }
-
-            AnsiConsole.Write(tableSeats);
-            AnsiConsole.WriteLine();
-            AnsiConsole.Write(new Text("[ End ]", new Style(Color.Yellow, Color.Black)).Centered());
-
-            AnsiConsole.WriteLine();
-            AnsiConsole.WriteLine("Druk op spatie om keuze te bevestigen.");
-
+            tableSeats.AddRow(row.ToArray());
         }
-        else
-        {
-            AnsiConsole.WriteLine("No seats available.");
-        }
+
+        AnsiConsole.Write(tableSeats);
+        AnsiConsole.WriteLine();
+        AnsiConsole.Write(new Text("[ Projector ]", new Style(Color.Yellow, Color.Black)).Centered());
+
+        AnsiConsole.WriteLine();
+        AnsiConsole.WriteLine("Druk op spatie om keuze te bevestigen.");
     }
+
 
     public int SelectSeats()
     {
