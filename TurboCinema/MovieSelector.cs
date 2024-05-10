@@ -75,7 +75,6 @@ class MovieSelector
         switch (sortBy.ToLower())
         {
             case "genre":
-                //sortedMovies = movies.OrderBy(m => m.Genre.FirstOrDefault()).ToList();
                 var genre = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                     .Title("Selecteer een genre:")
