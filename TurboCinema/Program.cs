@@ -1,100 +1,43 @@
-﻿using Spectre.Console;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Text;
 
-class Program
+static class Program
 {
-    static void Main(string[] args)
+    class ScreenState
+    {
+        public required Delegate ScreenDelegate { get; set; }
+        public object[]? Arguments { get; set; }
+    }
+
+    static Stack<ScreenState> screenHistory = new();
+
+    public static void Main(string[] args)
     {
         Console.OutputEncoding = Encoding.UTF8;
-
-        bool runApp = true;
-        while (runApp)
-        {
-            AnsiConsole.Clear();
-            AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
-            AnsiConsole.Write(new Rule("Welkom bij TurboCinema!").Centered().RuleStyle("red dim"));
-            AnsiConsole.WriteLine();
-
-
-            // Toon het hoofdmenu en laat de gebruiker een keuze maken.
-            var keuze = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                    .Title("Hoofdmenu")
-                    .PageSize(10).HighlightStyle(Style.Parse("red"))
-                    .AddChoices(new[] { "Films/Reserveren", "Inloggen/Registeren", "Menukaart bioscoop", "Afsluiten" }));
-
-            switch (keuze)
-            {
-                case "Films/Reserveren":
-                    DisplayAndHandleMovies();
-                    break;
-                case "Inloggen/Registeren":
-                    HandleLoginOrRegistration();
-                    break;
-                case "Menukaart bioscoop":
-                    // Implementeer logica voor menukaart hier.
-                    break;
-                case "Afsluiten":
-                    runApp = false;
-                    break;
-                default:
-                    AnsiConsole.MarkupLine("[red]Ongeldige keuze[/]");
-                    break;
-            }
-        Console.ReadLine();
-        }
+        ShowScreen(MainScreen.MainMenu);
     }
 
-    static void HandleLoginOrRegistration()
+    public static void ShowScreen(Action screen)
     {
-        bool proceedToLogin = AnsiConsole.Prompt(new ConfirmationPrompt("Heeft u een account? [green]Ja[/] of [red]nee[/]?"));
-        try
+        screenHistory.Push(new ScreenState { ScreenDelegate = screen });
+        screen.Invoke();
+    }
+    public static void ShowScreen<T>(Action<T> screen, T arg)
+    {
+        screenHistory.Push(new ScreenState { ScreenDelegate = screen, Arguments = [arg] });
+        screen.Invoke(arg);
+    }
+
+    public static void PreviousScreen()
+    {
+        if (screenHistory.Count > 1)
         {
-            AccountRegistration CustomerRegistration = new AccountRegistration();
-            if (!proceedToLogin)
-            {
-                CustomerRegistration.Register();
-            }
+            screenHistory.Pop();
+            ScreenState previousScreen = screenHistory.Pop();
+            if (previousScreen.Arguments != null)
+                previousScreen.ScreenDelegate.DynamicInvoke(previousScreen.Arguments);
             else
-            {
-                CustomerRegistration.Login();
-            }
-        }
-        catch (Exception ex)
-        {
-            AnsiConsole.WriteException(ex);
+                previousScreen.ScreenDelegate.DynamicInvoke();
         }
     }
-
-    static void DisplayAndHandleMovies()
-    {
-        MovieSelector movieSelector = new MovieSelector();
-        Movie selectedMovie = movieSelector.GetSelectedMovie(); // Haal de geselecteerde film op.
-        Playtime selectedPlaytime = movieSelector.GetSelectedPlaytime(); // Haal de geselecteerde speeltijd op.
-        AnsiConsole.Clear();
-
-        bool proceedToSeats = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar stoelenselectie? [green]Ja[/] of [red]nee[/]?"));
-        if (!proceedToSeats) return;
-
-        // Logica voor het selecteren van stoelen hier.
-        var reservationSystem = new ReservationSystem(selectedMovie, selectedPlaytime); // Geef de geselecteerde film door aan het reserveringssysteem.
-        var selectedSeat = reservationSystem.SelectSeats();
-
-        bool proceedToPayment = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar betaalscherm? [green]Ja[/] of [red]Nee[/]?"));
-        if (!proceedToPayment) return;
-
-        // Logica voor betaalscherm hier.
-        AnsiConsole.Clear();
-        reservationSystem.ProceedToPayment();
-
-        // Nadat de betaling is voltooid, vraag of ze opnieuw willen beginnen of willen afsluiten.
-        bool startOver = AnsiConsole.Prompt(new ConfirmationPrompt("Opnieuw beginnen met een nieuwe film? [green]Ja[/] of [red]Nee[/]?"));
-        if (!startOver)
-        {
-            Environment.Exit(0);
-        }
-    }
-
 }
-
