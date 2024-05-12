@@ -10,11 +10,14 @@ public static class LoginScreen
         try
         {
             if (CE.Confirm("Heeft u een account?"))
-                {Program.PreviousScreen();
-                Console.WriteLine("yes");}
-                // Login();
+            {
+                Program.PreviousScreen();
+                Login();
+            }
             else
+            {
                 Register();
+            }
         }
         catch (Exception ex)
         {
