@@ -11,7 +11,6 @@ public static class LoginScreen
         {
             if (CE.Confirm("Heeft u een account?"))
             {
-                Program.PreviousScreen();
                 Login();
             }
             else
@@ -173,7 +172,6 @@ public static class LoginScreen
 
         return customers;
     }
-
     public static void Login()
     {
         List<Customer> customers = LoadCustomers("Data/AccountInfo.json");
@@ -209,21 +207,33 @@ public static class LoginScreen
             {
                 CancelReservation(customer, customers);
             }
+<<<<<<< HEAD
             else if (cancelReservation == "nee")
             {
                 Program.DisplayMainMenu();
+=======
+            else
+            {
+                // Return to MainMenu after viewing bookings or cancelling reservation.
+                MainScreen.MainMenu();
+>>>>>>> main
             }
         }
         else
         {
             AnsiConsole.MarkupLine("[red]Login gefaald. Incorrecte email of wachtwoord.[/]");
+            // Optionally, return to the previous screen or main menu
+            Program.PreviousScreen();
         }
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD:TurboCinema/CustomerRegistration.cs
 <<<<<<< Updated upstream:TurboCinema/CustomerRegistration.cs
     private void SaveCustomers(List<Customer> customers, string fileName)
 =======
+=======
+>>>>>>> main
         private static void CancelReservation(Customer customer, List<Customer> customers)
     {
         if (customer.Reservations.Count == 0)
@@ -245,6 +255,10 @@ public static class LoginScreen
 
         SaveCustomers(customers, "Data/AccountInfo.json");
         AnsiConsole.MarkupLine("[green]Reservering succesvol geannuleerd![/]");
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
     }
 
     static void SaveCustomers(List<Customer> customers, string fileName)

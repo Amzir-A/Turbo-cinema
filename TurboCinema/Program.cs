@@ -25,7 +25,7 @@ static class Program
     }
     public static void ShowScreen<T>(Action<T> screen, T arg)
     {
-        screenHistory.Push(new ScreenState { ScreenDelegate = screen, Arguments = [arg] });
+        screenHistory.Push(new ScreenState { ScreenDelegate = screen, Arguments = new object[] { arg } });
         screen.Invoke(arg);
     }
 
@@ -34,7 +34,7 @@ static class Program
         if (screenHistory.Count > 1)
         {
             screenHistory.Pop();
-            ScreenState previousScreen = screenHistory.Pop();
+            ScreenState previousScreen = screenHistory.Peek();
             if (previousScreen.Arguments != null)
                 previousScreen.ScreenDelegate.DynamicInvoke(previousScreen.Arguments);
             else
