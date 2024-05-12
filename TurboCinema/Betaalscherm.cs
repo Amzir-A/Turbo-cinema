@@ -28,9 +28,12 @@ public class Betaalscherm
             Customer customer = FindCustomerByEmail(email);
             if (customer != null)
             {
-                ProcessPayment(totalPrice);
-                SaveReservation(customer, totalPrice, selectedPlaytime);
-                AnsiConsole.Markup("[green]Uw reservering is toegevoegd aan uw account.[/]");
+                if (ProcessPayment(totalPrice))
+                {
+                    SaveReservation(customer, totalPrice, selectedPlaytime);
+                    AnsiConsole.Markup("[green]Uw reservering is toegevoegd aan uw account.[/]");
+                    ReservationSystem.SaveSeats();
+                }
             }
             else
             {
@@ -40,12 +43,15 @@ public class Betaalscherm
         else
         {
             string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
-            ProcessPayment(totalPrice);
-            NoAccount(email, totalPrice);
+            if (ProcessPayment(totalPrice))
+            {
+                NoAccount(email, totalPrice);
+                ReservationSystem.SaveSeats();
+            }
         }
     }
 
-    private void ProcessPayment(int totalPrice)
+    private bool ProcessPayment(int totalPrice)
     {
         var methode = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
@@ -101,7 +107,6 @@ public class Betaalscherm
             AnsiConsole.Markup($"[green]U heeft gekozen voor {methode}[/]\n\n");
         }
 
-
         Console.WriteLine($"Bedrag: €{totalPrice},00");
 
         if (methode != "Contant")
@@ -111,14 +116,16 @@ public class Betaalscherm
                 AnsiConsole.Clear();
                 CE.Wait("Verwerken betaling");
                 AnsiConsole.Markup("[green]Betaling gelukt![/]\n");
+                return true;
             }
             else
             {
                 AnsiConsole.Markup("[red]Betaling geannuleerd.[/]\n");
+                return false;
             }
         }
+        return false;
     }
-
 
     private Customer FindCustomerByEmail(string email)
     {

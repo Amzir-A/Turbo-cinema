@@ -51,6 +51,7 @@ class ReservationSystem
                             if (SelectedSeats.Count < 5)
                             {
                                 SelectedSeats.Add(selectedSeat);
+                                selectedSeat.IsAvailable = false;
                             }
                             else
                             {
@@ -74,7 +75,11 @@ class ReservationSystem
             DisplaySeats();
         }
     }
-
+    public static void SaveSeats()
+    {
+        string json = JsonConvert.SerializeObject(Seats, Formatting.Indented);
+        File.WriteAllText("Data/Reservations.json", json);
+    }
 
 
     public void DisplaySeats()
