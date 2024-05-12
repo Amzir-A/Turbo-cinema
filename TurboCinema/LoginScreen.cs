@@ -242,10 +242,10 @@ public static class LoginScreen
 
         SaveCustomers(customers, "Data/AccountInfo.json");
         AnsiConsole.MarkupLine("[green]Reservering succesvol geannuleerd![/]");
-
     }
 
     static void SaveCustomers(List<Customer> customers, string fileName)
+
     {
         string json = JsonSerializer.Serialize(customers, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(fileName, json);

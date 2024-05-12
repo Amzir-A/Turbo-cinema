@@ -75,11 +75,7 @@ class ReservationSystem
             DisplaySeats();
         }
     }
-    public static void SaveSeats()
-    {
-        string json = JsonConvert.SerializeObject(Seats, Formatting.Indented);
-        File.WriteAllText("Data/Reservations.json", json);
-    }
+
 
 
     public void DisplaySeats()
@@ -128,6 +124,11 @@ class ReservationSystem
 
         AnsiConsole.WriteLine();
         AnsiConsole.WriteLine("Druk op spatie om keuze te bevestigen.");
+    }
+    public static void SaveSeats()
+    {
+        string json = JsonConvert.SerializeObject(Seats, Formatting.Indented);
+        File.WriteAllText("Data/Reservations.json", json);
     }
 
 
