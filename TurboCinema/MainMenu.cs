@@ -1,20 +1,18 @@
-﻿using Spectre.Console;
-using Newtonsoft.Json;
-using System.Text;
+using Spectre.Console;
 
-class Program
+public static class MainScreen
 {
-    static void Main(string[] args)
-    {
-        Console.OutputEncoding = Encoding.UTF8;
+    static string screenName = "Hoofd menu";
 
+    public static void MainMenu()
+    {
         bool runApp = true;
         while (runApp)
         {
-            AnsiConsole.Clear();
+            CE.Clear();
             AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
             AnsiConsole.Write(new Rule("Welkom bij TurboCinema!").Centered().RuleStyle("red dim"));
-            AnsiConsole.WriteLine();
+            CE.WL();
 
 
             // Toon het hoofdmenu en laat de gebruiker een keuze maken.
@@ -22,7 +20,7 @@ class Program
                 new SelectionPrompt<string>()
                     .Title("Hoofdmenu")
                     .PageSize(10).HighlightStyle(Style.Parse("red"))
-                    .AddChoices(new[] { "Films/Reserveren", "Inloggen/Registeren", "Menukaart bioscoop", "Afsluiten" }));
+                    .AddChoices(["Films/Reserveren", "Inloggen/Registeren", "Menukaart bioscoop", "Afsluiten"]));
 
             switch (keuze)
             {
@@ -30,7 +28,7 @@ class Program
                     DisplayAndHandleMovies();
                     break;
                 case "Inloggen/Registeren":
-                    HandleLoginOrRegistration();
+                    Program.ShowScreen(LoginScreen.LoginMenu);
                     break;
                 case "Menukaart bioscoop":
                     // Implementeer logica voor menukaart hier.
@@ -42,47 +40,28 @@ class Program
                     AnsiConsole.MarkupLine("[red]Ongeldige keuze[/]");
                     break;
             }
-        Console.ReadLine();
-        }
-    }
-<<<<<<< Updated upstream
 
-    static void HandleLoginOrRegistration()
-    {
-        bool proceedToLogin = AnsiConsole.Prompt(new ConfirmationPrompt("Heeft u een account? [green]Ja[/] of [red]nee[/]?"));
-        try
-        {
-            AccountRegistration CustomerRegistration = new AccountRegistration();
-            if (!proceedToLogin)
-            {
-                CustomerRegistration.Register();
-            }
-            else
-            {
-                CustomerRegistration.Login();
-            }
-        }
-        catch (Exception ex)
-        {
-            AnsiConsole.WriteException(ex);
+            Console.ReadLine();
         }
     }
 
-    static void DisplayAndHandleMovies()
+
+
+    public static void DisplayAndHandleMovies()
     {
         MovieSelector movieSelector = new MovieSelector();
         Movie selectedMovie = movieSelector.GetSelectedMovie(); // Haal de geselecteerde film op.
         Playtime selectedPlaytime = movieSelector.GetSelectedPlaytime(); // Haal de geselecteerde speeltijd op.
         AnsiConsole.Clear();
 
-        bool proceedToSeats = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar stoelenselectie? [green]Ja[/] of [red]nee[/]?"));
+        bool proceedToSeats = CE.Confirm(("Doorgaan naar stoelenselectie??"));
         if (!proceedToSeats) return;
 
         // Logica voor het selecteren van stoelen hier.
         var reservationSystem = new ReservationSystem(selectedMovie, selectedPlaytime); // Geef de geselecteerde film door aan het reserveringssysteem.
         var selectedSeat = reservationSystem.SelectSeats();
 
-        bool proceedToPayment = AnsiConsole.Prompt(new ConfirmationPrompt("Doorgaan naar betaalscherm? [green]Ja[/] of [red]Nee[/]?"));
+        bool proceedToPayment = CE.Confirm(("Doorgaan naar betaalscherm??"));
         if (!proceedToPayment) return;
 
         // Logica voor betaalscherm hier.
@@ -90,19 +69,11 @@ class Program
         reservationSystem.ProceedToPayment();
 
         // Nadat de betaling is voltooid, vraag of ze opnieuw willen beginnen of willen afsluiten.
-        bool startOver = AnsiConsole.Prompt(new ConfirmationPrompt("Opnieuw beginnen met een nieuwe film? [green]Ja[/] of [red]Nee[/]?"));
+        bool startOver = CE.Confirm(("Opnieuw beginnen met een nieuwe film??"));
         if (!startOver)
         {
             Environment.Exit(0);
         }
+        
     }
-
-=======
-    public static void DisplayMainMenu()
-    {
-        // Code to display the main menu goes here
-        ShowScreen(MainScreen.MainMenu);
-    }
->>>>>>> Stashed changes
 }
-

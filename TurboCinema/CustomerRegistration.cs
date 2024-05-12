@@ -183,6 +183,17 @@ public class AccountRegistration
                 .Expand()
                 .Padding(1, 1)
                 .SquareBorder());
+            
+            AnsiConsole.MarkupLine("Wil je een reservatie annuleren? (ja/nee)");
+            var cancelReservation = Console.ReadLine();
+            if (cancelReservation != null && cancelReservation.ToLower() == "ja")
+            {
+                CancelReservation(customer, customers);
+            }
+            else if (cancelReservation == "nee")
+            {
+                Program.DisplayMainMenu();
+            }
         }
         else
         {
@@ -190,7 +201,34 @@ public class AccountRegistration
         }
     }
 
+<<<<<<< Updated upstream:TurboCinema/CustomerRegistration.cs
     private void SaveCustomers(List<Customer> customers, string fileName)
+=======
+        private static void CancelReservation(Customer customer, List<Customer> customers)
+    {
+        if (customer.Reservations.Count == 0)
+        {
+            AnsiConsole.MarkupLine("[yellow]Geen reserveringen om te annuleren.[/]");
+            return;
+        }
+
+        var reservationTitles = customer.Reservations.Select((r, index) => $"{index + 1}. {r.MovieTitle} op {r.PlayTime:g}").ToList();
+        var selectedReservation = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Selecteer een reservering om te annuleren")
+                .PageSize(10)
+                .AddChoices(reservationTitles));
+
+        int reservationIndex = reservationTitles.IndexOf(selectedReservation);
+        var reservationToCancel = customer.Reservations[reservationIndex];
+        customer.Reservations.Remove(reservationToCancel);
+
+        SaveCustomers(customers, "Data/AccountInfo.json");
+        AnsiConsole.MarkupLine("[green]Reservering succesvol geannuleerd![/]");
+    }
+
+    static void SaveCustomers(List<Customer> customers, string fileName)
+>>>>>>> Stashed changes:TurboCinema/LoginScreen.cs
     {
         string json = JsonSerializer.Serialize(customers, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(fileName, json);
