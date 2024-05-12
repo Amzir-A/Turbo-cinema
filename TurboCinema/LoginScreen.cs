@@ -1,17 +1,35 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
 using Spectre.Console;
+using System.Text.Json;
 
-
-public class AccountRegistration
+public static class LoginScreen
 {
-    public void Register()
+    static string screenName = "Login scherm";
+
+    public static void LoginMenu()
+    {
+        try
+        {
+            if (CE.Confirm("Heeft u een account?"))
+            {
+                Program.PreviousScreen();
+                Login();
+            }
+            else
+            {
+                Register();
+            }
+        }
+        catch (Exception ex)
+        {
+            AnsiConsole.WriteException(ex);
+        }
+    }
+
+    public static void Register()
     {
         List<Customer> customers = LoadCustomers("Data/AccountInfo.json");
 
-    Console.WriteLine("Welkom bij TurboCinema! Maak een account aan om te beginnen.");
+        Console.WriteLine("Welkom bij TurboCinema! Maak een account aan om te beginnen.");
 
         var firstName = ValidateName("Wat is je voornaam?");
         var lastName = ValidateName("Wat is je achternaam?");
@@ -36,7 +54,7 @@ public class AccountRegistration
         SaveCustomers(customers, "Data/AccountInfo.json");
 
     }
-    private static string ValidateName(string prompt)
+    static string ValidateName(string prompt)
     {
         string name;
         do
@@ -49,7 +67,7 @@ public class AccountRegistration
         } while (!IsValidName(name));
         return name;
     }
-    private static bool IsValidName(string name)
+    static bool IsValidName(string name)
     {
         foreach (char c in name)
         {
@@ -61,7 +79,7 @@ public class AccountRegistration
         return true;
     }
 
-    private static DateTime ValidateDateOfBirth(string prompt)
+    static DateTime ValidateDateOfBirth(string prompt)
     {
         DateTime dateOfBirth;
         do
@@ -74,7 +92,7 @@ public class AccountRegistration
         } while (dateOfBirth == DateTime.MinValue);
         return dateOfBirth;
     }
-    private static string ValidatePassword()
+    static string ValidatePassword()
     {
         string password;
         do
@@ -91,13 +109,13 @@ public class AccountRegistration
         return password;
     }
 
-    private static bool IsValidPassword(string password)
+    static bool IsValidPassword(string password)
     {
         if (password.Length < 5)
         {
             return false;
         }
-        
+
         bool hasCapital = false;
         foreach (char c in password)
         {
@@ -107,7 +125,7 @@ public class AccountRegistration
                 break;
             }
         }
-        
+
         bool hasNumber = false;
         foreach (char c in password)
         {
@@ -117,10 +135,10 @@ public class AccountRegistration
                 break;
             }
         }
-        
+
         return hasCapital && hasNumber;
     }
-    private static string ValidateEmail(string prompt)
+    static string ValidateEmail(string prompt)
     {
         string email;
         do
@@ -134,28 +152,29 @@ public class AccountRegistration
         return email;
     }
 
-    private static bool IsValidEmail(string email)
+    static bool IsValidEmail(string email)
     {
         return email.Contains("@");
-    } 
-        private List<Customer> LoadCustomers(string fileName)
+    }
+
+    static List<Customer> LoadCustomers(string fileName)
+    {
+        List<Customer> customers;
+
+        if (File.Exists(fileName))
         {
-            List<Customer> customers;
-
-            if (File.Exists(fileName))
-            {
-                string json = File.ReadAllText(fileName);
-                customers = JsonSerializer.Deserialize<List<Customer>>(json);
-            }
-            else
-            {
-                customers = new List<Customer>();
-            }
-
-            return customers;
+            string json = File.ReadAllText(fileName);
+            customers = JsonSerializer.Deserialize<List<Customer>>(json);
+        }
+        else
+        {
+            customers = new List<Customer>();
         }
 
-    public void Login()
+        return customers;
+    }
+
+    public static void Login()
     {
         List<Customer> customers = LoadCustomers("Data/AccountInfo.json");
 
@@ -201,6 +220,7 @@ public class AccountRegistration
         }
     }
 
+<<<<<<< HEAD:TurboCinema/CustomerRegistration.cs
 <<<<<<< Updated upstream:TurboCinema/CustomerRegistration.cs
     private void SaveCustomers(List<Customer> customers, string fileName)
 =======
@@ -229,6 +249,9 @@ public class AccountRegistration
 
     static void SaveCustomers(List<Customer> customers, string fileName)
 >>>>>>> Stashed changes:TurboCinema/LoginScreen.cs
+=======
+    static void SaveCustomers(List<Customer> customers, string fileName)
+>>>>>>> main:TurboCinema/LoginScreen.cs
     {
         string json = JsonSerializer.Serialize(customers, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(fileName, json);

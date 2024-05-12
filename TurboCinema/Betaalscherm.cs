@@ -1,8 +1,4 @@
 using Spectre.Console;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.Json;
 
 public class Betaalscherm
@@ -10,7 +6,7 @@ public class Betaalscherm
     private List<Seat> selectedSeats;
     private const int SeatPrice = 7;
     private Movie selectedMovie;
-    private Playtime selectedPlaytime; 
+    private Playtime selectedPlaytime;
 
     public Betaalscherm(List<Seat> selectedSeats, Movie selectedMovie, Playtime selectedPlaytime)
     {
@@ -25,7 +21,7 @@ public class Betaalscherm
         AnsiConsole.Markup($"U heeft gekozen voor de film: [green]{selectedMovie.Title}[/] op [green]{selectedPlaytime.DateTime}[/]\n");
         AnsiConsole.Markup($"Totale prijs: €{totalPrice}\n");
 
-        bool hasAccount = AnsiConsole.Confirm("Heeft u een account bij ons?");
+        bool hasAccount = CE.Confirm("Heeft u een account bij ons?");
         if (hasAccount)
         {
             string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
@@ -60,7 +56,7 @@ public class Betaalscherm
                     "Ideal", "Visa", "Mastercard",
                     "Contant [grey](Op locatie)[/]",
                 }));
-    
+
         if (methode == "Ideal")
         {
             var bank = AnsiConsole.Prompt(
@@ -79,25 +75,50 @@ public class Betaalscherm
                     "Knab",
                     "Bunq"
                 }));
-    
+
             AnsiConsole.Markup($"[green]U heeft gekozen voor {methode} en {bank}[/]\n\n");
-            Console.WriteLine($"Bedrag: €{totalPrice},00");
-    
-            var betaald = AnsiConsole.Prompt(new ConfirmationPrompt("Wilt u betalen?"));
-            AnsiConsole.Clear();
-    
-            if (betaald)
-            {
-                AnsiConsole.Markup("Werwerken betaling...");
-                System.Threading.Thread.Sleep(2000);
-                AnsiConsole.Markup("[green]Betaling gelukt![/]\n");
-            }
+        }
+        else if (methode == "Visa" || methode == "Mastercard")
+        {
+            var cardNumber = AnsiConsole.Prompt(
+                new TextPrompt<string>("Voer uw [green]kaartnummer[/] in")
+                    .PromptStyle("green")
+                    .Secret());
+
+            var expirationDate = AnsiConsole.Prompt(
+                new TextPrompt<string>("Voer de [green]vervaldatum[/] in (MM/YY)")
+                    .PromptStyle("green"));
+
+            var cvc = AnsiConsole.Prompt(
+                new TextPrompt<string>("Voer de [green]CVC[/] in")
+                    .PromptStyle("green")
+                    .Secret());
+
+            AnsiConsole.Markup($"[green]U heeft gekozen voor {methode} met kaartnummer {cardNumber} en vervaldatum {expirationDate}[/]\n\n");
+        }
         else
         {
-            AnsiConsole.Markup("[yellow]Je wordt omgeleid naar het beginscherm...[/]");
+            AnsiConsole.Markup($"[green]U heeft gekozen voor {methode}[/]\n\n");
+        }
+
+
+        Console.WriteLine($"Bedrag: €{totalPrice},00");
+
+        if (methode != "Contant")
+        {
+            if (CE.Confirm("Wilt u betalen?"))
+            {
+                AnsiConsole.Clear();
+                CE.Wait("Verwerken betaling");
+                AnsiConsole.Markup("[green]Betaling gelukt![/]\n");
+            }
+            else
+            {
+                AnsiConsole.Markup("[red]Betaling geannuleerd.[/]\n");
+            }
         }
     }
-}
+
 
     private Customer FindCustomerByEmail(string email)
     {

@@ -74,6 +74,9 @@ public static class MainScreen
         {
             Environment.Exit(0);
         }
+<<<<<<< HEAD
         
+=======
+>>>>>>> main
     }
 }
