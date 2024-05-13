@@ -9,13 +9,20 @@ public static class LoginScreen
     {
         try
         {
-            if (CE.Confirm("Heeft u een account?"))
+            int Option = CE.ConfirmR("Heeft u een account?");
+            switch (Option)
             {
-                Login();
-            }
-            else
-            {
-                Register();
+                case 0:
+                    Login();
+                    break;
+                case 1:
+                    Register();
+                    break;
+                case 2:
+                    Program.PreviousScreen();
+                    break;
+                default:
+                    break;
             }
         }
         catch (Exception ex)
@@ -172,7 +179,8 @@ public static class LoginScreen
 
         return customers;
     }
-    public static void Login()
+
+  public static void Login()
     {
         List<Customer> customers = LoadCustomers("Data/AccountInfo.json");
 
@@ -200,52 +208,14 @@ public static class LoginScreen
                 .Expand()
                 .Padding(1, 1)
                 .SquareBorder());
-            
-            AnsiConsole.MarkupLine("Wil je een reservatie annuleren? (ja/nee)");
-            var cancelReservation = Console.ReadLine();
-            if (cancelReservation != null && cancelReservation.ToLower() == "ja")
-            {
-                CancelReservation(customer, customers);
-            }
-            else
-            {
-                // Return to MainMenu after viewing bookings or cancelling reservation.
-                MainScreen.MainMenu();
-            }
         }
         else
         {
             AnsiConsole.MarkupLine("[red]Login gefaald. Incorrecte email of wachtwoord.[/]");
-            // Optionally, return to the previous screen or main menu
-            Program.PreviousScreen();
         }
-    }
-
-        private static void CancelReservation(Customer customer, List<Customer> customers)
-    {
-        if (customer.Reservations.Count == 0)
-        {
-            AnsiConsole.MarkupLine("[yellow]Geen reserveringen om te annuleren.[/]");
-            return;
-        }
-
-        var reservationTitles = customer.Reservations.Select((r, index) => $"{index + 1}. {r.MovieTitle} op {r.PlayTime:g}").ToList();
-        var selectedReservation = AnsiConsole.Prompt(
-            new SelectionPrompt<string>()
-                .Title("Selecteer een reservering om te annuleren")
-                .PageSize(10)
-                .AddChoices(reservationTitles));
-
-        int reservationIndex = reservationTitles.IndexOf(selectedReservation);
-        var reservationToCancel = customer.Reservations[reservationIndex];
-        customer.Reservations.Remove(reservationToCancel);
-
-        SaveCustomers(customers, "Data/AccountInfo.json");
-        AnsiConsole.MarkupLine("[green]Reservering succesvol geannuleerd![/]");
     }
 
     static void SaveCustomers(List<Customer> customers, string fileName)
-
     {
         string json = JsonSerializer.Serialize(customers, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(fileName, json);

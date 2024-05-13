@@ -28,12 +28,9 @@ public class Betaalscherm
             Customer customer = FindCustomerByEmail(email);
             if (customer != null)
             {
-                if (ProcessPayment(totalPrice))
-                {
-                    SaveReservation(customer, totalPrice, selectedPlaytime);
-                    AnsiConsole.Markup("[green]Uw reservering is toegevoegd aan uw account.[/]");
-                    ReservationSystem.SaveSeats();
-                }
+                ProcessPayment(totalPrice);
+                SaveReservation(customer, totalPrice, selectedPlaytime);
+                AnsiConsole.Markup("[green]Uw reservering is toegevoegd aan uw account.[/]");
             }
             else
             {
@@ -43,15 +40,12 @@ public class Betaalscherm
         else
         {
             string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
-            if (ProcessPayment(totalPrice))
-            {
-                NoAccount(email, totalPrice);
-                ReservationSystem.SaveSeats();
-            }
+            ProcessPayment(totalPrice);
+            NoAccount(email, totalPrice);
         }
     }
 
-    private bool ProcessPayment(int totalPrice)
+    private void ProcessPayment(int totalPrice)
     {
         var methode = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
@@ -109,23 +103,27 @@ public class Betaalscherm
 
         Console.WriteLine($"Bedrag: €{totalPrice},00");
 
-        if (methode != "Contant")
+        if (methode != "Contant [grey](Op locatie)[/]")
         {
             if (CE.Confirm("Wilt u betalen?"))
             {
                 AnsiConsole.Clear();
                 CE.Wait("Verwerken betaling");
-                AnsiConsole.Markup("[green]Betaling gelukt![/]\n");
-                return true;
+                AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
             }
             else
             {
-                AnsiConsole.Markup("[red]Betaling geannuleerd.[/]\n");
-                return false;
+                AnsiConsole.Clear();
+                AnsiConsole.Markup("[red]Reservering canceled![/]\n");
             }
         }
-        return false;
+        else
+        {
+            AnsiConsole.Clear();
+            AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
+        }
     }
+
 
     private Customer FindCustomerByEmail(string email)
     {

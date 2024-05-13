@@ -48,18 +48,23 @@ class MovieSelector
                     selectedIndex = Math.Max(0, selectedIndex - 1);
                     break;
                 case ConsoleKey.DownArrow:
-                    selectedIndex = Math.Min(movies.Count - 1, selectedIndex + 1);
+                    selectedIndex = Math.Min(movies.Count - 1 + 1, selectedIndex + 1);
                     break;
                 case ConsoleKey.Enter:
                     AnsiConsole.Clear();
 
+                    if (selectedIndex == movies.Count)
+                    {
+                        Program.PreviousScreen();
+                    }
+
                     Movie selectedMovie = movies[selectedIndex];
-                    DisplayMovieDetails(selectedMovie);
 
-                    AnsiConsole.WriteLine("\nDruk op een toets om door te gaan...");
-                    Console.ReadKey();
 
-                    DisplayMoviePlaytimes(selectedMovie);
+                    Program.ShowScreen(DisplayMovieDetails, [selectedMovie]);
+                    // DisplayMovieDetails(selectedMovie);
+
+                    Program.ShowScreen(DisplayMoviePlaytimes, [selectedMovie]);
 
                     return; // Verlaat de lus na het tonen van de details en speeltijden.
             }
@@ -99,7 +104,7 @@ class MovieSelector
                 }).ToList();
                 break;
             case "duration":
-                sortedMovies = movies.OrderByDescending(m => 
+                sortedMovies = movies.OrderByDescending(m =>
                 {
                     if (!int.TryParse(m.Duration.Split(' ')[0], out int duration))
                     {
@@ -180,7 +185,14 @@ class MovieSelector
 
             AnsiConsole.WriteLine();
 
-            AnsiConsole.Write(new Text("[ Eind ]", new Style(Color.Yellow, Color.Black)).Centered());
+            if (selectedIndex == movies.Count)
+            {
+                AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Grey)).Centered());
+            }
+            else
+            {
+                AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
+            }
 
         }
         else
@@ -192,31 +204,73 @@ class MovieSelector
 
     public void DisplayMovieDetails(Movie selectedMovie)
     {
-        // Start with a clear screen
-        AnsiConsole.Clear();
-        // behouden the TurboCinema header
-        AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
+        int choice = 0;
+        Style style_y = new Style(Color.Yellow, Color.Black);
+        Style style_x = new Style(Color.Yellow, Color.Grey);
 
-        var details = new StringBuilder();
-        details.AppendLine($"[bold]Titel:[/] {selectedMovie.Title}");
-        details.AppendLine($"[bold]Release:[/] {selectedMovie.Release}");
-        details.AppendLine($"[bold]Regie:[/] {selectedMovie.Director}");
-        details.AppendLine($"[bold]Lengte:[/] {selectedMovie.Duration} minutes");
-        details.AppendLine($"[bold]Genre:[/] {string.Join(", ", selectedMovie.Genre)}");
-        details.AppendLine($"[bold]Leeftijd:[/] {selectedMovie.AgeRating}");
-        details.AppendLine($"[bold]Cast:[/] {string.Join(", ", selectedMovie.Actors)}");
-        details.AppendLine($"[bold]Beschrijving:[/] {selectedMovie.Description}");
 
-        //maak een panel with the details content
-        var panel = new Panel(details.ToString())
-            .Expand()
-            .Border(BoxBorder.Rounded)
-            .BorderStyle(new Style(Color.Red))
-            .Padding(1, 2);
+        while (true)
+        {
+            // Start with a clear screen
+            AnsiConsole.Clear();
+            // behouden the TurboCinema header
+            AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
 
-        // Render de panel onder the header
-        AnsiConsole.Write(panel);
+            var details = new StringBuilder();
+            details.AppendLine($"[bold]Titel:[/] {selectedMovie.Title}");
+            details.AppendLine($"[bold]Release:[/] {selectedMovie.Release}");
+            details.AppendLine($"[bold]Regie:[/] {selectedMovie.Director}");
+            details.AppendLine($"[bold]Lengte:[/] {selectedMovie.Duration} minutes");
+            details.AppendLine($"[bold]Genre:[/] {string.Join(", ", selectedMovie.Genre)}");
+            details.AppendLine($"[bold]Leeftijd:[/] {selectedMovie.AgeRating}");
+            details.AppendLine($"[bold]Cast:[/] {string.Join(", ", selectedMovie.Actors)}");
+            details.AppendLine($"[bold]Beschrijving:[/] {selectedMovie.Description}");
 
+            //maak een panel with the details content
+            var panel = new Panel(details.ToString())
+                .Expand()
+                .Border(BoxBorder.Rounded)
+                .BorderStyle(new Style(Color.Red))
+                .Padding(1, 2);
+
+            // Render de panel onder the header
+            AnsiConsole.Write(panel);
+
+
+            AnsiConsole.Write(new Text($"[ Doorgaan ]",  style_x).Centered());
+            AnsiConsole.Write(new Text($"[ Terug ]\n", style_y).Centered());
+
+
+            var key = Console.ReadKey(true).Key;
+
+            switch (key)
+            {
+                case ConsoleKey.UpArrow:
+                    choice--;
+                    choice = Math.Min(choice, 1);
+                    Style temp = style_x;
+                    style_x = style_y;
+                    style_y = temp;
+                    break;
+                case ConsoleKey.DownArrow:
+                    choice++;
+                    choice = Math.Max(choice, 0);
+                    Style temp2 = style_x;
+                    style_x = style_y;
+                    style_y = temp2;
+                    break;
+                case ConsoleKey.Enter:
+                    if (choice == 1)
+                    {
+                        Program.PreviousScreen();
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    break;
+            }
+        }
     }
 
 
@@ -227,45 +281,98 @@ class MovieSelector
 
         var selectedMoviePlaytimes = moviePlaytimesList?.FirstOrDefault(mp => mp.Title.Equals(selectedMovie.Title, StringComparison.OrdinalIgnoreCase));
 
-        if (selectedMoviePlaytimes?.Playtimes != null && selectedMoviePlaytimes.Playtimes.Any())
+        int choice = 0;
+        Style style_y = new Style(Color.Yellow, Color.Black);
+        Style style_x = new Style(Color.Yellow, Color.Grey);
+
+
+        while (true)
         {
-            AnsiConsole.Clear();
-
-            var table = new Table()
-                .Centered()
-                .AddColumn(new TableColumn("Datum en tijd").Centered())
-                .AddColumn(new TableColumn("Zaal").Centered());
-
-            foreach (var playtime in selectedMoviePlaytimes.Playtimes)
+            if (selectedMoviePlaytimes?.Playtimes != null && selectedMoviePlaytimes.Playtimes.Any())
             {
-                table.AddRow(playtime.DateTime.ToString("g"), playtime.Room);
+                AnsiConsole.Clear();
+
+                var table = new Table()
+                    .Centered()
+                    .AddColumn(new TableColumn("Datum en tijd").Centered())
+                    .AddColumn(new TableColumn("Zaal").Centered());
+
+                foreach (var playtime in selectedMoviePlaytimes.Playtimes)
+                {
+                    table.AddRow(playtime.DateTime.ToString("g"), playtime.Room);
+                }
+
+                table.Title($"[underline yellow]{selectedMovie.Title} Speeltijden[/]");
+                table.Border(TableBorder.Rounded);
+                AnsiConsole.Write(table);
+
+                AnsiConsole.WriteLine();
+                AnsiConsole.WriteLine();
+
+                AnsiConsole.Write(new Text("Selecteer een tijdstip:", new Style(Color.Yellow, Color.Black, Decoration.Bold)).Centered());
+
+                for (int i = 0; i < selectedMoviePlaytimes.Playtimes.Count; i++)
+                {
+                    if (i == choice)
+                    {
+                        AnsiConsole.Write(new Text(selectedMoviePlaytimes.Playtimes[i].DateTime.ToString("g") + " - Zaal: " + selectedMoviePlaytimes.Playtimes[i].Room, new Style(Color.Red, Color.Black)).Centered());
+                    }
+                    else
+                    {
+                        AnsiConsole.Write(new Text(selectedMoviePlaytimes.Playtimes[i].DateTime.ToString("g") + " - Zaal: " + selectedMoviePlaytimes.Playtimes[i].Room, new Style(Color.White, Color.Black)).Centered());
+                    }
+                }
+
+                AnsiConsole.WriteLine();
+                AnsiConsole.WriteLine();
+
+                if (choice == selectedMoviePlaytimes.Playtimes.Count)
+                {
+                    AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Grey)).Centered());
+                }
+                else
+                {
+                    AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
+                }
+
+            }
+            else
+            {
+                AnsiConsole.Markup("[red]Geen speeltijden gevonden voor deze film.[/]");
             }
 
-            table.Title($"[underline yellow]{selectedMovie.Title} Speeltijden[/]");
-            table.Border(TableBorder.Rounded);
-            AnsiConsole.Write(table);
 
-            var selectionPrompt = new SelectionPrompt<string>()
-                .Title("Selecteer een tijdstip:")
-                .PageSize(10).HighlightStyle(Style.Parse("red"));
+            var key = Console.ReadKey(true).Key;
 
-            foreach (var playtime in selectedMoviePlaytimes.Playtimes)
+            switch (key)
             {
-                selectionPrompt.AddChoice(playtime.DateTime.ToString("g") + " - Zaal: " + playtime.Room);
+                case ConsoleKey.UpArrow:
+                    choice--;
+                    choice = Math.Max(choice, 0);
+                    Style temp = style_x;
+                    style_x = style_y;
+                    style_y = temp;
+                    break;
+                case ConsoleKey.DownArrow:
+                    choice++;
+                    choice = Math.Min(choice, selectedMoviePlaytimes.Playtimes.Count);
+                    Style temp2 = style_x;
+                    style_x = style_y;
+                    style_y = temp2;
+                    break;
+                case ConsoleKey.Enter:
+                    if (choice == selectedMoviePlaytimes.Playtimes.Count)
+                    {
+                        Program.PreviousScreen();
+                    }
+                    else
+                    {
+                        selectedPlaytime = selectedMoviePlaytimes.Playtimes[choice];
+                        return;
+                    }
+                    break;
             }
-
-            var selectedOption = AnsiConsole.Prompt(selectionPrompt);
-            selectedPlaytime = selectedMoviePlaytimes.Playtimes.FirstOrDefault(p => p.DateTime.ToString("g") + " - Zaal: " + p.Room == selectedOption);
-            AnsiConsole.WriteLine($"Uw keuze: {selectedOption}");
         }
-        else
-        {
-            AnsiConsole.Markup("[red]Geen speeltijden gevonden voor deze film.[/]");
-        }
-
-        // Wait for user input to continue
-        AnsiConsole.WriteLine("\nDruk op een toets om door te gaan...");
-        Console.ReadKey();
     }
 
 

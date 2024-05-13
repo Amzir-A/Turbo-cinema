@@ -1,22 +1,21 @@
 using Spectre.Console;
 using Newtonsoft.Json;
 
-class ReservationSystem
+
+static class ReservationSystem
 {
     public static List<List<Seat>> Seats = LoadSeats();
-    List<Seat> SelectedSeats = new List<Seat>();
-    int x, y = 0;
-    Movie SelectedMovie;
-    Playtime selectedPlaytime;
+    static List<Seat> SelectedSeats = new List<Seat>();
+    static int x, y = 0;
+    public static Movie? SelectedMovie;
+    public static Playtime? SelectedPlaytime;
 
-    public ReservationSystem(Movie selectedMovie, Playtime selectedPlaytime)
+    static ReservationSystem()
     {
         NavigateSeats();
-        this.SelectedMovie = selectedMovie;
-        this.selectedPlaytime = selectedPlaytime;
     }
 
-    public void NavigateSeats()
+    static public void NavigateSeats()
     {
         DisplaySeats();
 
@@ -30,15 +29,39 @@ class ReservationSystem
                     y = Math.Max(0, y - 1);
                     break;
                 case ConsoleKey.DownArrow:
-                    y = Math.Min(Seats.Count - 1, y + 1);
+                    y = Math.Min(Seats.Count - 1 + 2, y + 1);
                     break;
                 case ConsoleKey.LeftArrow:
-                    x = Math.Max(0, x - 1);
+                    if (y < Seats.Count)
+                    {
+                        x = Math.Max(0, x - 1);
+                    }
                     break;
                 case ConsoleKey.RightArrow:
-                    x = Math.Min(Seats[y].Count - 1, x + 1);
+                    if (y < Seats.Count)
+                    {
+                        x = Math.Min(Seats[y].Count - 1, x + 1);
+                    }
                     break;
                 case ConsoleKey.Enter:
+
+                    if (y == Seats.Count)
+                    {
+                        if (SelectedSeats.Count > 0)
+                        {
+                            AnsiConsole.Clear();
+                            ProceedToPayment();
+                            return;
+                        }
+                        AnsiConsole.MarkupLine("[red]Geen stoel geselecteerd. Selecteer ten minste één stoel om door te gaan.[/]");
+                        break;
+                    }
+                    else if (y == Seats.Count + 1)
+                    {
+                        Program.PreviousScreen();
+                        return;
+                    }
+
                     Seat selectedSeat = Seats[y][x];
                     if (SelectedSeats.Contains(selectedSeat))
                     {
@@ -51,7 +74,6 @@ class ReservationSystem
                             if (SelectedSeats.Count < 5)
                             {
                                 SelectedSeats.Add(selectedSeat);
-                                selectedSeat.IsAvailable = false;
                             }
                             else
                             {
@@ -61,15 +83,6 @@ class ReservationSystem
                         }
                     }
                     break;
-
-                case ConsoleKey.Spacebar:
-                    if (SelectedSeats.Count > 0)
-                    {
-                        ProceedToPayment();
-                        return; 
-                    }
-                    AnsiConsole.MarkupLine("[red]Geen stoel geselecteerd. Selecteer ten minste één stoel om door te gaan.[/]");
-                    break;
             }
 
             DisplaySeats();
@@ -77,8 +90,7 @@ class ReservationSystem
     }
 
 
-
-    public void DisplaySeats()
+    static public void DisplaySeats()
     {
         AnsiConsole.Clear();
         AnsiConsole.Write(new Text("------------------------------ [ SCHERM ] ------------------------------", new Style(Color.Yellow, Color.Black)).Centered());
@@ -120,21 +132,22 @@ class ReservationSystem
 
         AnsiConsole.Write(tableSeats);
         AnsiConsole.WriteLine();
-        AnsiConsole.Write(new Text("[ Projector ]", new Style(Color.Yellow, Color.Black)).Centered());
 
-        AnsiConsole.WriteLine();
-        AnsiConsole.WriteLine("Druk op spatie om keuze te bevestigen.");
-    }
-    public static void SaveSeats()
-    {
-        string json = JsonConvert.SerializeObject(Seats, Formatting.Indented);
-        File.WriteAllText("Data/Reservations.json", json);
-    }
-
-
-    public int SelectSeats()
-    {
-        return 0;
+        if (y == Seats.Count)
+        {
+            AnsiConsole.Write(new Text("[ Doorgaan ]", new Style(Color.Yellow, Color.Grey)).Centered());
+            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
+        }
+        else if (y == Seats.Count + 1)
+        {
+            AnsiConsole.Write(new Text("[ Doorgaan ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Grey)).Centered());
+        }
+        else
+        {
+            AnsiConsole.Write(new Text("[ Doorgaan ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
+        }
     }
 
     public static List<List<Seat>> LoadSeats()
@@ -144,11 +157,12 @@ class ReservationSystem
         return seats ?? new List<List<Seat>>();
     }
 
-    public void ProceedToPayment()
+
+    public static void ProceedToPayment()
     {
-        if (SelectedMovie != null && selectedPlaytime != null)
+        if (SelectedMovie != null && SelectedPlaytime != null)
         {
-            Betaalscherm betaalscherm = new Betaalscherm(SelectedSeats, SelectedMovie, selectedPlaytime);
+            Betaalscherm betaalscherm = new Betaalscherm(SelectedSeats, SelectedMovie, SelectedPlaytime);
             betaalscherm.DisplayPaymentScreen();
         }
     }
