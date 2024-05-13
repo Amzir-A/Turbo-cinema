@@ -35,6 +35,7 @@ public static class MainScreen
                     break;
                 case "Afsluiten":
                     runApp = false;
+                    Environment.Exit(0);
                     break;
                 default:
                     AnsiConsole.MarkupLine("[red]Ongeldige keuze[/]");
