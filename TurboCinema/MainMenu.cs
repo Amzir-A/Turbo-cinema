@@ -2,8 +2,6 @@ using Spectre.Console;
 
 public static class MainScreen
 {
-    static string screenName = "Hoofd menu";
-
     public static void MainMenu()
     {
         bool runApp = true;
@@ -25,7 +23,7 @@ public static class MainScreen
             switch (keuze)
             {
                 case "Films/Reserveren":
-                    DisplayAndHandleMovies();
+                    Program.ShowScreen(DisplayAndHandleMovies);
                     break;
                 case "Inloggen/Registeren":
                     Program.ShowScreen(LoginScreen.LoginMenu);
@@ -54,22 +52,15 @@ public static class MainScreen
         Playtime selectedPlaytime = movieSelector.GetSelectedPlaytime(); // Haal de geselecteerde speeltijd op.
         AnsiConsole.Clear();
 
-        bool proceedToSeats = CE.Confirm(("Doorgaan naar stoelenselectie??"));
-        if (!proceedToSeats) return;
-
         // Logica voor het selecteren van stoelen hier.
-        var reservationSystem = new ReservationSystem(selectedMovie, selectedPlaytime); // Geef de geselecteerde film door aan het reserveringssysteem.
-        var selectedSeat = reservationSystem.SelectSeats();
+        ReservationSystem.SelectedMovie = selectedMovie;
+        ReservationSystem.SelectedPlaytime = selectedPlaytime;
 
-        bool proceedToPayment = CE.Confirm(("Doorgaan naar betaalscherm??"));
-        if (!proceedToPayment) return;
-
-        // Logica voor betaalscherm hier.
-        AnsiConsole.Clear();
-        reservationSystem.ProceedToPayment();
+        Program.ShowScreen(ReservationSystem.NavigateSeats);
 
         // Nadat de betaling is voltooid, vraag of ze opnieuw willen beginnen of willen afsluiten.
-        bool startOver = CE.Confirm(("Opnieuw beginnen met een nieuwe film??"));
+        bool startOver = CE.Confirm("Opnieuw beginnen met een nieuwe film??");
+
         if (!startOver)
         {
             Environment.Exit(0);

@@ -1,15 +1,16 @@
 ﻿using Newtonsoft.Json;
+using Spectre.Console;
 using System.Text;
 
 static class Program
 {
-    class ScreenState
+    public class ScreenState
     {
         public required Delegate ScreenDelegate { get; set; }
         public object[]? Arguments { get; set; }
     }
-
-    static Stack<ScreenState> screenHistory = new();
+  
+    public static List<ScreenState> screenHistory = new();
 
     public static void Main(string[] args)
     {
@@ -18,27 +19,43 @@ static class Program
     }
 <<<<<<< Updated upstream
 
-    public static void ShowScreen(Action screen)
+    public static void ShowScreen(object screen)
     {
-        screenHistory.Push(new ScreenState { ScreenDelegate = screen });
-        screen.Invoke();
+        if (screen is Delegate scrDelegate)
+        {
+            screenHistory.Add(new ScreenState { ScreenDelegate = scrDelegate });
+            scrDelegate.DynamicInvoke();
+        } else if (screen is Action scrAction)
+        {
+            screenHistory.Add(new ScreenState { ScreenDelegate = scrAction });
+            scrAction.Invoke();
+        }
     }
-    public static void ShowScreen<T>(Action<T> screen, T arg)
+    public static void ShowScreen(object screen, object[] arg)
     {
-        screenHistory.Push(new ScreenState { ScreenDelegate = screen, Arguments = new object[] { arg } });
-        screen.Invoke(arg);
+        if (screen is Delegate scrDelegate)
+        {
+            screenHistory.Add(new ScreenState { ScreenDelegate = scrDelegate, Arguments = arg });
+            scrDelegate.DynamicInvoke(arg);
+        } else if (screen is Action scrAction)
+        {
+            screenHistory.Add(new ScreenState { ScreenDelegate = scrAction, Arguments = arg });
+            scrAction.DynamicInvoke(arg);
+        }
     }
 
     public static void PreviousScreen()
     {
         if (screenHistory.Count > 1)
         {
-            screenHistory.Pop();
-            ScreenState previousScreen = screenHistory.Peek();
+            screenHistory.RemoveAt(screenHistory.Count - 1);
+            ScreenState previousScreen = screenHistory[^1];
+            screenHistory.RemoveAt(screenHistory.Count - 1);
+
             if (previousScreen.Arguments != null)
-                previousScreen.ScreenDelegate.DynamicInvoke(previousScreen.Arguments);
+                ShowScreen(previousScreen.ScreenDelegate, previousScreen.Arguments);
             else
-                previousScreen.ScreenDelegate.DynamicInvoke();
+                ShowScreen(previousScreen.ScreenDelegate);
         }
     }
 <<<<<<< HEAD

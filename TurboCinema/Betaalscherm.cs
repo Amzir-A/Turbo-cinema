@@ -101,21 +101,26 @@ public class Betaalscherm
             AnsiConsole.Markup($"[green]U heeft gekozen voor {methode}[/]\n\n");
         }
 
-
         Console.WriteLine($"Bedrag: €{totalPrice},00");
 
-        if (methode != "Contant")
+        if (methode != "Contant [grey](Op locatie)[/]")
         {
             if (CE.Confirm("Wilt u betalen?"))
             {
                 AnsiConsole.Clear();
                 CE.Wait("Verwerken betaling");
-                AnsiConsole.Markup("[green]Betaling gelukt![/]\n");
+                AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
             }
             else
             {
-                AnsiConsole.Markup("[red]Betaling geannuleerd.[/]\n");
+                AnsiConsole.Clear();
+                AnsiConsole.Markup("[red]Reservering canceled![/]\n");
             }
+        }
+        else
+        {
+            AnsiConsole.Clear();
+            AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
         }
     }
 

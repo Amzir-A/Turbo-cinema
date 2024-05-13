@@ -8,7 +8,7 @@ public class CE
         {
             Console.Write(message + " ");
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("ja, nee of terug (j/n/t): ");
+            Console.Write($"ja, nee of terug (j/n/t): ");
             Console.ResetColor();
 
             ConsoleKeyInfo key = Console.ReadKey();

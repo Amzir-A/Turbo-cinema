@@ -9,13 +9,20 @@ public static class LoginScreen
     {
         try
         {
-            if (CE.Confirm("Heeft u een account?"))
+            int Option = CE.ConfirmR("Heeft u een account?");
+            switch (Option)
             {
-                Login();
-            }
-            else
-            {
-                Register();
+                case 0:
+                    Login();
+                    break;
+                case 1:
+                    Register();
+                    break;
+                case 2:
+                    Program.PreviousScreen();
+                    break;
+                default:
+                    break;
             }
         }
         catch (Exception ex)
@@ -172,7 +179,8 @@ public static class LoginScreen
 
         return customers;
     }
-    public static void Login()
+
+  public static void Login()
     {
         List<Customer> customers = LoadCustomers("Data/AccountInfo.json");
 
@@ -200,6 +208,7 @@ public static class LoginScreen
                 .Expand()
                 .Padding(1, 1)
                 .SquareBorder());
+<<<<<<< HEAD
             
             AnsiConsole.MarkupLine("Wil je een reservatie annuleren? (ja/nee)");
             var cancelReservation = Console.ReadLine();
@@ -218,15 +227,16 @@ public static class LoginScreen
                 MainScreen.MainMenu();
 >>>>>>> main
             }
+=======
+>>>>>>> main
         }
         else
         {
             AnsiConsole.MarkupLine("[red]Login gefaald. Incorrecte email of wachtwoord.[/]");
-            // Optionally, return to the previous screen or main menu
-            Program.PreviousScreen();
         }
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD:TurboCinema/CustomerRegistration.cs
 <<<<<<< Updated upstream:TurboCinema/CustomerRegistration.cs
@@ -261,6 +271,8 @@ public static class LoginScreen
 >>>>>>> main
     }
 
+=======
+>>>>>>> main
     static void SaveCustomers(List<Customer> customers, string fileName)
 >>>>>>> Stashed changes:TurboCinema/LoginScreen.cs
 =======
