@@ -1,5 +1,7 @@
 // Console extension, extra functionaliteit voor het vragen om input in de console
 
+using Spectre.Console;
+
 public class CE
 {
     public static int ConfirmR(string message)
@@ -31,6 +33,11 @@ public class CE
                 Console.ResetColor();
             }
         }
+    }
+
+    public static void Clear()
+    {
+        Console.Clear();
     }
 
     public static bool Confirm(string message)
@@ -72,10 +79,6 @@ public class CE
         Console.WriteLine();
     }
 
-    public static void Clear()
-    {
-        Console.Clear();
-    }
     public static void WL()
     {
         Console.WriteLine();
