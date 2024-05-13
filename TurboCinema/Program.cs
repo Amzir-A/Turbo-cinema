@@ -9,7 +9,7 @@ static class Program
         public required Delegate ScreenDelegate { get; set; }
         public object[]? Arguments { get; set; }
     }
-
+  
     public static List<ScreenState> screenHistory = new();
 
     public static void Main(string[] args)

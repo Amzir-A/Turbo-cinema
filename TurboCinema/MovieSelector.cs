@@ -204,7 +204,6 @@ class MovieSelector
 
     public void DisplayMovieDetails(Movie selectedMovie)
     {
-
         int choice = 0;
         Style style_y = new Style(Color.Yellow, Color.Black);
         Style style_x = new Style(Color.Yellow, Color.Grey);

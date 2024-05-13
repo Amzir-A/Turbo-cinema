@@ -2,7 +2,6 @@ using Spectre.Console;
 
 public static class MainScreen
 {
-
     public static void MainMenu()
     {
         bool runApp = true;
@@ -61,6 +60,7 @@ public static class MainScreen
 
         // Nadat de betaling is voltooid, vraag of ze opnieuw willen beginnen of willen afsluiten.
         bool startOver = CE.Confirm("Opnieuw beginnen met een nieuwe film??");
+
         if (!startOver)
         {
             Environment.Exit(0);

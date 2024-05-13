@@ -180,7 +180,7 @@ public static class LoginScreen
         return customers;
     }
 
-    public static void Login()
+  public static void Login()
     {
         List<Customer> customers = LoadCustomers("Data/AccountInfo.json");
 

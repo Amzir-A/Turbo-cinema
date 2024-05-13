@@ -101,7 +101,6 @@ public class Betaalscherm
             AnsiConsole.Markup($"[green]U heeft gekozen voor {methode}[/]\n\n");
         }
 
-
         Console.WriteLine($"Bedrag: €{totalPrice},00");
 
         if (methode != "Contant [grey](Op locatie)[/]")

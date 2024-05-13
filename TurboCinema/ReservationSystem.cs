@@ -1,6 +1,7 @@
 using Spectre.Console;
 using Newtonsoft.Json;
 
+
 static class ReservationSystem
 {
     public static List<List<Seat>> Seats = LoadSeats();
@@ -89,7 +90,6 @@ static class ReservationSystem
     }
 
 
-
     static public void DisplaySeats()
     {
         AnsiConsole.Clear();
@@ -156,6 +156,7 @@ static class ReservationSystem
         List<List<Seat>>? seats = JsonConvert.DeserializeObject<List<List<Seat>>>(json);
         return seats ?? new List<List<Seat>>();
     }
+
 
     public static void ProceedToPayment()
     {

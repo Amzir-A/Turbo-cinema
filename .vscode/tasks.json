@@ -1,0 +1,14 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Copy Data Files",
+            "type": "shell",
+            "command": "cp",
+            "args": [
+                "TurboCinema/Data/*.*",
+                "TurboCinema/bin/Debug/net8.0/Data/"
+            ],
+        }
+    ]
+}
