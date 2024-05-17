@@ -5,11 +5,11 @@
     },
     {
       "ID": "Rij 1 - Stoel 2",
-      "IsAvailable": false
+      "IsAvailable": true
     },
     {
       "ID": "Rij 1 - Stoel 3",
-      "IsAvailable": false
+      "IsAvailable": true
     }],
     [{
       "ID": "Rij 2 - Stoel 1",

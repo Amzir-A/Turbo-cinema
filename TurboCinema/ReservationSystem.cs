@@ -1,22 +1,30 @@
 using Spectre.Console;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
-
-static class ReservationSystem
+public static class ReservationSystem
 {
-    public static List<List<Seat>> Seats = LoadSeats();
-    static List<Seat> SelectedSeats = new List<Seat>();
-    static int x, y = 0;
+    public static List<List<Seat>> Seats = new List<List<Seat>>();
+    private static List<Seat> SelectedSeats = new List<Seat>();
+    private static int x, y = 0;
     public static Movie? SelectedMovie;
     public static Playtime? SelectedPlaytime;
 
-    static ReservationSystem()
+    public static void NavigateSeats()
     {
-        NavigateSeats();
-    }
+        if (SelectedMovie != null && SelectedPlaytime != null)
+        {
+            Seats = LoadSeats(SelectedMovie.Title, SelectedPlaytime.DateTime);
+        }
+        else
+        {
+            AnsiConsole.MarkupLine("[red]Geen film of speeltijd geselecteerd.[/]");
+            return;
+        }
 
-    static public void NavigateSeats()
-    {
         DisplaySeats();
 
         while (true)
@@ -44,7 +52,6 @@ static class ReservationSystem
                     }
                     break;
                 case ConsoleKey.Enter:
-
                     if (y == Seats.Count)
                     {
                         if (SelectedSeats.Count > 0)
@@ -89,8 +96,7 @@ static class ReservationSystem
         }
     }
 
-
-    static public void DisplaySeats()
+    public static void DisplaySeats()
     {
         AnsiConsole.Clear();
         AnsiConsole.Write(new Text("------------------------------ [ SCHERM ] ------------------------------", new Style(Color.Yellow, Color.Black)).Centered());
@@ -150,13 +156,41 @@ static class ReservationSystem
         }
     }
 
-    public static List<List<Seat>> LoadSeats()
+    public static List<List<Seat>> LoadSeats(string movieTitle, DateTime playtime)
     {
-        string json = File.ReadAllText("Data/Reservations.json");
-        List<List<Seat>>? seats = JsonConvert.DeserializeObject<List<List<Seat>>>(json);
-        return seats ?? new List<List<Seat>>();
+        string json = File.ReadAllText("Data/MoviesAndPlaytimes.json");
+        var movies = JsonConvert.DeserializeObject<List<Movie>>(json);
+
+        var movie = movies.FirstOrDefault(m => m.Title == movieTitle);
+        if (movie != null)
+        {
+            var selectedPlaytime = movie.Playtimes.FirstOrDefault(p => p.DateTime == playtime);
+            if (selectedPlaytime != null)
+            {
+                return selectedPlaytime.Seats;
+            }
+        }
+        return new List<List<Seat>>();
     }
 
+    public static void SaveSeats(string movieTitle, DateTime playtime, List<List<Seat>> seats)
+    {
+        string json = File.ReadAllText("Data/MoviesAndPlaytimes.json");
+        var movies = JsonConvert.DeserializeObject<List<Movie>>(json);
+
+        var movie = movies.FirstOrDefault(m => m.Title == movieTitle);
+        if (movie != null)
+        {
+            var selectedPlaytime = movie.Playtimes.FirstOrDefault(p => p.DateTime == playtime);
+            if (selectedPlaytime != null)
+            {
+                selectedPlaytime.Seats = seats;
+            }
+        }
+
+        string updatedJson = JsonConvert.SerializeObject(movies, Formatting.Indented);
+        File.WriteAllText("Data/MoviesAndPlaytimes.json", updatedJson);
+    }
 
     public static void ProceedToPayment()
     {

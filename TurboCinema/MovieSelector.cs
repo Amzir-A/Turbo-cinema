@@ -2,10 +2,10 @@ using Spectre.Console;
 using Newtonsoft.Json;
 using System;
 using System.Text;
-using System.Dynamic;
 using System.Globalization;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.IO;
 
 class MovieSelector
 {
@@ -14,12 +14,12 @@ class MovieSelector
     static Style? SelectedStyle;
     private Playtime selectedPlaytime;
 
-
     public MovieSelector()
     {
         DisplayMovies();
         SelectMovie();
     }
+
     public Movie GetSelectedMovie()
     {
         return movies[selectedIndex];
@@ -29,6 +29,7 @@ class MovieSelector
     {
         return selectedPlaytime;
     }
+
     private void SelectMovie()
     {
         var sortCriteria = AnsiConsole.Prompt(
@@ -60,11 +61,9 @@ class MovieSelector
 
                     Movie selectedMovie = movies[selectedIndex];
 
+                    DisplayMovieDetails(selectedMovie);
 
-                    Program.ShowScreen(DisplayMovieDetails, [selectedMovie]);
-                    // DisplayMovieDetails(selectedMovie);
-
-                    Program.ShowScreen(DisplayMoviePlaytimes, [selectedMovie]);
+                    DisplayMoviePlaytimes(selectedMovie);
 
                     return; // Verlaat de lus na het tonen van de details en speeltijden.
             }
@@ -84,7 +83,7 @@ class MovieSelector
                     new SelectionPrompt<string>()
                     .Title("Selecteer een genre:")
                     .PageSize(13)
-                    .AddChoices(new[] { "Action", "Adventure","Biography", "Comedy", "Superhero", "Supernatural", "Drama", "Horror","Musical", "Mystery", "Romance", "Science fiction","Thriller"})
+                    .AddChoices(new[] { "Action", "Adventure", "Biography", "Comedy", "Superhero", "Supernatural", "Drama", "Horror", "Musical", "Mystery", "Romance", "Science fiction", "Thriller" })
                 );
                 sortedMovies = movies.Where(m => m.Genre.Contains(genre)).ToList();
                 break;
@@ -95,7 +94,7 @@ class MovieSelector
                 sortedMovies = movies.OrderByDescending(m =>
                 {
                     DateTime releaseDate;
-                    var dateFormats = new[] {"d-MM-yyyy", "dd-MM-yyyy"};
+                    var dateFormats = new[] { "d-MM-yyyy", "dd-MM-yyyy" };
                     if (DateTime.TryParseExact(m.Release, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out releaseDate))
                     {
                         return releaseDate;
@@ -124,8 +123,6 @@ class MovieSelector
         DisplayMovies();
     }
 
-
-
     public void DisplayMovies()
     {
         Console.Clear();
@@ -134,17 +131,14 @@ class MovieSelector
 
         if (movies?.Count > 0)
         {
-            // AnsiConsole.MarkupLine("[[bold yellow] Star Wars Movies [/]]");
             AnsiConsole.Write(new Text("[ Films ]", new Style(Color.Yellow, Color.Black)).Centered());
             AnsiConsole.WriteLine();
             AnsiConsole.WriteLine();
-
 
             var grid = new Table
             {
                 Border = TableBorder.SimpleHeavy,
                 BorderStyle = new Style(Color.Red),
-
             };
 
             grid.AddColumn(new TableColumn("[red]ID[/]").Centered());
@@ -154,11 +148,9 @@ class MovieSelector
             grid.AddColumn(new TableColumn("[red]Lengte[/]").Centered());
             grid.AddColumn(new TableColumn("[red]Genre[/]").Centered());
             grid.AddColumn(new TableColumn("[red]Leeftijd[/]").Centered());
-            // grid.AddColumn(new TableColumn("[red]Description[/]").Centered());
 
             for (int i = 0; i < movies.Count; i++)
             {
-
                 if (i == selectedIndex)
                 {
                     SelectedStyle = new Style(Color.White, Color.Black).Background(Color.Grey39);
@@ -172,12 +164,11 @@ class MovieSelector
                 grid.AddRow(new Text[]{
                     new Text((i + 1).ToString(), SelectedStyle).Centered(),
                     new Text(movie.Title, SelectedStyle).Centered(),
-                    new Text(movie.Release, SelectedStyle).Centered(),
+                                        new Text(movie.Release, SelectedStyle).Centered(),
                     new Text(movie.Director, SelectedStyle).Centered(),
                     new Text(movie.Duration, SelectedStyle).Centered(),
                     new Text(string.Join(", ", movie.Genre), SelectedStyle).Centered(),
-                    new Text(movie.AgeRating, SelectedStyle).Centered(),
-                    // new Text(movie.Description, SelectedStyle).Centered()
+                    new Text(movie.AgeRating.ToString(), SelectedStyle).Centered()
                 });
             }
 
@@ -193,7 +184,6 @@ class MovieSelector
             {
                 AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
             }
-
         }
         else
         {
@@ -201,19 +191,15 @@ class MovieSelector
         }
     }
 
-
     public void DisplayMovieDetails(Movie selectedMovie)
     {
         int choice = 0;
         Style style_y = new Style(Color.Yellow, Color.Black);
         Style style_x = new Style(Color.Yellow, Color.Grey);
 
-
         while (true)
         {
-            // Start with a clear screen
             AnsiConsole.Clear();
-            // behouden the TurboCinema header
             AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
 
             var details = new StringBuilder();
@@ -226,20 +212,16 @@ class MovieSelector
             details.AppendLine($"[bold]Cast:[/] {string.Join(", ", selectedMovie.Actors)}");
             details.AppendLine($"[bold]Beschrijving:[/] {selectedMovie.Description}");
 
-            //maak een panel with the details content
             var panel = new Panel(details.ToString())
                 .Expand()
                 .Border(BoxBorder.Rounded)
                 .BorderStyle(new Style(Color.Red))
                 .Padding(1, 2);
 
-            // Render de panel onder the header
             AnsiConsole.Write(panel);
 
-
-            AnsiConsole.Write(new Text($"[ Doorgaan ]",  style_x).Centered());
+            AnsiConsole.Write(new Text($"[ Doorgaan ]", style_x).Centered());
             AnsiConsole.Write(new Text($"[ Terug ]\n", style_y).Centered());
-
 
             var key = Console.ReadKey(true).Key;
 
@@ -273,18 +255,16 @@ class MovieSelector
         }
     }
 
-
     public void DisplayMoviePlaytimes(Movie selectedMovie)
     {
-        var playtimesJson = File.ReadAllText("Data/playtimes.json") ?? "";
-        var moviePlaytimesList = JsonConvert.DeserializeObject<List<MoviePlaytimes>>(playtimesJson);
+        string playtimesJson = File.ReadAllText("Data/MoviesAndPlaytimes.json") ?? "";
+        var moviePlaytimesList = JsonConvert.DeserializeObject<List<Movie>>(playtimesJson);
 
         var selectedMoviePlaytimes = moviePlaytimesList?.FirstOrDefault(mp => mp.Title.Equals(selectedMovie.Title, StringComparison.OrdinalIgnoreCase));
 
         int choice = 0;
         Style style_y = new Style(Color.Yellow, Color.Black);
         Style style_x = new Style(Color.Yellow, Color.Grey);
-
 
         while (true)
         {
@@ -341,7 +321,6 @@ class MovieSelector
                 AnsiConsole.Markup("[red]Geen speeltijden gevonden voor deze film.[/]");
             }
 
-
             var key = Console.ReadKey(true).Key;
 
             switch (key)
@@ -375,11 +354,9 @@ class MovieSelector
         }
     }
 
-
-
     public static List<Movie> LoadMovies()
     {
-        string json = File.ReadAllText("Data/Movies.json") ?? "";
+        string json = File.ReadAllText("Data/MoviesAndPlaytimes.json") ?? "";
         List<Movie>? movies = JsonConvert.DeserializeObject<List<Movie>>(json) ?? new List<Movie>();
         return movies;
     }
