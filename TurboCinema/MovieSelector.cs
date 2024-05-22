@@ -360,4 +360,5 @@ class MovieSelector
         List<Movie>? movies = JsonConvert.DeserializeObject<List<Movie>>(json) ?? new List<Movie>();
         return movies;
     }
+    
 }
