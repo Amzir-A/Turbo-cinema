@@ -8,6 +8,8 @@ public class Movie
     public List<string> Genre { get; set; }
     public string AgeRating { get; set; }
     public string Description { get; set; }
+    public List<Playtime> Playtimes { get; set; }
+
 
     public Movie(string title, string release, string director, List<string> actors, string duration, List<string> genre, string ageRating, string description)
     {

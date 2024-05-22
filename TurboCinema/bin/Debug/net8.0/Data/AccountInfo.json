@@ -1,0 +1,12 @@
+[
+  {
+    "ID": 1,
+    "FirstName": "sven",
+    "LastName": "doe",
+    "DateOfBirth": "2004-05-20T00:00:00",
+    "Email": "sven@1",
+    "Postcode": "3065",
+    "Password": "Joep1",
+    "Reservations": []
+  }
+]

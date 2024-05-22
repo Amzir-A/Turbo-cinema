@@ -15,6 +15,7 @@ public class Betaalscherm
         this.selectedPlaytime = selectedPlaytime;
     }
 
+
     public void DisplayPaymentScreen()
     {
         int totalPrice = this.selectedSeats.Count * SeatPrice;
@@ -31,6 +32,7 @@ public class Betaalscherm
                 ProcessPayment(totalPrice);
                 SaveReservation(customer, totalPrice, selectedPlaytime);
                 AnsiConsole.Markup("[green]Uw reservering is toegevoegd aan uw account.[/]");
+                
             }
             else
             {
@@ -110,6 +112,7 @@ public class Betaalscherm
                 AnsiConsole.Clear();
                 CE.Wait("Verwerken betaling");
                 AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
+                ReservationSystem.UpdateSeatsAvailability();
             }
             else
             {
@@ -121,6 +124,7 @@ public class Betaalscherm
         {
             AnsiConsole.Clear();
             AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
+            ReservationSystem.UpdateSeatsAvailability();
         }
     }
 
