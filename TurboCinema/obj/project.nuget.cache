@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zt4JWOpydV4BesZzPZVdG5yBJ60R++rqAemKInrHactsGHwN2N9Q3h24ZSzQvP6khQekrOQJcUOPrb08Lp02dw==",
+  "dgSpecHash": "tngNftI2vpHq6KtLOD+aAHQJSn2lcjvwrlxzFU/0nNbXtLc2qKUsGwhpk2sxWn2LzAwRiBnrHPGDMttX+gaJHg==",
   "success": true,
-  "projectFilePath": "c:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
+  "projectFilePath": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\svenv\\.nuget\\packages\\consolegui\\1.4.2\\consolegui.1.4.2.nupkg.sha512",
     "C:\\Users\\svenv\\.nuget\\packages\\figgle\\0.5.1\\figgle.0.5.1.nupkg.sha512",

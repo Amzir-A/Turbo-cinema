@@ -1,1 +1,28 @@
-[]
+[
+  {
+    "ID": 1,
+    "FirstName": "sven",
+    "LastName": "doe",
+    "DateOfBirth": "2004-05-20T00:00:00",
+    "Email": "Svenvm2004@gmail.com",
+    "Postcode": "3065hb",
+    "Password": "Joep1",
+    "Reservations": [
+      {
+        "MovieTitle": "Dune: Part Two",
+        "PlayTime": "2024-10-03T14:00:00",
+        "SelectedSeats": [
+          {
+            "ID": "Rij 1 - Stoel 1",
+            "IsAvailable": true
+          },
+          {
+            "ID": "Rij 2 - Stoel 1",
+            "IsAvailable": true
+          }
+        ],
+        "Room": "Hall 1"
+      }
+    ]
+  }
+]
