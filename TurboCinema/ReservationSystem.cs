@@ -73,6 +73,7 @@ public static class ReservationSystem
                     if (SelectedSeats.Contains(selectedSeat))
                     {
                         SelectedSeats.Remove(selectedSeat);
+                        
                     }
                     else
                     {
@@ -155,6 +156,20 @@ public static class ReservationSystem
             AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
         }
     }
+
+    public static void UpdateSeatsAvailability()
+    {
+        foreach (var seat in SelectedSeats)
+        {
+            seat.IsAvailable = false;
+        }
+
+        if (SelectedMovie != null && SelectedPlaytime != null)
+        {
+            SaveSeats(SelectedMovie.Title, SelectedPlaytime.DateTime, Seats);
+        }
+    }
+
 
     public static List<List<Seat>> LoadSeats(string movieTitle, DateTime playtime)
     {
