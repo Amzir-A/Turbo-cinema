@@ -248,9 +248,23 @@ public static class LoginScreen
 
         int reservationIndex = reservationTitles.IndexOf(selectedReservation);
         var reservationToCancel = customer.Reservations[reservationIndex];
-        customer.Reservations.Remove(reservationToCancel);
 
+
+        var movie = ReservationSystem.LoadSeats(reservationToCancel.MovieTitle, reservationToCancel.PlayTime);
+        foreach (var seat in reservationToCancel.SelectedSeats)
+        {
+            var seatToUpdate = movie.SelectMany(row => row).FirstOrDefault(s => s.ID == seat.ID);
+            if (seatToUpdate != null)
+            {
+                seatToUpdate.IsAvailable = true;
+            }
+        }
+        ReservationSystem.SaveSeats(reservationToCancel.MovieTitle, reservationToCancel.PlayTime, movie);
+
+        customer.Reservations.Remove(reservationToCancel);
         SaveCustomers(customers, "Data/AccountInfo.json");
+
         AnsiConsole.MarkupLine("[green]Reservering succesvol geannuleerd![/]");
-    }
+}
+
 }
