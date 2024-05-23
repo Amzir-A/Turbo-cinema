@@ -29,10 +29,7 @@ public class Betaalscherm
             Customer customer = FindCustomerByEmail(email);
             if (customer != null)
             {
-                ProcessPayment(totalPrice);
-                SaveReservation(customer, totalPrice, selectedPlaytime);
-                AnsiConsole.Markup("[green]Uw reservering is toegevoegd aan uw account.[/]");
-                
+                ProcessPayment(totalPrice, customer);
             }
             else
             {
@@ -42,12 +39,11 @@ public class Betaalscherm
         else
         {
             string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
-            ProcessPayment(totalPrice);
-            NoAccount(email, totalPrice);
+            ProcessPayment(totalPrice, null);
         }
     }
 
-    private void ProcessPayment(int totalPrice)
+    private void ProcessPayment(int totalPrice, Customer customer)
     {
         var methode = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
@@ -112,6 +108,11 @@ public class Betaalscherm
                 AnsiConsole.Clear();
                 CE.Wait("Verwerken betaling");
                 AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
+                if (customer != null)
+                {
+                    SaveReservation(customer, totalPrice, selectedPlaytime);
+                    AnsiConsole.Markup("[green]Uw reservering is toegevoegd aan uw account.[/]");
+                }
                 ReservationSystem.UpdateSeatsAvailability();
             }
             else
@@ -129,11 +130,27 @@ public class Betaalscherm
     }
 
 
+
     private Customer FindCustomerByEmail(string email)
     {
         var customers = LoadCustomers("Data/AccountInfo.json");
-        return customers.FirstOrDefault(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+        Customer customer = null;
+        
+        do
+        {
+            customer = customers.FirstOrDefault(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+
+            if (customer == null)
+            {
+                AnsiConsole.Markup("[red]Geen account gevonden met dat emailadres. Probeer opnieuw.[/]\n");
+                email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
+            }
+        }
+        while (customer == null);
+
+        return customer;
     }
+
 
     private void SaveReservation(Customer customer, int totalPrice, Playtime selectedPlaytime)
     {
