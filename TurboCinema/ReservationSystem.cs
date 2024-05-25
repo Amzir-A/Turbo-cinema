@@ -25,10 +25,25 @@ public static class ReservationSystem
             return;
         }
 
+        string unavailableMessage = string.Empty;
+        bool displayNoSeatsSelectedMessage = false;
+
         DisplaySeats();
 
         while (true)
         {
+            if (!string.IsNullOrEmpty(unavailableMessage))
+            {
+                AnsiConsole.MarkupLine(unavailableMessage);
+                unavailableMessage = string.Empty;
+            }
+
+            if (displayNoSeatsSelectedMessage)
+            {
+                AnsiConsole.MarkupLine("[red]Geen stoel geselecteerd. Selecteer ten minste één stoel om door te gaan.[/]");
+                displayNoSeatsSelectedMessage = false;
+            }
+
             var key = Console.ReadKey(true).Key;
 
             switch (key)
@@ -60,33 +75,40 @@ public static class ReservationSystem
                             ProceedToPayment();
                             return;
                         }
-                        AnsiConsole.MarkupLine("[red]Geen stoel geselecteerd. Selecteer ten minste één stoel om door te gaan.[/]");
-                        break;
+                        else
+                        {
+                            displayNoSeatsSelectedMessage = true;
+                        }
                     }
                     else if (y == Seats.Count + 1)
                     {
                         Program.PreviousScreen();
                         return;
                     }
-
-                    Seat selectedSeat = Seats[y][x];
-                    if (SelectedSeats.Contains(selectedSeat))
-                    {
-                        SelectedSeats.Remove(selectedSeat);
-                        
-                    }
                     else
                     {
-                        if (selectedSeat.IsAvailable)
+                        Seat selectedSeat = Seats[y][x];
+                        if (SelectedSeats.Contains(selectedSeat))
                         {
-                            if (SelectedSeats.Count < 5)
+                            SelectedSeats.Remove(selectedSeat);
+                        }
+                        else
+                        {
+                            if (selectedSeat.IsAvailable)
                             {
-                                SelectedSeats.Add(selectedSeat);
+                                if (SelectedSeats.Count < 5)
+                                {
+                                    SelectedSeats.Add(selectedSeat);
+                                }
+                                else
+                                {
+                                    AnsiConsole.MarkupLine("[red]U kunt maximaal 5 stoelen reserveren.[/]");
+                                    System.Threading.Thread.Sleep(2000);
+                                }
                             }
                             else
                             {
-                                AnsiConsole.MarkupLine("[red]U kunt maximaal 5 stoelen reserveren.[/]");
-                                System.Threading.Thread.Sleep(2000);
+                                unavailableMessage = "[red]Stoel niet beschikbaar[/]";
                             }
                         }
                     }

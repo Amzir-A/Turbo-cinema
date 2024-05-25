@@ -220,6 +220,13 @@ class MovieSelector
 
             AnsiConsole.Write(panel);
 
+            // Display the age verification message if AgeRating is 16 or higher
+            if (int.TryParse(selectedMovie.AgeRating, out int ageRating) && ageRating >= 16)
+            {
+                AnsiConsole.Markup("[red]Deze film is bestemd voor bezoekers boven de 16 jaar. Neem een identiteitsbewijs mee naar onze locatie zodat uw leeftijd geverifieerd kan worden.[/]");
+                AnsiConsole.WriteLine();
+            }
+
             AnsiConsole.Write(new Text($"[ Doorgaan ]", style_x).Centered());
             AnsiConsole.Write(new Text($"[ Terug ]\n", style_y).Centered());
 
