@@ -136,8 +136,8 @@ public class AccountRegistration
 
     private static bool IsValidEmail(string email)
     {
-        return email.Contains("@");
-    } 
+        return email.EndsWith("@gmail.com") || email.EndsWith("@hotmail.com") || email.EndsWith("@outlook.com");
+    }
         private List<Customer> LoadCustomers(string fileName)
         {
             List<Customer> customers;
