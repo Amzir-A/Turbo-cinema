@@ -47,16 +47,16 @@ public static class MainScreen
 
     public static void DisplayAndHandleMovies()
     {
-        MovieSelector movieSelector = new MovieSelector();
-        Movie selectedMovie = movieSelector.GetSelectedMovie(); // Haal de geselecteerde film op.
-        Playtime selectedPlaytime = movieSelector.GetSelectedPlaytime(); // Haal de geselecteerde speeltijd op.
+        // MovieSelector movieSelector = new MovieSelector();
+        Program.ShowScreen(MovieSelector.SelectMovie);
+        // Movie selectedMovie = movieSelector.GetSelectedMovie(); // Haal de geselecteerde film op.
+        // Playtime selectedPlaytime = movieSelector.GetSelectedPlaytime(); // Haal de geselecteerde speeltijd op.
         AnsiConsole.Clear();
 
         // Logica voor het selecteren van stoelen hier.
-        ReservationSystem.SelectedMovie = selectedMovie;
-        ReservationSystem.SelectedPlaytime = selectedPlaytime;
 
-        Program.ShowScreen(ReservationSystem.NavigateSeats);
+
+        
 
         // Nadat de betaling is voltooid, vraag of ze opnieuw willen beginnen of willen afsluiten.
         bool startOver = CE.Confirm("Opnieuw beginnen met een nieuwe film??");

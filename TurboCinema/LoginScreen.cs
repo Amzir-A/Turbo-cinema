@@ -182,7 +182,11 @@ public static class LoginScreen
         return email.EndsWith("@gmail.com") || email.EndsWith("@hotmail.com") || email.EndsWith("@outlook.com");
     }
 
+<<<<<<< HEAD
         private static List<Customer> LoadCustomers(string fileName)
+=======
+    private static List<Customer> LoadCustomers(string fileName)
+>>>>>>> 5c3a7939cca8f68acf2230204c5a61b36419dacd
         {
             List<Customer> customers;
 

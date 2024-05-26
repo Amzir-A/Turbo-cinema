@@ -19,28 +19,109 @@ public class Betaalscherm
     public void DisplayPaymentScreen()
     {
         int totalPrice = this.selectedSeats.Count * SeatPrice;
-        AnsiConsole.Markup($"U heeft gekozen voor de film: [green]{selectedMovie.Title}[/] op [green]{selectedPlaytime.DateTime}[/]\n");
-        AnsiConsole.Markup($"Totale prijs: €{totalPrice}\n");
 
-        bool hasAccount = CE.Confirm("Heeft u een account bij ons?");
-        if (hasAccount)
+        int choice = 0;
+
+        Style style_x = new Style(Color.Yellow, Color.Grey);
+        Style style_y = new Style(Color.Yellow, Color.Black);
+        Style style_z = new Style(Color.Yellow, Color.Black);
+
+        while (true)
         {
-            string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
-            Customer customer = FindCustomerByEmail(email);
-            if (customer != null)
+            AnsiConsole.Clear();
+            AnsiConsole.Markup($"U heeft gekozen voor de film: [green]{selectedMovie.Title}[/] op [green]{selectedPlaytime.DateTime}[/]\n");
+            AnsiConsole.Markup($"Totale prijs: €{totalPrice}\n");
+            AnsiConsole.WriteLine();
+            AnsiConsole.WriteLine();
+            // AnsiConsole.MarkupLine("[green]Wilt u inloggen of doorgaan zonder account?[/]");
+            AnsiConsole.Write(new Text("Wilt u inloggen of doorgaan zonder account?", new Style(Color.Green)).Centered());
+            AnsiConsole.Write(new Text($"[ Inloggen ]", style_x).Centered());
+            AnsiConsole.Write(new Text($"[ Doorgaan ]", style_y).Centered());
+            AnsiConsole.Write(new Text($"[ Terug ]\n", style_z).Centered());
+
+            var key = Console.ReadKey(true).Key;
+
+            switch (key)
             {
-                ProcessPayment(totalPrice, customer);
+                case ConsoleKey.UpArrow:
+                    choice = Math.Max(0, choice - 1);
+                    break;
+                case ConsoleKey.DownArrow:
+                    choice = Math.Min(2, choice + 1);
+                    break;
+                case ConsoleKey.Enter:
+                    AnsiConsole.Clear();
+
+                    if (choice == 0)
+                    {
+                        while (true)
+                        {
+                            string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
+                            Customer customer = FindCustomerByEmail(email);
+                            if (customer != null)
+                            {
+                                ProcessPayment(totalPrice, customer);
+                                break;
+                            }
+                            else
+                            {
+                                AnsiConsole.Markup("[red]Geen account gevonden met dat emailadres.[/]");
+                            }
+                        }
+                    }
+                    else if (choice == 1)
+                    {
+                        string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
+                        ProcessPayment(totalPrice, null);
+                    }
+                    else if (choice == 2)
+                    {
+                        Program.PreviousScreen();
+                    }
+
+                    return; 
             }
-            else
+
+            if (choice == 0)
             {
-                AnsiConsole.Markup("[red]Geen account gevonden met dat emailadres.[/]");
+                style_x = new Style(Color.Yellow, Color.Grey);
+                style_y = new Style(Color.Yellow, Color.Black);
+                style_z = new Style(Color.Yellow, Color.Black);
+            }
+            else if (choice == 1)
+            {
+                style_x = new Style(Color.Yellow, Color.Black);
+                style_y = new Style(Color.Yellow, Color.Grey);
+                style_z = new Style(Color.Yellow, Color.Black);
+            }
+            else if (choice == 2)
+            {
+                style_x = new Style(Color.Yellow, Color.Black);
+                style_y = new Style(Color.Yellow, Color.Black);
+                style_z = new Style(Color.Yellow, Color.Grey);
             }
         }
-        else
-        {
-            string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
-            ProcessPayment(totalPrice, null);
-        }
+
+        
+
+        // if (hasAccount)
+        // {
+        //     string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
+        //     Customer customer = FindCustomerByEmail(email);
+        //     if (customer != null)
+        //     {
+        //         ProcessPayment(totalPrice, customer);
+        //     }
+        //     else
+        //     {
+        //         AnsiConsole.Markup("[red]Geen account gevonden met dat emailadres.[/]");
+        //     }
+        // }
+        // else
+        // {
+        //     string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
+        //     ProcessPayment(totalPrice, null);
+        // }
     }
 
     private void ProcessPayment(int totalPrice, Customer customer)
