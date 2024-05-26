@@ -82,6 +82,9 @@ public static class ReservationSystem
                     }
                     else if (y == Seats.Count + 1)
                     {
+                        SelectedSeats = new List<Seat>();
+                        x = 0; y = 0;
+
                         Program.PreviousScreen();
                         return;
                     }
@@ -234,7 +237,8 @@ public static class ReservationSystem
         if (SelectedMovie != null && SelectedPlaytime != null)
         {
             Betaalscherm betaalscherm = new Betaalscherm(SelectedSeats, SelectedMovie, SelectedPlaytime);
-            betaalscherm.DisplayPaymentScreen();
+            SelectedSeats = new List<Seat>();
+            Program.ShowScreen(betaalscherm.DisplayPaymentScreen);
         }
     }
 }
