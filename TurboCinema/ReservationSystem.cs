@@ -72,7 +72,7 @@ public static class ReservationSystem
                         if (SelectedSeats.Count > 0)
                         {
                             AnsiConsole.Clear();
-                            ProceedToPayment();
+                            FoodAndDrinksScreen.Show();
                             return;
                         }
                         else
@@ -195,7 +195,6 @@ public static class ReservationSystem
         }
     }
 
-
     public static List<List<Seat>> LoadSeats(string movieTitle, DateTime playtime)
     {
         string json = File.ReadAllText("Data/MoviesAndPlaytimes.json");
@@ -236,9 +235,16 @@ public static class ReservationSystem
     {
         if (SelectedMovie != null && SelectedPlaytime != null)
         {
-            Betaalscherm betaalscherm = new Betaalscherm(SelectedSeats, SelectedMovie, SelectedPlaytime);
+            Betaalscherm betaalscherm = new Betaalscherm(SelectedSeats, SelectedMovie, SelectedPlaytime, FoodAndDrinksScreen.SelectedItems);
+            betaalscherm.DisplayPaymentScreen();
+
+            // Update seats availability after payment
+            UpdateSeatsAvailability();
+
+            // Show confirmation screen
+            ConfirmationScreen.Show(SelectedMovie, SelectedPlaytime, FoodAndDrinksScreen.SelectedItems);
+
             SelectedSeats = new List<Seat>();
-            Program.ShowScreen(betaalscherm.DisplayPaymentScreen);
         }
     }
 }

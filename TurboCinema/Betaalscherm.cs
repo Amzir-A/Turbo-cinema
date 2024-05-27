@@ -7,18 +7,24 @@ public class Betaalscherm
     private const int SeatPrice = 7;
     private Movie selectedMovie;
     private Playtime selectedPlaytime;
+    private List<(string, int, decimal)> selectedFoodAndDrinks;
 
-    public Betaalscherm(List<Seat> selectedSeats, Movie selectedMovie, Playtime selectedPlaytime)
+    public Betaalscherm(List<Seat> selectedSeats, Movie selectedMovie, Playtime selectedPlaytime, List<(string, int, decimal)> selectedFoodAndDrinks)
     {
         this.selectedSeats = selectedSeats;
         this.selectedMovie = selectedMovie;
         this.selectedPlaytime = selectedPlaytime;
+        this.selectedFoodAndDrinks = selectedFoodAndDrinks;
     }
-
 
     public void DisplayPaymentScreen()
     {
         int totalPrice = this.selectedSeats.Count * SeatPrice;
+
+        foreach (var item in selectedFoodAndDrinks)
+        {
+            totalPrice += (int)(item.Item2 * item.Item3);
+        }
 
         int choice = 0;
 
@@ -32,8 +38,20 @@ public class Betaalscherm
             AnsiConsole.Markup($"U heeft gekozen voor de film: [green]{selectedMovie.Title}[/] op [green]{selectedPlaytime.DateTime}[/]\n");
             AnsiConsole.Markup($"Totale prijs: €{totalPrice}\n");
             AnsiConsole.WriteLine();
+
+            AnsiConsole.MarkupLine("[bold]Geselecteerde stoelen:[/]");
+            foreach (var seat in selectedSeats)
+            {
+                AnsiConsole.MarkupLine($"[green]{seat.ID}[/]");
+            }
+
+            AnsiConsole.MarkupLine("[bold]Geselecteerde eten en drinken:[/]");
+            foreach (var item in selectedFoodAndDrinks)
+            {
+                AnsiConsole.MarkupLine($"[green]{item.Item1} - {item.Item2}x €{item.Item3}[/]");
+            }
+
             AnsiConsole.WriteLine();
-            // AnsiConsole.MarkupLine("[green]Wilt u inloggen of doorgaan zonder account?[/]");
             AnsiConsole.Write(new Text("Wilt u inloggen of doorgaan zonder account?", new Style(Color.Green)).Centered());
             AnsiConsole.Write(new Text($"[ Inloggen ]", style_x).Centered());
             AnsiConsole.Write(new Text($"[ Doorgaan ]", style_y).Centered());
@@ -71,7 +89,6 @@ public class Betaalscherm
                     }
                     else if (choice == 1)
                     {
-                        string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
                         ProcessPayment(totalPrice, null);
                     }
                     else if (choice == 2)
@@ -79,7 +96,7 @@ public class Betaalscherm
                         Program.PreviousScreen();
                     }
 
-                    return; 
+                    return;
             }
 
             if (choice == 0)
@@ -101,27 +118,6 @@ public class Betaalscherm
                 style_z = new Style(Color.Yellow, Color.Grey);
             }
         }
-
-        
-
-        // if (hasAccount)
-        // {
-        //     string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
-        //     Customer customer = FindCustomerByEmail(email);
-        //     if (customer != null)
-        //     {
-        //         ProcessPayment(totalPrice, customer);
-        //     }
-        //     else
-        //     {
-        //         AnsiConsole.Markup("[red]Geen account gevonden met dat emailadres.[/]");
-        //     }
-        // }
-        // else
-        // {
-        //     string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
-        //     ProcessPayment(totalPrice, null);
-        // }
     }
 
     private void ProcessPayment(int totalPrice, Customer customer)
@@ -139,21 +135,21 @@ public class Betaalscherm
         if (methode == "Ideal")
         {
             var bank = AnsiConsole.Prompt(
-            new SelectionPrompt<string>()
-                .Title("Selecteer [green]bank[/]?")
-                .PageSize(10)
-                .MoreChoicesText("[grey](Scroll omhoog of omlaag om meer banken te zien)[/]")
-                .AddChoices(new[] {
-                    "ABN AMRO",
-                    "ING Bank",
-                    "Rabobank",
-                    "SNS Bank",
-                    "ASN Bank",
-                    "RegioBank",
-                    "Triodos Bank",
-                    "Knab",
-                    "Bunq"
-                }));
+                new SelectionPrompt<string>()
+                    .Title("Selecteer [green]bank[/]?")
+                    .PageSize(10)
+                    .MoreChoicesText("[grey](Scroll omhoog of omlaag om meer banken te zien)[/]")
+                    .AddChoices(new[] {
+                        "ABN AMRO",
+                        "ING Bank",
+                        "Rabobank",
+                        "SNS Bank",
+                        "ASN Bank",
+                        "RegioBank",
+                        "Triodos Bank",
+                        "Knab",
+                        "Bunq"
+                    }));
 
             AnsiConsole.Markup($"[green]U heeft gekozen voor {methode} en {bank}[/]\n\n");
         }
@@ -210,13 +206,11 @@ public class Betaalscherm
         }
     }
 
-
-
     private Customer FindCustomerByEmail(string email)
     {
         var customers = LoadCustomers("Data/AccountInfo.json");
         Customer customer = null;
-        
+
         do
         {
             customer = customers.FirstOrDefault(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
@@ -232,10 +226,9 @@ public class Betaalscherm
         return customer;
     }
 
-
     private void SaveReservation(Customer customer, int totalPrice, Playtime selectedPlaytime)
     {
-        var reservation = new Reservation(selectedMovie.Title, selectedPlaytime.DateTime, selectedSeats, selectedPlaytime.Room);
+        var reservation = new Reservation(selectedMovie.Title, selectedPlaytime.DateTime, selectedSeats, selectedPlaytime.Room, selectedFoodAndDrinks);
         customer.Reservations.Add(reservation);
         SaveCustomers(customer, "Data/AccountInfo.json");
     }
@@ -272,7 +265,7 @@ public class Betaalscherm
             Email = email,
             Reservations = new List<Reservation>()
         };
-        var reservation = new Reservation(selectedMovie.Title, selectedPlaytime.DateTime, selectedSeats, selectedPlaytime.Room);
+        var reservation = new Reservation(selectedMovie.Title, selectedPlaytime.DateTime, selectedSeats, selectedPlaytime.Room, selectedFoodAndDrinks);
         nonAccountCustomer.Reservations.Add(reservation);
         SaveCustomers(nonAccountCustomer, "Data/AccountInfo.json");
     }
