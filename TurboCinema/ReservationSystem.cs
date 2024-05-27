@@ -8,7 +8,7 @@ using System.Linq;
 public static class ReservationSystem
 {
     public static List<List<Seat>> Seats = new List<List<Seat>>();
-    private static List<Seat> SelectedSeats = new List<Seat>();
+    public static List<Seat> SelectedSeats = new List<Seat>();
     private static int x, y = 0;
     public static Movie? SelectedMovie;
     public static Playtime? SelectedPlaytime;
