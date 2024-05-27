@@ -184,16 +184,20 @@ public static class ReservationSystem
 
     public static void UpdateSeatsAvailability()
     {
-        foreach (var seat in SelectedSeats)
+        if (SelectedSeats != null && SelectedSeats.Any())
         {
-            seat.IsAvailable = false;
-        }
+            foreach (var seat in SelectedSeats)
+            {
+                seat.IsAvailable = false;
+            }
 
-        if (SelectedMovie != null && SelectedPlaytime != null)
-        {
-            SaveSeats(SelectedMovie.Title, SelectedPlaytime.DateTime, Seats);
+            if (SelectedMovie != null && SelectedPlaytime != null)
+            {
+                SaveSeats(SelectedMovie.Title, SelectedPlaytime.DateTime, Seats);
+            }
         }
     }
+
 
 
     public static List<List<Seat>> LoadSeats(string movieTitle, DateTime playtime)

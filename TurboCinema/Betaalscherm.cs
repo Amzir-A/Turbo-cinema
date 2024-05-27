@@ -191,7 +191,7 @@ public class Betaalscherm
                 AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
                 if (customer != null)
                 {
-                    SaveReservation(customer, totalPrice, selectedPlaytime);
+                    SaveReservation(customer, totalPrice, selectedPlaytime, selectedSeats);
                     AnsiConsole.Markup("[green]Uw reservering is toegevoegd aan uw account.[/]");
                 }
                 ReservationSystem.UpdateSeatsAvailability();
@@ -233,12 +233,13 @@ public class Betaalscherm
     }
 
 
-    private void SaveReservation(Customer customer, int totalPrice, Playtime selectedPlaytime)
+    private void SaveReservation(Customer customer, int totalPrice, Playtime selectedPlaytime, List<Seat> selectedSeats)
     {
         var reservation = new Reservation(selectedMovie.Title, selectedPlaytime.DateTime, selectedSeats, selectedPlaytime.Room);
         customer.Reservations.Add(reservation);
         SaveCustomers(customer, "Data/AccountInfo.json");
     }
+
 
     private List<Customer> LoadCustomers(string fileName)
     {
