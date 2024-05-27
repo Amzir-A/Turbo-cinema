@@ -1,5 +1,10 @@
-using Spectre.Console;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Security.Cryptography;
 using System.Text.Json;
+using Spectre.Console;
 
 public static class LoginScreen
 {
@@ -112,7 +117,8 @@ public static class LoginScreen
                 AnsiConsole.MarkupLine("[red]Ongeldig wachtwoord. Het wachtwoord moet minstens 5 tekens lang zijn en minstens één hoofdletter en één cijfer bevatten.[/]");
             }
         } while (!IsValidPassword(password));
-        return password;
+
+        return HashPassword(password);
     }
 
     static bool IsValidPassword(string password)
@@ -144,6 +150,19 @@ public static class LoginScreen
 
         return hasCapital && hasNumber;
     }
+    static string HashPassword(string password)
+    {
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            StringBuilder builder = new StringBuilder();
+            foreach (byte b in bytes)
+            {
+                builder.Append(b.ToString("x2"));
+            }
+            return builder.ToString();
+        }
+    }
     static string ValidateEmail(string prompt)
     {
         string email;
@@ -158,27 +177,28 @@ public static class LoginScreen
         return email;
     }
 
-    static bool IsValidEmail(string email)
+    private static bool IsValidEmail(string email)
     {
-        return email.Contains("@");
+        return email.EndsWith("@gmail.com") || email.EndsWith("@hotmail.com") || email.EndsWith("@outlook.com");
     }
 
-    static List<Customer> LoadCustomers(string fileName)
-    {
-        List<Customer> customers;
+        private static List<Customer> LoadCustomers(string fileName)
 
-        if (File.Exists(fileName))
         {
-            string json = File.ReadAllText(fileName);
-            customers = JsonSerializer.Deserialize<List<Customer>>(json);
-        }
-        else
-        {
-            customers = new List<Customer>();
-        }
+            List<Customer> customers;
 
-        return customers;
-    }
+            if (File.Exists(fileName))
+            {
+                string json = File.ReadAllText(fileName);
+                customers = JsonSerializer.Deserialize<List<Customer>>(json);
+            }
+            else
+            {
+                customers = new List<Customer>();
+            }
+
+            return customers;
+        }
 
   public static void Login()
     {
@@ -186,11 +206,13 @@ public static class LoginScreen
 
         var email = AnsiConsole.Ask<string>("Voer je email in");
         var password = AnsiConsole.Prompt(
-            new TextPrompt<string>("Voer je password in")
+            new TextPrompt<string>("Voer je wachtwoord in")
                 .PromptStyle("red")
                 .Secret());
 
-        var customer = customers.Find(c => c.Email == email && c.Password == password);
+        string hashedPassword = HashPassword(password);
+
+        var customer = customers.Find(c => c.Email == email && c.Password == hashedPassword);
 
         if (customer != null)
         {
@@ -248,9 +270,23 @@ public static class LoginScreen
 
         int reservationIndex = reservationTitles.IndexOf(selectedReservation);
         var reservationToCancel = customer.Reservations[reservationIndex];
-        customer.Reservations.Remove(reservationToCancel);
 
+
+        var movie = ReservationSystem.LoadSeats(reservationToCancel.MovieTitle, reservationToCancel.PlayTime);
+        foreach (var seat in reservationToCancel.SelectedSeats)
+        {
+            var seatToUpdate = movie.SelectMany(row => row).FirstOrDefault(s => s.ID == seat.ID);
+            if (seatToUpdate != null)
+            {
+                seatToUpdate.IsAvailable = true;
+            }
+        }
+        ReservationSystem.SaveSeats(reservationToCancel.MovieTitle, reservationToCancel.PlayTime, movie);
+
+        customer.Reservations.Remove(reservationToCancel);
         SaveCustomers(customers, "Data/AccountInfo.json");
+
         AnsiConsole.MarkupLine("[green]Reservering succesvol geannuleerd![/]");
-    }
+}
+
 }

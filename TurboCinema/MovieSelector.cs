@@ -7,31 +7,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-class MovieSelector
+static class MovieSelector
 {
-    List<Movie>? movies = LoadMovies();
+    static List<Movie>? movies = LoadMovies();
     static int selectedIndex = 0;
     static Style? SelectedStyle;
-    private Playtime selectedPlaytime;
+    private static Playtime selectedPlaytime;
 
-    public MovieSelector()
-    {
-        DisplayMovies();
-        SelectMovie();
-    }
-
-    public Movie GetSelectedMovie()
+    public static Movie GetSelectedMovie()
     {
         return movies[selectedIndex];
     }
 
-    public Playtime GetSelectedPlaytime()
+    public static Playtime GetSelectedPlaytime()
     {
         return selectedPlaytime;
     }
 
-    private void SelectMovie()
+    public static void SelectMovie()
     {
+        DisplayMovies();
+
         var sortCriteria = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
             .Title("Hoe wilt u de films sorteren?")
@@ -61,9 +57,8 @@ class MovieSelector
 
                     Movie selectedMovie = movies[selectedIndex];
 
-                    DisplayMovieDetails(selectedMovie);
-
-                    DisplayMoviePlaytimes(selectedMovie);
+                    Program.ShowScreen(DisplayMovieDetails, [selectedMovie]);
+                    Program.ShowScreen(DisplayMoviePlaytimes, [selectedMovie]);
 
                     return; // Verlaat de lus na het tonen van de details en speeltijden.
             }
@@ -72,7 +67,7 @@ class MovieSelector
         }
     }
 
-    public void DisplaySortedMovies(string sortBy)
+    public static void DisplaySortedMovies(string sortBy)
     {
         List<Movie> sortedMovies = new List<Movie>();
 
@@ -123,7 +118,7 @@ class MovieSelector
         DisplayMovies();
     }
 
-    public void DisplayMovies()
+    public static void DisplayMovies()
     {
         Console.Clear();
         AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
@@ -191,7 +186,7 @@ class MovieSelector
         }
     }
 
-    public void DisplayMovieDetails(Movie selectedMovie)
+    public static void DisplayMovieDetails(Movie selectedMovie)
     {
         int choice = 0;
         Style style_y = new Style(Color.Yellow, Color.Black);
@@ -219,6 +214,13 @@ class MovieSelector
                 .Padding(1, 2);
 
             AnsiConsole.Write(panel);
+
+            // Display the age verification message if AgeRating is 16 or higher
+            if (int.TryParse(selectedMovie.AgeRating, out int ageRating) && ageRating >= 16)
+            {
+                AnsiConsole.Markup("[red]Deze film is bestemd voor bezoekers boven de 16 jaar. Neem een identiteitsbewijs mee naar onze locatie zodat uw leeftijd geverifieerd kan worden.[/]");
+                AnsiConsole.WriteLine();
+            }
 
             AnsiConsole.Write(new Text($"[ Doorgaan ]", style_x).Centered());
             AnsiConsole.Write(new Text($"[ Terug ]\n", style_y).Centered());
@@ -255,7 +257,7 @@ class MovieSelector
         }
     }
 
-    public void DisplayMoviePlaytimes(Movie selectedMovie)
+    public static void DisplayMoviePlaytimes(Movie selectedMovie)
     {
         string playtimesJson = File.ReadAllText("Data/MoviesAndPlaytimes.json") ?? "";
         var moviePlaytimesList = JsonConvert.DeserializeObject<List<Movie>>(playtimesJson);
@@ -347,6 +349,11 @@ class MovieSelector
                     else
                     {
                         selectedPlaytime = selectedMoviePlaytimes.Playtimes[choice];
+                        
+                        ReservationSystem.SelectedMovie = selectedMovie;
+                        ReservationSystem.SelectedPlaytime = selectedPlaytime;
+
+                        Program.ShowScreen(ReservationSystem.NavigateSeats);
                         return;
                     }
                     break;
