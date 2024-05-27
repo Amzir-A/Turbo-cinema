@@ -31,7 +31,7 @@ static class MovieSelector
         var sortCriteria = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
             .Title("Hoe wilt u de films sorteren?")
-            .AddChoices(new[] { "Genre", "Release Date", "Duration", "Doorgaan zonder sorteren" }));
+            .AddChoices(new[] { "Genre", "Publicatie datum", "Lengte", "Doorgaan zonder sorteren" }));
 
         DisplaySortedMovies(sortCriteria);
         DisplayMovies();
@@ -86,7 +86,7 @@ static class MovieSelector
             // case "actor":
             //     sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
                 //break;
-            case "release date":
+            case "Publicatie datum":
                 sortedMovies = movies.OrderByDescending(m =>
                 {
                     DateTime releaseDate;
@@ -98,7 +98,7 @@ static class MovieSelector
                     return DateTime.MinValue;
                 }).ToList();
                 break;
-            case "duration":
+            case "Lengte":
                 sortedMovies = movies.OrderByDescending(m =>
                 {
                     if (!int.TryParse(m.Duration.Split(' ')[0], out int duration))
