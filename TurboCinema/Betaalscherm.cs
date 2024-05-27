@@ -93,6 +93,8 @@ public class Betaalscherm
                     }
                     else if (choice == 2)
                     {
+                        ReservationSystem.SelectedSeats = new List<Seat>();
+                        selectedSeats = new List<Seat>();
                         Program.PreviousScreen();
                     }
 

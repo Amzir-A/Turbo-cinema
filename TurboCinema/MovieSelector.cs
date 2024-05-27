@@ -52,6 +52,7 @@ static class MovieSelector
 
                     if (selectedIndex == movies.Count)
                     {
+                        movies = LoadMovies();
                         Program.PreviousScreen();
                     }
 
@@ -246,6 +247,7 @@ static class MovieSelector
                 case ConsoleKey.Enter:
                     if (choice == 1)
                     {
+                        movies = LoadMovies();
                         Program.PreviousScreen();
                     }
                     else
