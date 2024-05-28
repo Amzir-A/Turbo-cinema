@@ -1,14 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-<<<<<<< HEAD
-using System.Text;
-using System.Security.Cryptography;
-=======
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
->>>>>>> main
 using System.Text.Json;
 using Spectre.Console;
 
@@ -158,10 +153,7 @@ public static class LoginScreen
 
         return hasCapital && hasNumber;
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> main
     static string HashPassword(string password)
     {
         using (SHA256 sha256 = SHA256.Create())
@@ -175,10 +167,7 @@ public static class LoginScreen
             return builder.ToString();
         }
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> main
     static string ValidateEmail(string prompt)
     {
         string email;
@@ -198,29 +187,22 @@ public static class LoginScreen
         return email.EndsWith("@gmail.com") || email.EndsWith("@hotmail.com") || email.EndsWith("@outlook.com");
     }
 
-<<<<<<< HEAD
-        static List<Customer> LoadCustomers(string fileName)
-=======
     private static List<Customer> LoadCustomers(string fileName)
     {
         List<Customer> customers;
->>>>>>> main
 
+        if (File.Exists(fileName))
         {
-            List<Customer> customers;
-
-            if (File.Exists(fileName))
-            {
-                string json = File.ReadAllText(fileName);
-                customers = JsonSerializer.Deserialize<List<Customer>>(json);
-            }
-            else
-            {
-                customers = new List<Customer>();
-            }
-
-            return customers;
+            string json = File.ReadAllText(fileName);
+            customers = JsonSerializer.Deserialize<List<Customer>>(json);
         }
+        else
+        {
+            customers = new List<Customer>();
+        }
+
+        return customers;
+    }
 
     public static void Login()
     {

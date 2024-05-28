@@ -63,7 +63,7 @@ public static class MainScreen
         var numRows = AnsiConsole.Ask<int>("Voer het aantal rijen in:");
         var numSeatsPerRow = AnsiConsole.Ask<int>("Voer het aantal stoelen per rij in:");
 
-        string moviesFilePath = "path_to_MoviesAndPlaytimes.json";
+        string moviesFilePath = "Data/MoviesAndPlaytimes.json";
         Admin admin = new Admin(moviesFilePath);
         admin.SetHallSize(hallName, numRows, numSeatsPerRow);
 
