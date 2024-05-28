@@ -1,4 +1,5 @@
 using Spectre.Console;
+using System;
 
 public static class MainScreen
 {
@@ -12,13 +13,12 @@ public static class MainScreen
             AnsiConsole.Write(new Rule("Welkom bij TurboCinema!").Centered().RuleStyle("red dim"));
             CE.WL();
 
-
-            // Toon het hoofdmenu en laat de gebruiker een keuze maken.
             var keuze = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Hoofdmenu")
-                    .PageSize(10).HighlightStyle(Style.Parse("red"))
-                    .AddChoices(["Films/Reserveren", "Inloggen/Registeren", "Afsluiten"]));
+                    .PageSize(10)
+                    .HighlightStyle(Style.Parse("red"))
+                    .AddChoices("Films/Reserveren", "Inloggen/Registeren", "Admin", "Afsluiten"));
 
             switch (keuze)
             {
@@ -27,6 +27,9 @@ public static class MainScreen
                     break;
                 case "Inloggen/Registeren":
                     Program.ShowScreen(LoginScreen.LoginMenu);
+                    break;
+                case "Admin":
+                    Program.ShowScreen(AdminMenu);
                     break;
                 case "Afsluiten":
                     runApp = false;
@@ -41,28 +44,31 @@ public static class MainScreen
         }
     }
 
-
-
     public static void DisplayAndHandleMovies()
     {
-        // MovieSelector movieSelector = new MovieSelector();
         MovieSelector.SelectMovie();
-        // Program.ShowScreen(MovieSelector.SelectMovie);
-        // Movie selectedMovie = movieSelector.GetSelectedMovie(); // Haal de geselecteerde film op.
-        // Playtime selectedPlaytime = movieSelector.GetSelectedPlaytime(); // Haal de geselecteerde speeltijd op.
         AnsiConsole.Clear();
 
-        // Logica voor het selecteren van stoelen hier.
-
-
-        
-
-        // Nadat de betaling is voltooid, vraag of ze opnieuw willen beginnen of willen afsluiten.
-        bool startOver = CE.Confirm("Opnieuw beginnen met een nieuwe film??");
-
+        bool startOver = CE.Confirm("Opnieuw beginnen met een nieuwe film?");
         if (!startOver)
         {
             Environment.Exit(0);
         }
+    }
+
+    public static void AdminMenu()
+    {
+        AnsiConsole.Write(new FigletText("Admin Menu").Centered().Color(Color.Blue));
+        var hallName = AnsiConsole.Ask<string>("Voer de naam van de zaal in:");
+        var numRows = AnsiConsole.Ask<int>("Voer het aantal rijen in:");
+        var numSeatsPerRow = AnsiConsole.Ask<int>("Voer het aantal stoelen per rij in:");
+
+        string moviesFilePath = "Data/MoviesAndPlaytimes.json";
+        Admin admin = new Admin(moviesFilePath);
+        admin.SetHallSize(hallName, numRows, numSeatsPerRow);
+
+        AnsiConsole.MarkupLine($"[green]De configuratie van {hallName} is succesvol bijgewerkt naar {numRows} rijen en {numSeatsPerRow} stoelen per rij.[/]");
+        CE.PressAnyKey();
+        Program.PreviousScreen();
     }
 }
