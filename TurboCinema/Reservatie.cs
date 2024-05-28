@@ -1,15 +1,17 @@
 public class Reservation
 {
     public string MovieTitle { get; set; }
-    public DateTime PlayTime { get; set; }
-    public List<Seat> SelectedSeats { get; set; }
-    public string? Room { get; set; }
+    public DateTime Playtime { get; set; }
+    public List<Seat> Seats { get; set; }
+    public string Room { get; set; }
+    public List<(string, int, decimal)> FoodAndDrinks { get; set; }
 
-    public Reservation(string movieTitle, DateTime playTime, List<Seat> selectedSeats, string? room)
+    public Reservation(string movieTitle, DateTime playtime, List<Seat> seats, string room, List<(string, int, decimal)> foodAndDrinks)
     {
         MovieTitle = movieTitle;
-        PlayTime = playTime;
-        SelectedSeats = selectedSeats;
+        Playtime = playtime;
+        Seats = seats;
         Room = room;
+        FoodAndDrinks = foodAndDrinks;
     }
 }

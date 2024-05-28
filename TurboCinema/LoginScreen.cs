@@ -1,8 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+<<<<<<< HEAD
 using System.Text;
 using System.Security.Cryptography;
+=======
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+>>>>>>> main
 using System.Text.Json;
 using Spectre.Console;
 
@@ -59,12 +65,12 @@ public static class LoginScreen
             Postcode = postcode,
             Password = password,
             Reservations = new List<Reservation>()
-            };
+        };
 
         customers.Add(newCustomer);
         SaveCustomers(customers, "Data/AccountInfo.json");
-
     }
+
     static string ValidateName(string prompt)
     {
         string name;
@@ -78,6 +84,7 @@ public static class LoginScreen
         } while (!IsValidName(name));
         return name;
     }
+
     static bool IsValidName(string name)
     {
         foreach (char c in name)
@@ -103,6 +110,7 @@ public static class LoginScreen
         } while (dateOfBirth == DateTime.MinValue);
         return dateOfBirth;
     }
+
     static string ValidatePassword()
     {
         string password;
@@ -150,6 +158,10 @@ public static class LoginScreen
 
         return hasCapital && hasNumber;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
     static string HashPassword(string password)
     {
         using (SHA256 sha256 = SHA256.Create())
@@ -163,6 +175,10 @@ public static class LoginScreen
             return builder.ToString();
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
     static string ValidateEmail(string prompt)
     {
         string email;
@@ -182,7 +198,13 @@ public static class LoginScreen
         return email.EndsWith("@gmail.com") || email.EndsWith("@hotmail.com") || email.EndsWith("@outlook.com");
     }
 
+<<<<<<< HEAD
         static List<Customer> LoadCustomers(string fileName)
+=======
+    private static List<Customer> LoadCustomers(string fileName)
+    {
+        List<Customer> customers;
+>>>>>>> main
 
         {
             List<Customer> customers;
@@ -200,7 +222,7 @@ public static class LoginScreen
             return customers;
         }
 
-  public static void Login()
+    public static void Login()
     {
         List<Customer> customers = LoadCustomers("Data/AccountInfo.json");
 
@@ -218,7 +240,7 @@ public static class LoginScreen
         {
             AnsiConsole.MarkupLine("[green]Je bent succesvol ingelogd![/]");
             string reservationInfo = string.Join("\n", customer.Reservations.Select(r =>
-            $"- {r.MovieTitle} op {r.PlayTime:g} in zaal: {r.Room} met de stoelen {string.Join(", ", r.SelectedSeats.Select(s => s.ID))}"));
+            $"- {r.MovieTitle} op {r.Playtime:g} in zaal: {r.Room} met de stoelen {string.Join(", ", r.Seats.Select(s => s.ID))}"));
 
             AnsiConsole.Write(new Panel(new Markup(
                 $"[bold]Voornaam:[/] {customer.FirstName}\n" +
@@ -253,6 +275,7 @@ public static class LoginScreen
         string json = JsonSerializer.Serialize(customers, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(fileName, json);
     }
+
     private static void CancelReservation(Customer customer, List<Customer> customers)
     {
         if (customer.Reservations.Count == 0)
@@ -261,7 +284,7 @@ public static class LoginScreen
             return;
         }
 
-        var reservationTitles = customer.Reservations.Select((r, index) => $"{index + 1}. {r.MovieTitle} op {r.PlayTime:g}").ToList();
+        var reservationTitles = customer.Reservations.Select((r, index) => $"{index + 1}. {r.MovieTitle} op {r.Playtime:g}").ToList();
         var selectedReservation = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("Selecteer een reservering om te annuleren")
@@ -271,9 +294,8 @@ public static class LoginScreen
         int reservationIndex = reservationTitles.IndexOf(selectedReservation);
         var reservationToCancel = customer.Reservations[reservationIndex];
 
-
-        var movie = ReservationSystem.LoadSeats(reservationToCancel.MovieTitle, reservationToCancel.PlayTime);
-        foreach (var seat in reservationToCancel.SelectedSeats)
+        var movie = ReservationSystem.LoadSeats(reservationToCancel.MovieTitle, reservationToCancel.Playtime);
+        foreach (var seat in reservationToCancel.Seats)
         {
             var seatToUpdate = movie.SelectMany(row => row).FirstOrDefault(s => s.ID == seat.ID);
             if (seatToUpdate != null)
@@ -281,12 +303,11 @@ public static class LoginScreen
                 seatToUpdate.IsAvailable = true;
             }
         }
-        ReservationSystem.SaveSeats(reservationToCancel.MovieTitle, reservationToCancel.PlayTime, movie);
+        ReservationSystem.SaveSeats(reservationToCancel.MovieTitle, reservationToCancel.Playtime, movie);
 
         customer.Reservations.Remove(reservationToCancel);
         SaveCustomers(customers, "Data/AccountInfo.json");
 
         AnsiConsole.MarkupLine("[green]Reservering succesvol geannuleerd![/]");
-}
-
+    }
 }

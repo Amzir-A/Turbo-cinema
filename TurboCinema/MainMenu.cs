@@ -18,7 +18,7 @@ public static class MainScreen
                 new SelectionPrompt<string>()
                     .Title("Hoofdmenu")
                     .PageSize(10).HighlightStyle(Style.Parse("red"))
-                    .AddChoices(["Films/Reserveren", "Inloggen/Registeren", "Menukaart bioscoop", "Afsluiten"]));
+                    .AddChoices(["Films/Reserveren", "Inloggen/Registeren", "Afsluiten"]));
 
             switch (keuze)
             {
@@ -28,11 +28,9 @@ public static class MainScreen
                 case "Inloggen/Registeren":
                     Program.ShowScreen(LoginScreen.LoginMenu);
                     break;
-                case "Menukaart bioscoop":
-                    // Implementeer logica voor menukaart hier.
-                    break;
                 case "Afsluiten":
                     runApp = false;
+                    Environment.Exit(0);
                     break;
                 default:
                     AnsiConsole.MarkupLine("[red]Ongeldige keuze[/]");
@@ -47,16 +45,17 @@ public static class MainScreen
 
     public static void DisplayAndHandleMovies()
     {
-        MovieSelector movieSelector = new MovieSelector();
-        Movie selectedMovie = movieSelector.GetSelectedMovie(); // Haal de geselecteerde film op.
-        Playtime selectedPlaytime = movieSelector.GetSelectedPlaytime(); // Haal de geselecteerde speeltijd op.
+        // MovieSelector movieSelector = new MovieSelector();
+        MovieSelector.SelectMovie();
+        // Program.ShowScreen(MovieSelector.SelectMovie);
+        // Movie selectedMovie = movieSelector.GetSelectedMovie(); // Haal de geselecteerde film op.
+        // Playtime selectedPlaytime = movieSelector.GetSelectedPlaytime(); // Haal de geselecteerde speeltijd op.
         AnsiConsole.Clear();
 
         // Logica voor het selecteren van stoelen hier.
-        ReservationSystem.SelectedMovie = selectedMovie;
-        ReservationSystem.SelectedPlaytime = selectedPlaytime;
 
-        Program.ShowScreen(ReservationSystem.NavigateSeats);
+
+        
 
         // Nadat de betaling is voltooid, vraag of ze opnieuw willen beginnen of willen afsluiten.
         bool startOver = CE.Confirm("Opnieuw beginnen met een nieuwe film??");
