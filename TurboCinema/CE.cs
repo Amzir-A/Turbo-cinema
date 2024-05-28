@@ -1,5 +1,3 @@
-// Console extension, extra functionaliteit voor het vragen om input in de console
-
 public class CE
 {
     public static int ConfirmR(string message)
@@ -20,7 +18,8 @@ public class CE
             else if (key.Key == ConsoleKey.N)
             {
                 return 1;
-            } else if (key.Key == ConsoleKey.T)
+            }
+            else if (key.Key == ConsoleKey.T)
             {
                 return 2;
             }
@@ -76,6 +75,7 @@ public class CE
     {
         Console.Clear();
     }
+
     public static void WL()
     {
         Console.WriteLine();
@@ -84,5 +84,10 @@ public class CE
     public static void WL(string message)
     {
         Console.WriteLine(message);
+    }
+        public static void PressAnyKey()
+    {
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
     }
 }
