@@ -62,10 +62,4 @@ static class Program
                 ShowScreen(previousScreen.ScreenDelegate);
         }
     }
-
-    static List<Movie> LoadMovies(string filePath)
-    {
-        var json = File.ReadAllText(filePath);
-        return JsonConvert.DeserializeObject<List<Movie>>(json);
-    }
 }
