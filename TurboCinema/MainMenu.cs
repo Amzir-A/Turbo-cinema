@@ -18,7 +18,7 @@ public static class MainScreen
                     .Title("Hoofdmenu")
                     .PageSize(10)
                     .HighlightStyle(Style.Parse("red"))
-                    .AddChoices("Films/Reserveren", "Inloggen/Registeren", "Zaal Configureren", "Afsluiten"));
+                    .AddChoices("Films/Reserveren", "Inloggen/Registeren", "Admin", "Afsluiten"));
 
             switch (keuze)
             {
@@ -28,7 +28,7 @@ public static class MainScreen
                 case "Inloggen/Registeren":
                     Program.ShowScreen(LoginScreen.LoginMenu);
                     break;
-                case "Zaal Configureren":
+                case "Admin":
                     Program.ShowScreen(AdminMenu);
                     break;
                 case "Afsluiten":
