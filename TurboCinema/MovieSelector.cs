@@ -31,11 +31,7 @@ static class MovieSelector
         var sortCriteria = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
             .Title("Hoe wilt u de films sorteren?")
-<<<<<<< HEAD
-            .AddChoices(new[] { "Genre", "Publicatie", "Lengte", "Doorgaan zonder sorteren" }));
-=======
             .AddChoices(new[] { "Genre", "Actor", "Release Date", "Duration", "Doorgaan zonder sorteren" }));
->>>>>>> test
 
         DisplaySortedMovies(sortCriteria);
         DisplayMovies();
@@ -82,50 +78,45 @@ static class MovieSelector
                     new SelectionPrompt<string>()
                     .Title("Selecteer een genre:")
                     .PageSize(13)
-                    .AddChoices(new[] { "Actie", "Avontuur", "Biografie", "Comedy", "Superhero", "Supernatural", "Drama", "Horror", "Musical", "Mystery", "Romantiek", "Science fiction", "Thriller" })
+                    .AddChoices(new[] { "Action", "Adventure", "Biography", "Comedy", "Superhero", "Supernatural", "Drama", "Horror", "Musical", "Mystery", "Romance", "Science fiction", "Thriller" })
                 );
                 sortedMovies = movies.Where(m => m.Genre.Contains(genre)).ToList();
                 break;
-<<<<<<< HEAD
-
-            case "actor":
-                sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
-                break;
-
-            case "publicatie":
-=======
             case "actor":
                 sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
                 break;
             case "release date":
->>>>>>> test
                 sortedMovies = movies.OrderByDescending(m =>
                 {
                     DateTime releaseDate;
-                    bool isParsed = DateTime.TryParseExact(m.Release, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out releaseDate);
-                    return isParsed ? releaseDate : DateTime.MinValue;
+                    var dateFormats = new[] { "d-MM-yyyy", "dd-MM-yyyy" };
+                    if (DateTime.TryParseExact(m.Release, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out releaseDate))
+                    {
+                        return releaseDate;
+                    }
+                    return DateTime.MinValue;
                 }).ToList();
                 break;
-
-            case "lengte":
+            case "duration":
                 sortedMovies = movies.OrderByDescending(m =>
                 {
-                    bool isParsed = int.TryParse(m.Duration.Split(' ')[0], out int duration);
-                    Console.WriteLine($"Parsing '{m.Duration}' -> Success: {isParsed}, Duration: {duration}");
-                    return isParsed ? duration : int.MaxValue;
+                    if (!int.TryParse(m.Duration.Split(' ')[0], out int duration))
+                    {
+                        duration = int.MaxValue;
+                    }
+                    return duration;
                 }).ToList();
                 break;
-
-            case "doorgaan zonder sorteren":
+            case "Doorgaan zonder sorteren":
+                sortedMovies = movies.ToList();
+                break;
             default:
                 sortedMovies = movies.ToList();
                 break;
         }
-
         movies = sortedMovies;
         DisplayMovies();
     }
-
 
     public static void DisplayMovies()
     {
