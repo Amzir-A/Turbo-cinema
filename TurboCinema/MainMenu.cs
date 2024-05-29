@@ -13,12 +13,20 @@ public static class MainScreen
             AnsiConsole.Write(new Rule("Welkom bij TurboCinema!").Centered().RuleStyle("red dim"));
             CE.WL();
 
+            var choices = new List<string> { "Films/Reserveren", "Inloggen/Registeren", "Afsluiten" };
+
+            // Voeg de "Admin" optie toe als de gebruiker een admin is
+            if (LoginScreen.IsAdmin)
+            {
+                choices.Insert(2, "Admin"); // Voeg "Admin" toe als de derde optie
+            }
+
             var keuze = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Hoofdmenu")
                     .PageSize(10)
                     .HighlightStyle(Style.Parse("red"))
-                    .AddChoices("Films/Reserveren", "Inloggen/Registeren", "Admin", "Afsluiten"));
+                    .AddChoices(choices));
 
             switch (keuze)
             {
@@ -29,17 +37,18 @@ public static class MainScreen
                     Program.ShowScreen(LoginScreen.LoginMenu);
                     break;
                 case "Admin":
-                    Program.ShowScreen(AdminMenu);
+                    if (LoginScreen.IsAdmin)
+                    {
+                        Program.ShowScreen(AdminMenu);
+                    }
                     break;
                 case "Afsluiten":
                     runApp = false;
                     Environment.Exit(0);
                     break;
                 default:
-                    AnsiConsole.MarkupLine("[red]Ongeldige keuze[/]");
                     break;
             }
-
             Console.ReadLine();
         }
     }
