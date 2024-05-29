@@ -78,6 +78,5 @@ public static class MainScreen
 
         AnsiConsole.MarkupLine($"[green]De configuratie van {hallName} is succesvol bijgewerkt naar {numRows} rijen en {numSeatsPerRow} stoelen per rij.[/]");
         CE.PressAnyKey();
-        Program.PreviousScreen();
     }
 }
