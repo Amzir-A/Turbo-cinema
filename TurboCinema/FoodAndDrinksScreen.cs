@@ -27,7 +27,7 @@ public static class FoodAndDrinksScreen
 
             for (int i = 0; i < items.Count; i++)
             {
-                string prefix = i == selectedIndex ? "[green]>[/] " : "  ";
+                string prefix = i == selectedIndex ? "[blue]>[/] " : "  ";
                 AnsiConsole.MarkupLine($"{prefix}{items[i].Item1} (€{items[i].Item2}) - [bold]{itemQuantities[i]}[/]");
             }
 

@@ -31,7 +31,7 @@ static class MovieSelector
         var sortCriteria = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
             .Title("Hoe wilt u de films sorteren?")
-            .AddChoices(new[] { "Genre", "Release Date", "Duration", "Doorgaan zonder sorteren" }));
+            .AddChoices(new[] { "Genre", "Publicatiedatum", "Lengte", "Doorgaan zonder sorteren" }));
 
         DisplaySortedMovies(sortCriteria);
         DisplayMovies();
@@ -139,7 +139,7 @@ static class MovieSelector
 
             grid.AddColumn(new TableColumn("[red]ID[/]").Centered());
             grid.AddColumn(new TableColumn("[red]Titel[/]").Centered());
-            grid.AddColumn(new TableColumn("[red]Release[/]").Centered());
+            grid.AddColumn(new TableColumn("[red]Publicatiedatum[/]").Centered());
             grid.AddColumn(new TableColumn("[red]Regie[/]").Centered());
             grid.AddColumn(new TableColumn("[red]Lengte[/]").Centered());
             grid.AddColumn(new TableColumn("[red]Genre[/]").Centered());
@@ -200,7 +200,7 @@ static class MovieSelector
 
             var details = new StringBuilder();
             details.AppendLine($"[bold]Titel:[/] {selectedMovie.Title}");
-            details.AppendLine($"[bold]Release:[/] {selectedMovie.Release}");
+            details.AppendLine($"[bold]Publicatiedatum:[/] {selectedMovie.Release}");
             details.AppendLine($"[bold]Regie:[/] {selectedMovie.Director}");
             details.AppendLine($"[bold]Lengte:[/] {selectedMovie.Duration} minutes");
             details.AppendLine($"[bold]Genre:[/] {string.Join(", ", selectedMovie.Genre)}");
@@ -216,7 +216,6 @@ static class MovieSelector
 
             AnsiConsole.Write(panel);
 
-            // Display the age verification message if AgeRating is 16 or higher
             if (int.TryParse(selectedMovie.AgeRating, out int ageRating) && ageRating >= 16)
             {
                 AnsiConsole.Markup("[red]Deze film is bestemd voor bezoekers boven de 16 jaar. Neem een identiteitsbewijs mee naar onze locatie zodat uw leeftijd geverifieerd kan worden.[/]");
@@ -267,8 +266,8 @@ static class MovieSelector
         var selectedMoviePlaytimes = moviePlaytimesList?.FirstOrDefault(mp => mp.Title.Equals(selectedMovie.Title, StringComparison.OrdinalIgnoreCase));
 
         int choice = 0;
-        Style style_y = new Style(Color.Yellow, Color.Black);
-        Style style_x = new Style(Color.Yellow, Color.Grey);
+        Style style_y = new Style(Color.Blue, Color.Black);
+        Style style_x = new Style(Color.Blue, Color.Grey);
 
         while (true)
         {
@@ -299,7 +298,7 @@ static class MovieSelector
                 {
                     if (i == choice)
                     {
-                        AnsiConsole.Write(new Text(selectedMoviePlaytimes.Playtimes[i].DateTime.ToString("g") + " - Zaal: " + selectedMoviePlaytimes.Playtimes[i].Room, new Style(Color.Red, Color.Black)).Centered());
+                        AnsiConsole.Write(new Text(selectedMoviePlaytimes.Playtimes[i].DateTime.ToString("g") + " - Zaal: " + selectedMoviePlaytimes.Playtimes[i].Room, new Style(Color.Blue, Color.Black)).Centered());
                     }
                     else
                     {
@@ -318,7 +317,6 @@ static class MovieSelector
                 {
                     AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
                 }
-
             }
             else
             {
@@ -351,10 +349,8 @@ static class MovieSelector
                     else
                     {
                         selectedPlaytime = selectedMoviePlaytimes.Playtimes[choice];
-                        
                         ReservationSystem.SelectedMovie = selectedMovie;
                         ReservationSystem.SelectedPlaytime = selectedPlaytime;
-
                         Program.ShowScreen(ReservationSystem.NavigateSeats);
                         return;
                     }

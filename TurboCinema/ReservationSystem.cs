@@ -128,6 +128,9 @@ public static class ReservationSystem
         AnsiConsole.Write(new Text("------------------------------ [ SCHERM ] ------------------------------", new Style(Color.Yellow, Color.Black)).Centered());
         AnsiConsole.WriteLine();
 
+        AnsiConsole.MarkupLine("[green]U kunt maximaal 5 stoelen reserveren.[/]");
+        AnsiConsole.WriteLine();
+
         Table tableSeats = new Table().Centered();
         tableSeats.Border = TableBorder.None;
         tableSeats.AddColumns("", "", "", "");
@@ -138,24 +141,26 @@ public static class ReservationSystem
             for (int j = 0; j < Seats[i].Count; j++)
             {
                 string color = Seats[i][j].IsAvailable ? "green" : "red";
-                Color bgColor = Color.Red;
+                Color borderColor = Color.Yellow;
 
-                if (i == y && j == x)
+                if (i == y && j == x)   
                 {
-                    bgColor = Color.Yellow;
+                    borderColor = Color.Blue;
                 }
 
-                string check = " ";
                 if (SelectedSeats.Contains(Seats[i][j]))
                 {
-                    check = "✓";
+                    color = "blue";
+                    borderColor = Color.Blue;
                 }
+
+                string check = SelectedSeats.Contains(Seats[i][j]) ? "✓" : " ";
 
                 row.Add(
                     new Panel(new Markup($"[white on {color}]  {Seats[i][j].ID} {check}  [/]"))
                     {
                         Border = BoxBorder.Heavy,
-                        BorderStyle = new Style(bgColor)
+                        BorderStyle = new Style(borderColor)
                     }
                 );
             }
