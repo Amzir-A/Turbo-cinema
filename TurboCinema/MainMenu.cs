@@ -11,14 +11,15 @@ public static class MainScreen
             CE.Clear();
             AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
             AnsiConsole.Write(new Rule("Welkom bij TurboCinema!").Centered().RuleStyle("red dim"));
+            AnsiConsole.Write(new Rule("Gebruik de pijltjes toetsen om te navigeren").Centered().RuleStyle("red dim"));
+            AnsiConsole.Write(new Rule("Klik op enter om een optie te kiezen").Centered().RuleStyle("red dim"));
             CE.WL();
 
             var choices = new List<string> { "Films/Reserveren", "Inloggen/Registeren", "Afsluiten" };
 
-            // Voeg de "Admin" optie toe als de gebruiker een admin is
             if (LoginScreen.IsAdmin)
             {
-                choices.Insert(2, "Admin"); // Voeg "Admin" toe als de derde optie
+                choices.Insert(2, "Admin");
             }
 
             var keuze = AnsiConsole.Prompt(
