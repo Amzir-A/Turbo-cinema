@@ -68,7 +68,7 @@ public static class LoginScreen
         SaveCustomers(customers, "Data/AccountInfo.json");
 
         AnsiConsole.MarkupLine("[green]Account succesvol aangemaakt![/]");
-        AnsiConsole.MarkupLine("tik op een toets om terug te gaan naar het hoofdmenu.");
+        AnsiConsole.MarkupLine("tik op enter om terug te gaan naar het hoofdmenu.");
         Console.ReadLine();
     }
 
