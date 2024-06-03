@@ -32,7 +32,7 @@ static class MovieSelector
             new SelectionPrompt<string>()
             .Title("Hoe wilt u de films sorteren?")
             .AddChoices(new[] { "Genre", "Publicatiedatum", "Lengte", "Doorgaan zonder sorteren" }));
-
+            
         DisplaySortedMovies(sortCriteria);
         DisplayMovies();
         while (true)
@@ -52,7 +52,6 @@ static class MovieSelector
 
                     if (selectedIndex == movies.Count)
                     {
-                        movies = LoadMovies();
                         Program.PreviousScreen();
                     }
 
@@ -83,9 +82,9 @@ static class MovieSelector
                 );
                 sortedMovies = movies.Where(m => m.Genre.Contains(genre)).ToList();
                 break;
-            // case "actor":
-            //     sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
-                //break;
+            case "actor":
+                sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
+                break;
             case "release date":
                 sortedMovies = movies.OrderByDescending(m =>
                 {
@@ -246,7 +245,6 @@ static class MovieSelector
                 case ConsoleKey.Enter:
                     if (choice == 1)
                     {
-                        movies = LoadMovies();
                         Program.PreviousScreen();
                     }
                     else
