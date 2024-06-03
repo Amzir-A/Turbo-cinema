@@ -31,12 +31,8 @@ static class MovieSelector
         var sortCriteria = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
             .Title("Hoe wilt u de films sorteren?")
-<<<<<<< HEAD
-            .AddChoices(new[] { "Genre", "Actor", "Release Date", "Duration", "Doorgaan zonder sorteren" }));
-=======
             .AddChoices(new[] { "Genre", "Publicatiedatum", "Lengte", "Doorgaan zonder sorteren" }));
->>>>>>> main
-
+            
         DisplaySortedMovies(sortCriteria);
         DisplayMovies();
         while (true)

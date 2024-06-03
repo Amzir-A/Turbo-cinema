@@ -25,14 +25,10 @@ public static class MainScreen
             var keuze = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Hoofdmenu")
-<<<<<<< HEAD
                     .PageSize(10)
                     .HighlightStyle(Style.Parse("red"))
                     .AddChoices(choices));
-=======
-                    .PageSize(10).HighlightStyle(Style.Parse("blue"))
-                    .AddChoices(["Films/Reserveren", "Inloggen/Registeren", "Afsluiten"]));
->>>>>>> main
+
 
             switch (keuze)
             {
