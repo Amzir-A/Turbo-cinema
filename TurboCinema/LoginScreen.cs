@@ -64,6 +64,13 @@ public static class LoginScreen
 
         customers.Add(newCustomer);
         SaveCustomers(customers, "Data/AccountInfo.json");
+<<<<<<< HEAD
+=======
+
+        AnsiConsole.MarkupLine("[green]Account succesvol aangemaakt![/]");
+        AnsiConsole.MarkupLine("tik op enter om terug te gaan naar het hoofdmenu.");
+        Console.ReadLine();
+>>>>>>> 3df98970208f18b0bbbf5f0a95d370c7433849d6
     }
 
     static string ValidateName(string prompt)

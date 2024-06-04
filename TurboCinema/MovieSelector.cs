@@ -32,7 +32,11 @@ static class MovieSelector
             new SelectionPrompt<string>()
             .Title("Hoe wilt u de films sorteren?")
             .AddChoices(new[] { "Genre", "Publicatiedatum", "Lengte", "Doorgaan zonder sorteren" }));
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 3df98970208f18b0bbbf5f0a95d370c7433849d6
         DisplaySortedMovies(sortCriteria);
         DisplayMovies();
         while (true)
