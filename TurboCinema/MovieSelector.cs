@@ -10,6 +10,7 @@ using System.IO;
 static class MovieSelector
 {
     static List<Movie>? movies = LoadMovies();
+    
     static int selectedIndex = 0;
     static Style? SelectedStyle;
     private static Playtime selectedPlaytime;
@@ -73,7 +74,7 @@ static class MovieSelector
 
         switch (sortBy.ToLower())
         {
-            case "Genre":
+            case "genre":
                 var genre = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                     .Title("Selecteer een genre:")
@@ -85,7 +86,7 @@ static class MovieSelector
             case "actor":
                 sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
                 break;
-            case "Publicatiedatum":
+            case "publicatiedatum":
                 sortedMovies = movies.OrderByDescending(m =>
                 {
                     DateTime releaseDate;
@@ -97,14 +98,14 @@ static class MovieSelector
                     return DateTime.MinValue;
                 }).ToList();
                 break;
-            case "Lengte":
-                sortedMovies = movies.OrderByDescending(m =>
+            case "lengte":
+                sortedMovies = movies.OrderBy(m =>
                 {
-                    if (!int.TryParse(m.Duration.Split(' ')[0], out int duration))
+                    if (int.TryParse(m.Duration.Split(' ')[0], out int duration))
                     {
-                        duration = int.MaxValue;
+                        return duration;
                     }
-                    return duration;
+                    return int.MaxValue;
                 }).ToList();
                 break;
             case "Doorgaan zonder sorteren":
