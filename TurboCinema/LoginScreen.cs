@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -10,6 +11,7 @@ using Spectre.Console;
 public static class LoginScreen
 {
     static string screenName = "Login scherm";
+    public static bool IsAdmin { get; set; } = false;
 
     public static void LoginMenu()
     {
@@ -64,13 +66,10 @@ public static class LoginScreen
 
         customers.Add(newCustomer);
         SaveCustomers(customers, "Data/AccountInfo.json");
-<<<<<<< HEAD
-=======
 
         AnsiConsole.MarkupLine("[green]Account succesvol aangemaakt![/]");
-        AnsiConsole.MarkupLine("tik op enter om terug te gaan naar het hoofdmenu.");
+        AnsiConsole.MarkupLine("tik op een toets om terug te gaan naar het hoofdmenu.");
         Console.ReadLine();
->>>>>>> 3df98970208f18b0bbbf5f0a95d370c7433849d6
     }
 
     static string ValidateName(string prompt)
@@ -225,7 +224,12 @@ public static class LoginScreen
 
         var customer = customers.Find(c => c.Email == email && c.Password == hashedPassword);
 
-        if (customer != null)
+        if (email == "Admin@1324.com" && password == "Admin1234")
+        {
+            AnsiConsole.MarkupLine("[green]Je bent succesvol ingelogd als admin![/]");
+            IsAdmin = true;
+        }
+        else if (customer != null)
         {
             AnsiConsole.MarkupLine("[green]Je bent succesvol ingelogd![/]");
             string reservationInfo = string.Join("\n", customer.Reservations.Select(r =>
