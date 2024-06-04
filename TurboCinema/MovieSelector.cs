@@ -10,7 +10,7 @@ using System.IO;
 static class MovieSelector
 {
     static List<Movie>? movies = LoadMovies();
-    
+    static List<Movie>? copyOfMovies = movies?.ToList();
     static int selectedIndex = 0;
     static Style? SelectedStyle;
     private static Playtime selectedPlaytime;
@@ -24,9 +24,14 @@ static class MovieSelector
     {
         return selectedPlaytime;
     }
+    public static void ResetMovies()
+    {
+        movies = copyOfMovies?.ToList();
+    }
 
     public static void SelectMovie()
     {
+        ResetMovies();
         DisplayMovies();
 
         var sortCriteria = AnsiConsole.Prompt(
