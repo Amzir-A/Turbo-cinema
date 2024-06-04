@@ -73,7 +73,7 @@ static class MovieSelector
 
         switch (sortBy.ToLower())
         {
-            case "genre":
+            case "Genre":
                 var genre = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                     .Title("Selecteer een genre:")
@@ -85,7 +85,7 @@ static class MovieSelector
             case "actor":
                 sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
                 break;
-            case "release date":
+            case "Publicatiedatum":
                 sortedMovies = movies.OrderByDescending(m =>
                 {
                     DateTime releaseDate;
@@ -97,7 +97,7 @@ static class MovieSelector
                     return DateTime.MinValue;
                 }).ToList();
                 break;
-            case "duration":
+            case "Lengte":
                 sortedMovies = movies.OrderByDescending(m =>
                 {
                     if (!int.TryParse(m.Duration.Split(' ')[0], out int duration))
