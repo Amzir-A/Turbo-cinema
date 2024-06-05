@@ -128,9 +128,15 @@ public static class ReservationSystem
         AnsiConsole.Write(new Text("------------------------------ [ SCHERM ] ------------------------------", new Style(Color.Yellow, Color.Black)).Centered());
         AnsiConsole.WriteLine();
 
+
         AnsiConsole.MarkupLine("[green]U kunt maximaal 5 stoelen reserveren.[/]");
         AnsiConsole.WriteLine();
 
+
+        AnsiConsole.MarkupLine("[blue]Blauw[/] = Geselecteerd");
+        AnsiConsole.MarkupLine("[green]Groen[/] = Vrij");
+        AnsiConsole.MarkupLine("[red]Rood[/] = Bezet");
+        AnsiConsole.WriteLine();
         Table tableSeats = new Table().Centered();
         tableSeats.Border = TableBorder.None;
         tableSeats.AddColumns("", "", "", "");
