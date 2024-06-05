@@ -31,6 +31,7 @@ static class MovieSelector
 
     public static void SelectMovie()
     {
+        ResetMovies();
         DisplayMovies();
 
         var sortCriteria = AnsiConsole.Prompt(
