@@ -7,11 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-static class MovieSelector
+public static class MovieSelector
 {
-    static List<Movie>? movies = LoadMovies();
-    static List<Movie>? copyOfMovies = movies?.ToList();
-    static int selectedIndex = 0;
+    public static List<Movie>? movies = LoadMovies();
+    public static List<Movie>? copyOfMovies = movies?.ToList();
+    public static int selectedIndex = 0;
     static Style? SelectedStyle;
     private static Playtime selectedPlaytime;
 

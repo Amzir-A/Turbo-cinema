@@ -1,0 +1,12 @@
+[
+  {
+    "ID": 1,
+    "FirstName": "sven",
+    "LastName": "muiden",
+    "DateOfBirth": "2004-05-20T00:00:00",
+    "Email": "Sven@gmail.com",
+    "Postcode": "3065",
+    "Password": "f285c9847f7f8bac244e9e23ad2f7027e888b8ea688c9017f4b2d567f7890c8a",
+    "Reservations": []
+  }
+]
