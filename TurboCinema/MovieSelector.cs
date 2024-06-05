@@ -87,10 +87,10 @@ static class MovieSelector
                 );
                 sortedMovies = movies.Where(m => m.Genre.Contains(genre)).ToList();
                 break;
-            // case "actor":
-            //     sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
-                //break;
-            case "release date":
+            case "actor":
+                sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
+                break;
+            case "publicatiedatum":
                 sortedMovies = movies.OrderByDescending(m =>
                 {
                     DateTime releaseDate;
@@ -102,14 +102,14 @@ static class MovieSelector
                     return DateTime.MinValue;
                 }).ToList();
                 break;
-            case "duration":
-                sortedMovies = movies.OrderByDescending(m =>
+            case "lengte":
+                sortedMovies = movies.OrderBy(m =>
                 {
-                    if (!int.TryParse(m.Duration.Split(' ')[0], out int duration))
+                    if (int.TryParse(m.Duration.Split(' ')[0], out int duration))
                     {
-                        duration = int.MaxValue;
+                        return duration;
                     }
-                    return duration;
+                    return int.MaxValue;
                 }).ToList();
                 break;
             case "Doorgaan zonder sorteren":
@@ -122,6 +122,7 @@ static class MovieSelector
         movies = sortedMovies;
         DisplayMovies();
     }
+
 
     public static void DisplayMovies()
     {
