@@ -10,6 +10,7 @@ using System.IO;
 static class MovieSelector
 {
     static List<Movie>? movies = LoadMovies();
+    static List<Movie>? copyOfMovies = movies?.ToList();
     static int selectedIndex = 0;
     static Style? SelectedStyle;
     private static Playtime selectedPlaytime;
@@ -17,6 +18,10 @@ static class MovieSelector
     public static Movie GetSelectedMovie()
     {
         return movies[selectedIndex];
+    }
+    public static void ResetMovies()
+    {
+        movies = copyOfMovies?.ToList();
     }
 
     public static Playtime GetSelectedPlaytime()
@@ -26,6 +31,7 @@ static class MovieSelector
 
     public static void SelectMovie()
     {
+        ResetMovies();
         DisplayMovies();
 
         var sortCriteria = AnsiConsole.Prompt(
@@ -33,10 +39,13 @@ static class MovieSelector
             .Title("Hoe wilt u de films sorteren?")
             .AddChoices(new[] { "Genre", "Publicatiedatum", "Lengte", "Doorgaan zonder sorteren" }));
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
             
 >>>>>>> 3df98970208f18b0bbbf5f0a95d370c7433849d6
+=======
+>>>>>>> Svennerz
         DisplaySortedMovies(sortCriteria);
         DisplayMovies();
         while (true)
@@ -87,10 +96,17 @@ static class MovieSelector
                 );
                 sortedMovies = movies.Where(m => m.Genre.Contains(genre)).ToList();
                 break;
+<<<<<<< HEAD
             // case "actor":
             //     sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
                 //break;
             case "release date":
+=======
+            case "actor":
+                sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
+                break;
+            case "publicatiedatum":
+>>>>>>> Svennerz
                 sortedMovies = movies.OrderByDescending(m =>
                 {
                     DateTime releaseDate;
@@ -102,14 +118,14 @@ static class MovieSelector
                     return DateTime.MinValue;
                 }).ToList();
                 break;
-            case "duration":
-                sortedMovies = movies.OrderByDescending(m =>
+            case "lengte":
+                sortedMovies = movies.OrderBy(m =>
                 {
-                    if (!int.TryParse(m.Duration.Split(' ')[0], out int duration))
+                    if (int.TryParse(m.Duration.Split(' ')[0], out int duration))
                     {
-                        duration = int.MaxValue;
+                        return duration;
                     }
-                    return duration;
+                    return int.MaxValue;
                 }).ToList();
                 break;
             case "Doorgaan zonder sorteren":
@@ -122,6 +138,7 @@ static class MovieSelector
         movies = sortedMovies;
         DisplayMovies();
     }
+
 
     public static void DisplayMovies()
     {

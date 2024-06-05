@@ -6,6 +6,7 @@ public static class MainScreen
 {
     public static void MainMenu()
     {
+        ReservationSystem.SelectedSeats.Clear();
         bool runApp = true;
         while (runApp)
         {

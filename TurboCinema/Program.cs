@@ -50,6 +50,7 @@ static class Program
             screenHistory.RemoveAt(screenHistory.Count - 1);
             ScreenState previousScreen = screenHistory[^1];
             screenHistory.RemoveAt(screenHistory.Count - 1);
+            
 
             if (previousScreen.Arguments != null)
                 ShowScreen(previousScreen.ScreenDelegate, previousScreen.Arguments);
