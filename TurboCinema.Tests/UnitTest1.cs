@@ -6,7 +6,7 @@ namespace TurboCinema.Tests
     [TestClass]
     public class MovieSelectorTests
     {
-        [TestMethod]
+    [TestMethod]
     public void GetSelectedMovie_ShouldReturnCorrectMovie()
     {
         // Arrange
@@ -17,14 +17,12 @@ namespace TurboCinema.Tests
         MovieSelector.movies = movies;
         MovieSelector.selectedIndex = 0;
 
-        // Act
         var selectedMovie = MovieSelector.GetSelectedMovie();
 
-        // Assert
         Assert.AreEqual("Dune: Part Two", selectedMovie.Title);
     }
 
-        [TestMethod]
+    [TestMethod]
     public void ResetMovies_ShouldResetMovieList()
     {
         // Arrange
@@ -44,10 +42,8 @@ namespace TurboCinema.Tests
         MovieSelector.movies = originalMovies;
         MovieSelector.copyOfMovies = originalMovies.ToList();
 
-        // Act
         MovieSelector.ResetMovies();
 
-        // Assert
         CollectionAssert.AreEqual(originalMovies, MovieSelector.movies);
     }
 }
