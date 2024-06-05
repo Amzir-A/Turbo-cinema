@@ -38,14 +38,6 @@ static class MovieSelector
             new SelectionPrompt<string>()
             .Title("Hoe wilt u de films sorteren?")
             .AddChoices(new[] { "Genre", "Publicatiedatum", "Lengte", "Doorgaan zonder sorteren" }));
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
-            
->>>>>>> 3df98970208f18b0bbbf5f0a95d370c7433849d6
-=======
->>>>>>> Svennerz
         DisplaySortedMovies(sortCriteria);
         DisplayMovies();
         while (true)
@@ -96,17 +88,10 @@ static class MovieSelector
                 );
                 sortedMovies = movies.Where(m => m.Genre.Contains(genre)).ToList();
                 break;
-<<<<<<< HEAD
-            // case "actor":
-            //     sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
-                //break;
-            case "release date":
-=======
             case "actor":
                 sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
                 break;
             case "publicatiedatum":
->>>>>>> Svennerz
                 sortedMovies = movies.OrderByDescending(m =>
                 {
                     DateTime releaseDate;
