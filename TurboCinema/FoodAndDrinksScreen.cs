@@ -19,55 +19,133 @@ public static class FoodAndDrinksScreen
 
         var itemQuantities = new int[items.Count];
         int selectedIndex = 0;
+        bool inButtonSection = false;
 
         while (true)
         {
             AnsiConsole.Clear();
             AnsiConsole.Write(new FigletText("Eten & Drinken").Centered().Color(Color.Red));
 
+            // Display food items and quantities
             for (int i = 0; i < items.Count; i++)
             {
-                string prefix = i == selectedIndex ? "[blue]>[/] " : "  ";
+                string prefix = i == selectedIndex && !inButtonSection ? "[blue]>[/] " : "  ";
                 AnsiConsole.MarkupLine($"{prefix}{items[i].Item1} (€{items[i].Item2}) - [bold]{itemQuantities[i]}[/]");
             }
 
             AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine("[green]Gebruik de pijltjestoetsen om te navigeren en de hoeveelheid aan te passen. Druk op Enter om door te gaan.[/]");
+            AnsiConsole.MarkupLine("[green]Gebruik de omhoog/omlaag pijltjestoetsen om te navigeren, en de links/rechts hoeveelheid aan te passen. Druk op doorgaan om door te gaan met uw selectie, of om over te slaan.[/]");
             AnsiConsole.MarkupLine("[green]Eten en drinken wordt in uw ticket verwerkt, scan uw ticket bij de Burger King in onze locatie om te verzilveren.[/]");
+
+            // Display buttons
+            AnsiConsole.WriteLine();
+            string doorgaan = inButtonSection && selectedIndex == items.Count ? "[blue]Doorgaan[/]" : "[yellow]Doorgaan[/]";
+            string terug = inButtonSection && selectedIndex == items.Count + 1 ? "[blue]Terug[/]" : "[yellow]Terug[/]";
+            AnsiConsole.MarkupLine($"{doorgaan}   {terug}");
 
             var key = Console.ReadKey(true).Key;
 
             switch (key)
             {
                 case ConsoleKey.UpArrow:
-                    selectedIndex = Math.Max(0, selectedIndex - 1);
+                    if (inButtonSection)
+                    {
+                        if (selectedIndex > items.Count)
+                        {
+                            selectedIndex--;
+                        }
+                        else
+                        {
+                            inButtonSection = false;
+                            selectedIndex = items.Count - 1;
+                        }
+                    }
+                    else
+                    {
+                        selectedIndex = Math.Max(0, selectedIndex - 1);
+                    }
                     break;
                 case ConsoleKey.DownArrow:
-                    selectedIndex = Math.Min(items.Count - 1, selectedIndex + 1);
+                    if (inButtonSection)
+                    {
+                        selectedIndex = Math.Min(items.Count + 1, selectedIndex + 1);
+                    }
+                    else
+                    {
+                        if (selectedIndex < items.Count - 1)
+                        {
+                            selectedIndex++;
+                        }
+                        else
+                        {
+                            inButtonSection = true;
+                            selectedIndex = items.Count; // Move to first button
+                        }
+                    }
                     break;
                 case ConsoleKey.LeftArrow:
-                    if (itemQuantities[selectedIndex] > 0)
+                    if (inButtonSection)
+                    {
+                        if (selectedIndex == items.Count + 1)
+                        {
+                            selectedIndex = items.Count; // Move to "Doorgaan" button
+                        }
+                    }
+                    else if (itemQuantities[selectedIndex] > 0)
                     {
                         itemQuantities[selectedIndex]--;
                     }
                     break;
                 case ConsoleKey.RightArrow:
-                    if (itemQuantities[selectedIndex] < 5)
+                    if (inButtonSection)
+                    {
+                        if (selectedIndex == items.Count)
+                        {
+                            selectedIndex = items.Count + 1; // Move to "Terug" button
+                        }
+                    }
+                    else if (itemQuantities[selectedIndex] < 5)
                     {
                         itemQuantities[selectedIndex]++;
                     }
                     break;
                 case ConsoleKey.Enter:
-                    for (int i = 0; i < items.Count; i++)
+                    if (inButtonSection)
                     {
-                        if (itemQuantities[i] > 0)
+                        if (selectedIndex == items.Count)
                         {
-                            SelectedItems.Add((items[i].Item1, itemQuantities[i], items[i].Item2));
+                            for (int i = 0; i < items.Count; i++)
+                            {
+                                if (itemQuantities[i] > 0)
+                                {
+                                    SelectedItems.Add((items[i].Item1, itemQuantities[i], items[i].Item2));
+                                }
+                            }
+                            AnsiConsole.Clear();
+                            ReservationSystem.ProceedToPayment();
+                            return;
+                        }
+                        else if (selectedIndex == items.Count + 1)
+                        {
+                            SelectedItems.Clear();
+                            ReservationSystem.SelectedSeats.Clear();
+                            Program.PreviousScreen();
+                            return;
                         }
                     }
-                    AnsiConsole.Clear();
-                    ReservationSystem.ProceedToPayment();
-                    return;
+                    break;
+                case ConsoleKey.Tab:
+                    if (inButtonSection)
+                    {
+                        inButtonSection = false; // Move back to item selection
+                        selectedIndex = Math.Min(items.Count - 1, selectedIndex); // Reset to last item if out of bounds
+                    }
+                    else
+                    {
+                        inButtonSection = true; // Move to button section
+                        selectedIndex = items.Count; // Start with "Doorgaan" button
+                    }
+                    break;
             }
         }
     }

@@ -1,7 +1,5 @@
-﻿using System;
-using System.IO;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using Spectre.Console;
 using System.Text;
 
 static class Program
@@ -11,7 +9,7 @@ static class Program
         public required Delegate ScreenDelegate { get; set; }
         public object[]? Arguments { get; set; }
     }
-
+  
     public static List<ScreenState> screenHistory = new();
 
     public static void Main(string[] args)
@@ -26,22 +24,19 @@ static class Program
         {
             screenHistory.Add(new ScreenState { ScreenDelegate = scrDelegate });
             scrDelegate.DynamicInvoke();
-        }
-        else if (screen is Action scrAction)
+        } else if (screen is Action scrAction)
         {
             screenHistory.Add(new ScreenState { ScreenDelegate = scrAction });
             scrAction.Invoke();
         }
     }
-
     public static void ShowScreen(object screen, object[] arg)
     {
         if (screen is Delegate scrDelegate)
         {
             screenHistory.Add(new ScreenState { ScreenDelegate = scrDelegate, Arguments = arg });
             scrDelegate.DynamicInvoke(arg);
-        }
-        else if (screen is Action scrAction)
+        } else if (screen is Action scrAction)
         {
             screenHistory.Add(new ScreenState { ScreenDelegate = scrAction, Arguments = arg });
             scrAction.DynamicInvoke(arg);
