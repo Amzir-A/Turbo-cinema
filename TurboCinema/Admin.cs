@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Admin
 {
-    private List<Movie> _movies;
+    public List<Movie> _movies;
     private string _moviesFilePath;
 
     public Admin(string moviesFilePath)
@@ -20,7 +20,7 @@ public class Admin
         return JsonConvert.DeserializeObject<List<Movie>>(json);
     }
 
-    private void SaveMovies()
+    public void SaveMovies()
     {
         var json = JsonConvert.SerializeObject(_movies, Formatting.Indented);
         File.WriteAllText(_moviesFilePath, json);
@@ -54,5 +54,39 @@ public class Admin
             rows.Add(row);
         }
         return rows;
+    }
+
+    public void GeneratePlaytimes(List<Movie> movies)
+    {
+        Random rand = new Random();
+        DateTime startDate = DateTime.Now;
+        DateTime endDate = startDate.AddDays(14);
+
+        foreach (var movie in movies)
+        {
+            movie.Playtimes.Clear();
+            int numberOfPlaytimes = rand.Next(3, 8);
+
+            for (int i = 0; i < numberOfPlaytimes; i++)
+            {
+                DateTime randomDate = startDate.AddDays(rand.Next((endDate - startDate).Days));
+                DateTime randomTime = randomDate.AddHours(rand.Next(0, 24)).AddMinutes(rand.Next(0, 60));
+
+                Playtime newPlaytime = new Playtime
+                {
+                    DateTime = randomTime,
+                    Room = "Hall " + rand.Next(1, 11),
+                    Seats = GenerateSeats(5, 3)
+                };
+
+                movie.Playtimes.Add(newPlaytime);
+            }
+        }
+    }
+
+    public void AddMovie(Movie newMovie)
+    {
+        _movies.Add(newMovie);
+        SaveMovies();
     }
 }
