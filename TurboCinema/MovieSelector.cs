@@ -281,23 +281,6 @@ public static class MovieSelector
             {
                 AnsiConsole.Clear();
 
-                var table = new Table()
-                    .Centered()
-                    .AddColumn(new TableColumn("Datum en tijd").Centered())
-                    .AddColumn(new TableColumn("Zaal").Centered());
-
-                foreach (var playtime in selectedMoviePlaytimes.Playtimes)
-                {
-                    table.AddRow(playtime.DateTime.ToString("g"), playtime.Room);
-                }
-
-                table.Title($"[underline yellow]{selectedMovie.Title} Speeltijden[/]");
-                table.Border(TableBorder.Rounded);
-                AnsiConsole.Write(table);
-
-                AnsiConsole.WriteLine();
-                AnsiConsole.WriteLine();
-
                 AnsiConsole.Write(new Text("Selecteer een tijdstip:", new Style(Color.Yellow, Color.Black, Decoration.Bold)).Centered());
 
                 for (int i = 0; i < selectedMoviePlaytimes.Playtimes.Count; i++)
