@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using Spectre.Console;
+using TurboCinema;
 
 namespace TurboCinema.Tests
 {
@@ -29,7 +30,7 @@ namespace TurboCinema.Tests
             int totalPrice = betaalScherm.totalPrice;
 
             // Assert
-            Assert.AreEqual(20, totalPrice); // 2 * 7 + 2 * 3.5 + 1 * 2.0
+            Assert.AreEqual(20, totalPrice);
         }
 
         [TestMethod]
