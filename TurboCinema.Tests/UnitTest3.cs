@@ -15,7 +15,7 @@ namespace TurboCinema.Tests
         [TestMethod]
         public void Register_ShouldAddNewCustomer()
         {
-            // Arrange
+
             string fileName = "Data/TestAccountInfo.json";
             List<Customer> customers = new List<Customer>();
             File.WriteAllText(fileName, JsonSerializer.Serialize(customers));
@@ -28,10 +28,10 @@ namespace TurboCinema.Tests
             consoleInput.Enqueue("1234AB");
             consoleInput.Enqueue("Password1");
 
-            // Act
+
             LoginScreen.Register();
 
-            // Assert
+
             customers = JsonSerializer.Deserialize<List<Customer>>(File.ReadAllText(fileName));
             Assert.AreEqual(1, customers.Count);
             Assert.AreEqual("John", customers[0].FirstName);
@@ -40,7 +40,7 @@ namespace TurboCinema.Tests
             Assert.AreEqual("john.doe@gmail.com", customers[0].Email);
             Assert.AreEqual("1234AB", customers[0].Postcode);
 
-            File.Delete(fileName); // Clean up
+            File.Delete(fileName);
         }
     }
 }

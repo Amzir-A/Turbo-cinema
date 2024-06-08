@@ -208,7 +208,7 @@ public class Betaalscherm
         }
     }
 
-    private Customer FindCustomerByEmail(string email)
+    public Customer FindCustomerByEmail(string email)
     {
         var customers = LoadCustomers("Data/AccountInfo.json");
         Customer customer = null;
@@ -235,7 +235,7 @@ public class Betaalscherm
         SaveCustomers(customer, "Data/AccountInfo.json");
     }
 
-    private List<Customer> LoadCustomers(string fileName)
+    public List<Customer> LoadCustomers(string fileName)
     {
         if (!File.Exists(fileName))
         {
