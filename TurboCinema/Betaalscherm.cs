@@ -8,6 +8,7 @@ public class Betaalscherm
     private Movie selectedMovie;
     private Playtime selectedPlaytime;
     private List<(string, int, decimal)> selectedFoodAndDrinks;
+    public int totalPrice {get; set;}
 
     public Betaalscherm(List<Seat> selectedSeats, Movie selectedMovie, Playtime selectedPlaytime, List<(string, int, decimal)> selectedFoodAndDrinks)
     {
