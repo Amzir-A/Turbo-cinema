@@ -9,7 +9,15 @@ public class Betaalscherm
     private Playtime selectedPlaytime;
     private List<(string, int, decimal)> selectedFoodAndDrinks;
     
-    public int totalPrice(int totalPrice) => totalPrice;
+    public int CalculateTotalPrice()
+    {
+        int totalPrice = selectedSeats.Count * SeatPrice;
+        foreach (var item in selectedFoodAndDrinks)
+        {
+            totalPrice += (int)(item.Item2 * item.Item3);
+        }
+        return totalPrice;
+    }
 
     public Betaalscherm(List<Seat> selectedSeats, Movie selectedMovie, Playtime selectedPlaytime, List<(string, int, decimal)> selectedFoodAndDrinks)
     {
