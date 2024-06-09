@@ -8,6 +8,7 @@ public class Betaalscherm
     private Movie selectedMovie;
     private Playtime selectedPlaytime;
     private List<(string, int, decimal)> selectedFoodAndDrinks;
+    private List<Customer> customers;
     
     public int CalculateTotalPrice()
     {
@@ -25,6 +26,7 @@ public class Betaalscherm
         this.selectedMovie = selectedMovie;
         this.selectedPlaytime = selectedPlaytime;
         this.selectedFoodAndDrinks = selectedFoodAndDrinks;
+        this.customers = customers ?? LoadCustomers("Data/AccountInfo.json");
     }
 
     public void DisplayPaymentScreen()
