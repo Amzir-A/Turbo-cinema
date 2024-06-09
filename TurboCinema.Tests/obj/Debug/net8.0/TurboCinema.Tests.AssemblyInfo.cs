@@ -14,9 +14,13 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 <<<<<<< HEAD
+<<<<<<< HEAD
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d295b43b122ff6cda12234484d232349a7eb5cac")]
 =======
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+07ad81951d22c48e4ea789ed6cbbf87150573aad")]
+>>>>>>> Svennerz
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a41957526cd22d5a8cd3f062e2e09a70ec04673a")]
 >>>>>>> Svennerz
 [assembly: System.Reflection.AssemblyProductAttribute("TurboCinema.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TurboCinema.Tests")]

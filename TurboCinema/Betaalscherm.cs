@@ -8,13 +8,25 @@ public class Betaalscherm
     private Movie selectedMovie;
     private Playtime selectedPlaytime;
     private List<(string, int, decimal)> selectedFoodAndDrinks;
+    private List<Customer> customers;
+    
+    public int CalculateTotalPrice()
+    {
+        int totalPrice = selectedSeats.Count * SeatPrice;
+        foreach (var item in selectedFoodAndDrinks)
+        {
+            totalPrice += (int)(item.Item2 * item.Item3);
+        }
+        return totalPrice;
+    }
 
-    public Betaalscherm(List<Seat> selectedSeats, Movie selectedMovie, Playtime selectedPlaytime, List<(string, int, decimal)> selectedFoodAndDrinks)
+    public Betaalscherm(List<Seat> selectedSeats, Movie selectedMovie, Playtime selectedPlaytime, List<(string, int, decimal)> selectedFoodAndDrinks, List<Customer> customers = null)
     {
         this.selectedSeats = selectedSeats;
         this.selectedMovie = selectedMovie;
         this.selectedPlaytime = selectedPlaytime;
         this.selectedFoodAndDrinks = selectedFoodAndDrinks;
+        this.customers = customers ?? LoadCustomers("Data/AccountInfo.json");
     }
 
     public void DisplayPaymentScreen()
@@ -208,7 +220,7 @@ public class Betaalscherm
         }
     }
 
-    private Customer FindCustomerByEmail(string email)
+    public Customer FindCustomerByEmail(string email)
     {
         var customers = LoadCustomers("Data/AccountInfo.json");
         Customer customer = null;
@@ -235,7 +247,7 @@ public class Betaalscherm
         SaveCustomers(customer, "Data/AccountInfo.json");
     }
 
-    private List<Customer> LoadCustomers(string fileName)
+    public List<Customer> LoadCustomers(string fileName)
     {
         if (!File.Exists(fileName))
         {

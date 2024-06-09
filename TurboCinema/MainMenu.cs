@@ -5,6 +5,10 @@ public static class MainScreen
 {
     public static void MainMenu()
     {
+        string moviesFilePath = "Data/MoviesAndPlaytimes.json";
+        Admin admin = new Admin(moviesFilePath);
+        admin.RemovePastPlaytimes();
+
         ReservationSystem.SelectedSeats.Clear();
         bool runApp = true;
         while (runApp)
