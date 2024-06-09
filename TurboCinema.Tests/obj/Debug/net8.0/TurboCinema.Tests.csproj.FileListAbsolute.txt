@@ -255,3 +255,12 @@ C:\Users\sven\school\Turbo-cinema\TurboCinema.Tests\obj\Debug\net8.0\TurboCinema
 C:\Users\sven\school\Turbo-cinema\TurboCinema.Tests\obj\Debug\net8.0\TurboCinema.Tests.dll
 C:\Users\sven\school\Turbo-cinema\TurboCinema.Tests\obj\Debug\net8.0\refint\TurboCinema.Tests.dll
 C:\Users\sven\school\Turbo-cinema\TurboCinema.Tests\obj\Debug\net8.0\TurboCinema.Tests.pdb
+c:\Users\sven\school\Turbo-cinema\TurboCinema.Tests\bin\Debug\net8.0\TurboCinema.deps.json
+c:\Users\sven\school\Turbo-cinema\TurboCinema.Tests\bin\Debug\net8.0\TurboCinema.runtimeconfig.json
+c:\Users\sven\school\Turbo-cinema\TurboCinema.Tests\bin\Debug\net8.0\TurboCinema.exe
+c:\Users\sven\school\Turbo-cinema\TurboCinema.Tests\bin\Debug\net8.0\TurboCinema.Tests.deps.json
+c:\Users\sven\school\Turbo-cinema\TurboCinema.Tests\bin\Debug\net8.0\TurboCinema.Tests.runtimeconfig.json
+c:\Users\sven\school\Turbo-cinema\TurboCinema.Tests\bin\Debug\net8.0\TurboCinema.Tests.pdb
+c:\Users\sven\school\Turbo-cinema\TurboCinema.Tests\obj\Debug\net8.0\TurboCinema.Tests.csproj.CopyComplete
+c:\Users\sven\school\Turbo-cinema\TurboCinema.Tests\obj\Debug\net8.0\TurboCinema.Tests.genruntimeconfig.cache
+c:\Users\sven\school\Turbo-cinema\TurboCinema.Tests\obj\Debug\net8.0\ref\TurboCinema.Tests.dll
