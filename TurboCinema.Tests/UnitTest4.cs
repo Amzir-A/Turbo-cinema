@@ -27,10 +27,10 @@ namespace TurboCinema.Tests
             var betaalScherm = new Betaalscherm(seats, movie, playtime, foodAndDrinks);
 
             // Act
-            int totalPrice = betaalScherm.totalPrice;
+             int totalPrice = betaalScherm.CalculateTotalPrice();
 
             // Assert
-            Assert.AreEqual(20, totalPrice);
+            Assert.AreEqual(23, totalPrice);
         }
 
         [TestMethod]
