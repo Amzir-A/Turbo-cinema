@@ -60,14 +60,12 @@ namespace TurboCinema.Tests
         public void FindCustomerByEmail_ShouldReturnCorrectCustomer()
         {
             // Arrange
-            string fileName = "Data/TestAccountInfo.json";
             List<Customer> customers = new List<Customer>
             {
                 new Customer { Email = "test@example.com", Reservations = new List<Reservation>() }
             };
-            File.WriteAllText(fileName, JsonSerializer.Serialize(customers));
 
-            var betaalScherm = new Betaalscherm(null, null, null, null);
+            var betaalScherm = new Betaalscherm(null, null, null, null, customers);
 
             // Act
             Customer customer = betaalScherm.FindCustomerByEmail("test@example.com");
@@ -75,8 +73,7 @@ namespace TurboCinema.Tests
             // Assert
             Assert.IsNotNull(customer);
             Assert.AreEqual("test@example.com", customer.Email);
-
-            File.Delete(fileName); // Clean up
         }
+
     }
 }

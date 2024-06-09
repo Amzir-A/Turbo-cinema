@@ -20,7 +20,7 @@ public class Betaalscherm
         return totalPrice;
     }
 
-    public Betaalscherm(List<Seat> selectedSeats, Movie selectedMovie, Playtime selectedPlaytime, List<(string, int, decimal)> selectedFoodAndDrinks)
+    public Betaalscherm(List<Seat> selectedSeats, Movie selectedMovie, Playtime selectedPlaytime, List<(string, int, decimal)> selectedFoodAndDrinks, List<Customer> customers = null)
     {
         this.selectedSeats = selectedSeats;
         this.selectedMovie = selectedMovie;
