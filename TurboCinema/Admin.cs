@@ -89,4 +89,13 @@ public class Admin
         _movies.Add(newMovie);
         SaveMovies();
     }
+     public void RemovePastPlaytimes()
+    {
+        DateTime now = DateTime.Now;
+        foreach (var movie in _movies)
+        {
+            movie.Playtimes = movie.Playtimes.Where(pt => pt.DateTime >= now).ToList();
+        }
+        SaveMovies();
+    }
 }
