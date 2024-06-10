@@ -283,7 +283,7 @@ public static void Register()
         // validate date
         if (!DateTime.TryParse(QI["Geboortedatum"], out _))
         {
-            invalidInputs.Add("Ongeldige geboortedatum.");
+            invalidInputs.Add("Ongeldige geboortedatum(MM-DD-JJJJ).");
         }
 
         // Return the concatenated string of invalid inputs
@@ -537,7 +537,7 @@ public static void Register()
                             AnsiConsole.MarkupLine("[green]Je bent succesvol ingelogd als admin![/]");
                             IsAdmin = true;
                             CE.WL("\n");
-                            Console.WriteLine("Press enter to go back to the main menu.");
+                            Console.WriteLine("Druk op Enter om terug te gaan naar het hoofdmenu");
                             Console.ReadLine();
                             Program.ShowScreen(MainScreen.MainMenu);
                         }
