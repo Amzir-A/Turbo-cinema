@@ -280,6 +280,7 @@ public static class MovieSelector
             if (selectedMoviePlaytimes?.Playtimes != null && selectedMoviePlaytimes.Playtimes.Any())
             {
                 AnsiConsole.Clear();
+                CE.WL("\n");
 
                 AnsiConsole.Write(new Text("Selecteer een tijdstip:", new Style(Color.Yellow, Color.Black, Decoration.Bold)).Centered());
 
