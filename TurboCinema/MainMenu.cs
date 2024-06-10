@@ -151,13 +151,13 @@ public static class MainScreen
 
         // Vraag de gebruiker om de begin- en einddatum
         DateTime begindatum = AnsiConsole.Prompt(
-            new TextPrompt<DateTime>("Voer de begindatum in (JJJJ-MM-DD):")
+            new TextPrompt<DateTime>("Voer de begindatum in (yyyy-MM-DD):")
                 .PromptStyle("green")
                 .Validate(date => date > DateTime.Now ? ValidationResult.Success() : ValidationResult.Error("[red]De begindatum moet in de toekomst liggen.[/]"))
                 .DefaultValue(DateTime.Now));
 
         DateTime einddatum = AnsiConsole.Prompt(
-            new TextPrompt<DateTime>("Voer de einddatum in (JJJJ-MM-DD):")
+            new TextPrompt<DateTime>("Voer de einddatum in (yyyy-MM-DD):")
                 .PromptStyle("green")
                 .Validate(date => date > begindatum ? ValidationResult.Success() : ValidationResult.Error("[red]De einddatum moet na de begindatum liggen.[/]"))
                 .DefaultValue(begindatum.AddDays(14)));
