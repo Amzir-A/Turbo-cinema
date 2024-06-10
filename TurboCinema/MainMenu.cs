@@ -31,7 +31,7 @@ public static class MainScreen
                 new SelectionPrompt<string>()
                     .Title("Hoofdmenu")
                     .PageSize(10)
-                    .HighlightStyle(Style.Parse("red"))
+                    .HighlightStyle(Style.Parse("blue"))
                     .AddChoices(choices));
 
 
