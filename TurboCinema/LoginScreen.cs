@@ -268,7 +268,7 @@ public static void Register()
         // Validate password
         if (!IsValidPassword(QI["Wachtwoord"]))
         {
-            invalidInputs.Add("Ongeldig wachtwoord.");
+            invalidInputs.Add("Ongeldig wachtwoord. Voer minimaal 5 tekens, één hoofdletter en één cijfer in.");
         }
 
         // Validate Name
