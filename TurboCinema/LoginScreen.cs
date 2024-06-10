@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.VisualBasic;
 using Spectre.Console;
+using System.Text.RegularExpressions;
 
 public static class LoginScreen
 {
@@ -347,10 +348,21 @@ public static void Register()
         }
     }
 
-
     private static bool IsValidEmail(string email)
     {
-        return email.EndsWith("@gmail.com") || email.EndsWith("@hotmail.com") || email.EndsWith("@outlook.com");
+        if (string.IsNullOrEmpty(email))
+            return false;
+
+        try
+        {
+            // Use a regular expression to validate the email format
+            string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return Regex.IsMatch(email, pattern);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 
     private static List<Customer> LoadCustomers(string fileName)
@@ -414,7 +426,7 @@ public static void Register()
 
         // Clear any remaining lines from previous renders
         int currentLineCursor = Console.CursorTop;
-        for (int i = currentLineCursor; i < Console.WindowHeight; i++)
+        for (int i = currentLineCursor; i < Console.WindowHeight - 1; i++)
         {
             Console.SetCursorPosition(0, i+1);
             Console.Write(new string(' ', Console.WindowWidth));
