@@ -20,7 +20,7 @@ public static class MainScreen
             AnsiConsole.Write(new Rule("Klik op enter om een optie te kiezen").Centered().RuleStyle("red dim"));
             CE.WL();
 
-            var choices = new List<string> { "Films/Reserveren", "Inloggen/Registeren", "Afsluiten" };
+            var choices = new List<string> { "Films/Reserveren", "Account beheren", "Afsluiten" };
 
             if (LoginScreen.IsAdmin)
             {
@@ -40,7 +40,7 @@ public static class MainScreen
                 case "Films/Reserveren":
                     Program.ShowScreen(DisplayAndHandleMovies);
                     break;
-                case "Inloggen/Registeren":
+                case "Account beheren":
                     Program.ShowScreen(LoginScreen.LoginMenu);
                     break;
                 case "Admin":
