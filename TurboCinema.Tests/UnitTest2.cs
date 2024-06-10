@@ -62,7 +62,7 @@ namespace TurboCinema.Tests
                 }
             };
 
-            // Ensure the test movie and playtime are present in the data file
+
             var testMovie = new Movie(
                 "Test Movie",
                 "01-01-2022",
