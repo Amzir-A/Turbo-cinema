@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 
+// Nadat de gebruiker zijn reservering heeft geannuleerd moet het accountoverzicht worden geupdate zodat de reservering er niet meer staat
+
 namespace TurboCinema.Tests
 {
     [TestClass]
