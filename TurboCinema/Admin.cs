@@ -56,7 +56,7 @@ public class Admin
         return rows;
     }
 
-    public void GeneratePlaytimes(List<Movie> movies)
+    public void GeneratePlaytimes(List<Movie> movies, DateTime begindatum, DateTime einddatum)
     {
         Random rand = new Random();
         DateTime startDate = DateTime.Now;
