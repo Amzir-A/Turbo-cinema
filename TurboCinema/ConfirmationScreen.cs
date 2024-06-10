@@ -7,14 +7,14 @@ public static class ConfirmationScreen
     {
         AnsiConsole.Clear();
         AnsiConsole.Write(new FigletText("Reservering Succesvol").Centered().Color(Color.Green));
-        AnsiConsole.MarkupLine("[bold]Reservering succesvol! Er is een bevestiging naar uw e-mail adres verstuurd.[/]");
+        AnsiConsole.MarkupLine("[bold]Reservering succesvol! Er is een bevestiging naar uw emailadres verstuurd.[/]");
         AnsiConsole.WriteLine();
         AnsiConsole.MarkupLine($"[bold]Film:[/] {selectedMovie.Title}");
         AnsiConsole.MarkupLine($"[bold]Datum:[/] {selectedPlaytime.DateTime.ToString("dd-MM-yyyy")}");
         AnsiConsole.MarkupLine($"[bold]Zaal:[/] {selectedPlaytime.Room}");
         AnsiConsole.MarkupLine($"[bold]Tijd:[/] {selectedPlaytime.DateTime.ToString("HH:mm")}");
 
-        AnsiConsole.MarkupLine("[bold]Geselecteerde eten en drinken:[/]");
+        AnsiConsole.MarkupLine("[bold]Geselecteerd eten en drinken:[/]");
         foreach (var item in selectedFoodAndDrinks)
         {
             AnsiConsole.MarkupLine($"[green]{item.Item1} - {item.Item2}x €{item.Item3}[/]");
