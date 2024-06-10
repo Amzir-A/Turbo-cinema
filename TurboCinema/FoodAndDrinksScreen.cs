@@ -39,9 +39,11 @@ public static class FoodAndDrinksScreen
 
             // Display buttons
             AnsiConsole.WriteLine();
-            string doorgaan = inButtonSection && selectedIndex == items.Count ? "[blue]Doorgaan[/]" : "[yellow]Doorgaan[/]";
-            string terug = inButtonSection && selectedIndex == items.Count + 1 ? "[blue]Terug[/]" : "[yellow]Terug[/]";
-            AnsiConsole.MarkupLine($"{doorgaan}   {terug}");
+            
+            var doorgaan = new Text("[ Doorgaan ]", inButtonSection && selectedIndex == items.Count ? new Style(Color.Yellow, Color.Grey) : new Style(Color.Yellow, Color.Black)).Centered();
+            var terug = new Text("[ Terug ]", inButtonSection && selectedIndex == items.Count + 1 ? new Style(Color.Yellow, Color.Grey) : new Style(Color.Yellow, Color.Black)).Centered();
+            AnsiConsole.Write(doorgaan);
+            AnsiConsole.Write(terug);
 
             var key = Console.ReadKey(true).Key;
 
