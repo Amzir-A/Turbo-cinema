@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TurboCinema")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c25eb9c9bdd05c3d18989c27f14d125549c04ba0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c3852e17ed655bf669d8371e3f9dd33bd2bdf809")]
 [assembly: System.Reflection.AssemblyProductAttribute("TurboCinema")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TurboCinema")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
