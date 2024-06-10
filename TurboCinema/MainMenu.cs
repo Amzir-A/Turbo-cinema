@@ -96,7 +96,11 @@ public static class MainScreen
             AddNewMovie();
             break;
         case "Terug naar Hoofdmenu":
+<<<<<<< HEAD
             Program.ShowScreen(MainMenu);
+=======
+            Program.PreviousScreen();
+>>>>>>> Svennerz
             return;
     }
 }
@@ -124,8 +128,12 @@ public static class MainScreen
 
         AnsiConsole.MarkupLine($"[green]De film '{title}' is succesvol toegevoegd.[/]");
         CE.PressAnyKey();
+<<<<<<< HEAD
         CE.Clear();
         Program.ShowScreen(AdminMenu);
+=======
+        Program.ShowScreen(MainMenu);
+>>>>>>> Svennerz
     }
 
     public static void ZaalAanpassen()
@@ -140,8 +148,13 @@ public static class MainScreen
 
         AnsiConsole.MarkupLine($"[green]De configuratie van {hallName} is succesvol bijgewerkt naar {numRows} rijen en {numSeatsPerRow} stoelen per rij.[/]");
         CE.PressAnyKey();
+<<<<<<< HEAD
         CE.Clear();
         Program.ShowScreen(AdminMenu);
+=======
+        Program.ShowScreen(MainMenu);
+        
+>>>>>>> Svennerz
     }
 
     public static void GeneratePlaytimes()
@@ -153,8 +166,12 @@ public static class MainScreen
 
         AnsiConsole.MarkupLine("[green]Speeltijden succesvol gegenereerd voor alle films.[/]");
         CE.PressAnyKey();
+<<<<<<< HEAD
         CE.Clear();
         Program.ShowScreen(AdminMenu);
+=======
+        Program.ShowScreen(MainMenu);
+>>>>>>> Svennerz
     }
 
 

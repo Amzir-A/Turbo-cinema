@@ -206,9 +206,9 @@ public static class ReservationSystem
         }
     }
 
-    public static List<List<Seat>> LoadSeats(string movieTitle, DateTime playtime)
+    public static List<List<Seat>> LoadSeats(string movieTitle, DateTime playtime, string fileName)
     {
-        string json = File.ReadAllText("Data/MoviesAndPlaytimes.json");
+        string json = File.ReadAllText(fileName);
         var movies = JsonConvert.DeserializeObject<List<Movie>>(json);
 
         var movie = movies.FirstOrDefault(m => m.Title == movieTitle);
@@ -223,9 +223,15 @@ public static class ReservationSystem
         return new List<List<Seat>>();
     }
 
-    public static void SaveSeats(string movieTitle, DateTime playtime, List<List<Seat>> seats)
+    public static List<List<Seat>> LoadSeats(string movieTitle, DateTime playtime)
     {
-        string json = File.ReadAllText("Data/MoviesAndPlaytimes.json");
+        return LoadSeats(movieTitle, playtime, "Data/MoviesAndPlaytimes.json");
+    }
+
+
+    public static void SaveSeats(string movieTitle, DateTime playtime, List<List<Seat>> seats, string fileName)
+    {
+        string json = File.ReadAllText(fileName);
         var movies = JsonConvert.DeserializeObject<List<Movie>>(json);
 
         var movie = movies.FirstOrDefault(m => m.Title == movieTitle);
@@ -239,8 +245,14 @@ public static class ReservationSystem
         }
 
         string updatedJson = JsonConvert.SerializeObject(movies, Formatting.Indented);
-        File.WriteAllText("Data/MoviesAndPlaytimes.json", updatedJson);
+        File.WriteAllText(fileName, updatedJson);
     }
+
+    public static void SaveSeats(string movieTitle, DateTime playtime, List<List<Seat>> seats)
+    {
+        SaveSeats(movieTitle, playtime, seats, "Data/MoviesAndPlaytimes.json");
+    }
+
 
     public static void ProceedToPayment()
     {

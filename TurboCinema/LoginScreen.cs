@@ -231,10 +231,18 @@ public static void Register()
         int currentLineCursor = Console.CursorTop;
         for (int i = currentLineCursor; i < Console.WindowHeight - 1; i++)
         {
+<<<<<<< HEAD
             Console.SetCursorPosition(0, i+1);
             Console.Write(new string(' ', Console.WindowWidth));
         }
 
+=======
+            Console.SetCursorPosition(0, i + 1);
+            Console.Write(new string(' ', Console.WindowWidth));
+        }
+
+
+>>>>>>> Svennerz
         // Reset cursor to the position where the next input should be
         if (index < QI.Count)
         {    var currentInput = QI.ElementAt(index).Value;
@@ -651,6 +659,38 @@ public static void Register()
             }
         }
         ReservationSystem.SaveSeats(reservationToCancel.MovieTitle, reservationToCancel.Playtime, movie);
+
+        customer.Reservations.Remove(reservationToCancel);
+        SaveCustomers(customers, "Data/AccountInfo.json");
+
+        AnsiConsole.MarkupLine("[green]Reservering succesvol geannuleerd![/]");
+    }
+    public static void CancelReservation(Customer customer, List<Customer> customers, int reservationIndex)
+    {
+        if (customer.Reservations.Count == 0)
+        {
+            queue = "Geen reserveringen om te annuleren.";
+            return;
+        }
+
+        if (reservationIndex < 0 || reservationIndex >= customer.Reservations.Count)
+        {
+            queue = "Ongeldige reserveringsindex.";
+            return;
+        }
+
+        var reservationToCancel = customer.Reservations[reservationIndex];
+
+        var movie = ReservationSystem.LoadSeats(reservationToCancel.MovieTitle, reservationToCancel.Playtime, "Data/TestMoviesAndPlaytimes.json");
+        foreach (var seat in reservationToCancel.Seats)
+        {
+            var seatToUpdate = movie.SelectMany(row => row).FirstOrDefault(s => s.ID == seat.ID);
+            if (seatToUpdate != null)
+            {
+                seatToUpdate.IsAvailable = true;
+            }
+        }
+        ReservationSystem.SaveSeats(reservationToCancel.MovieTitle, reservationToCancel.Playtime, movie, "Data/TestMoviesAndPlaytimes.json");
 
         customer.Reservations.Remove(reservationToCancel);
         SaveCustomers(customers, "Data/AccountInfo.json");
