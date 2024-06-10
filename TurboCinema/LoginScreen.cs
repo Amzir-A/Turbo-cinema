@@ -231,18 +231,11 @@ public static void Register()
         int currentLineCursor = Console.CursorTop;
         for (int i = currentLineCursor; i < Console.WindowHeight - 1; i++)
         {
-<<<<<<< HEAD
             Console.SetCursorPosition(0, i+1);
             Console.Write(new string(' ', Console.WindowWidth));
         }
 
-=======
-            Console.SetCursorPosition(0, i + 1);
-            Console.Write(new string(' ', Console.WindowWidth));
-        }
 
-
->>>>>>> Svennerz
         // Reset cursor to the position where the next input should be
         if (index < QI.Count)
         {    var currentInput = QI.ElementAt(index).Value;

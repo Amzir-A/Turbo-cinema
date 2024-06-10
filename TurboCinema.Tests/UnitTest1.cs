@@ -1,41 +1,14 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-<<<<<<< HEAD
-=======
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 
-// Nadat de gebruiker zijn reservering heeft geannuleerd moet het accountoverzicht worden geupdate zodat de reservering er niet meer staat
->>>>>>> Svennerz
 
 namespace TurboCinema.Tests
 {
     [TestClass]
-<<<<<<< HEAD
-    public class AccountTests
-    {
-        [TestMethod]
-        public void CancelReservation_ShouldMakeSeatsAvailable()
-        {
-            // Arrange
-            var seat1 = new Seat("A1", true);
-            var seat2 = new Seat("A2", true);
-            var seats = new List<Seat> { seat1, seat2 };
-
-            ReservationSystem.SelectedSeats = seats;
-            ReservationSystem.Seats = new List<List<Seat>> { seats };
-
-            // Act
-            // Simulate the cancellation of the reservation
-            ReservationSystem.SelectedSeats.ForEach(seat => seat.IsAvailable = true);
-            ReservationSystem.SelectedSeats.Clear();
-
-            // Assert
-            Assert.IsTrue(seat1.IsAvailable, "Seat A1 should be available after cancellation.");
-            Assert.IsTrue(seat2.IsAvailable, "Seat A2 should be available after cancellation.");
-=======
     public class ReservationCancellationTests
     {
         private string testFile = "Data/TestMoviesAndPlaytimes.json";
@@ -131,7 +104,6 @@ namespace TurboCinema.Tests
             var updatedSeats = ReservationSystem.LoadSeats("Test Movie", new DateTime(2024, 6, 1, 20, 0, 0), testFile);
             Assert.IsTrue(updatedSeats[0][0].IsAvailable); // A1 should be available
             Assert.IsTrue(updatedSeats[0][1].IsAvailable); // A2 should be available
->>>>>>> Svennerz
         }
     }
 }
