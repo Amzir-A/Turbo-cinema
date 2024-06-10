@@ -524,6 +524,7 @@ public static void Register()
                         Console.Clear();
                         CE.WL("\n");
                         AnsiConsole.Write(new Text("Welkom bij TurboCinema! Log in om verder te gaan.", new Style(Color.Yellow, Color.Black)).Centered());
+                        Console.WriteLine("\n\n");
                         RenderLogin(QI2, index);
 
                         // string hashedPassword = HashPassword(QI2["Wachtwoord"]);
@@ -535,6 +536,10 @@ public static void Register()
                         {
                             AnsiConsole.MarkupLine("[green]Je bent succesvol ingelogd als admin![/]");
                             IsAdmin = true;
+                            CE.WL("\n");
+                            Console.WriteLine("Press enter to go back to the main menu.");
+                            Console.ReadLine();
+                            Program.ShowScreen(MainScreen.MainMenu);
                         }
 
                         else if (customer != null)
