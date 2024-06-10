@@ -97,7 +97,7 @@ namespace TurboCinema.Tests
             // Act
             var customer = customers[0];
             var reservationToCancel = customer.Reservations[0];
-            LoginScreen.CancelReservation(customer, customers);
+            LoginScreen.CancelReservation(customer, customers, 0);
 
             // Assert
             var updatedSeats = ReservationSystem.LoadSeats("Test Movie", new DateTime(2024, 6, 1, 20, 0, 0), testFile);
