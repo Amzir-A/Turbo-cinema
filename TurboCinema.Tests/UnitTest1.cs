@@ -2,9 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Newtonsoft.Json;
-
 
 namespace TurboCinema.Tests
 {
@@ -97,13 +95,52 @@ namespace TurboCinema.Tests
 
             // Act
             var customer = customers[0];
-            var reservationToCancel = customer.Reservations[0];
-            LoginScreen.CancelReservation(customer, customers, 0);
+            var reservationIndex = 0; // Fixed index for testing
+            LoginScreen.CancelReservation(customer, customers, reservationIndex);
 
             // Assert
             var updatedSeats = ReservationSystem.LoadSeats("Test Movie", new DateTime(2024, 6, 1, 20, 0, 0), testFile);
             Assert.IsTrue(updatedSeats[0][0].IsAvailable); // A1 should be available
             Assert.IsTrue(updatedSeats[0][1].IsAvailable); // A2 should be available
+        }
+
+        [TestMethod]
+        public void CancelReservation_ShouldRemoveReservationFromCustomer()
+        {
+            // Arrange
+            var customers = new List<Customer>
+            {
+                new Customer
+                {
+                    FirstName = "John",
+                    LastName = "Doe",
+                    DateOfBirth = new DateTime(1990, 1, 1),
+                    Email = "john.doe@example.com",
+                    Postcode = "1234AB",
+                    Password = "Password123",
+                    Reservations = new List<Reservation>
+                    {
+                        new Reservation(
+                            movieTitle: "Test Movie",
+                            playtime: new DateTime(2024, 6, 1, 20, 0, 0),
+                            seats: new List<Seat>
+                            {
+                                new Seat("A1", false),
+                                new Seat("A2", false)
+                            },
+                            room: "Room 1",
+                            foodAndDrinks: new List<(string, int, decimal)>())
+                    }
+                }
+            };
+
+            // Act
+            var customer = customers[0];
+            var reservationIndex = 0;
+            LoginScreen.CancelReservation(customer, customers, reservationIndex);
+
+            // Assert
+            Assert.AreEqual(0, customer.Reservations.Count); // Reservations should be empty
         }
     }
 }
