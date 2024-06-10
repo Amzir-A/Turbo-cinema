@@ -1,50 +1,67 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TurboCinema; // Zorg ervoor dat je de juiste namespace gebruikt
+using TurboCinema;
+using System.Collections.Generic;
 
 namespace TurboCinema.Tests
 {
     [TestClass]
-    public class MovieSelectorTests
+    public class AccountTests
     {
-    [TestMethod]
-    public void GetSelectedMovie_ShouldReturnCorrectMovie()
-    {
-        // Arrange
-        var movies = new List<Movie>
+        [TestMethod]
+        public void CancelReservation_ShouldMakeSeatsAvailable()
         {
-            new("Dune: Part Two", "29-02-2024", "Denis Villeneuve", new List<string> { "Timothee Chalamet", "Zendaya", "Rebecca Ferguson", "Dave Bautista", "Florence Pugh" }, "166 minutes", new List<string> { "Science fiction", "Action" }, "12", "In Dune: Part Two, Paul Atreides' legendary journey continues in the company of Chani and the Fremen as he seeks revenge on those who caused his family's downfall. Paul will have to choose between the love of his life and the fate of the universe to avoid the terrible future he alone has foreseen.")
-        };
-        MovieSelector.movies = movies;
-        MovieSelector.selectedIndex = 0;
+            // Arrange
+            var seat1 = new Seat { SeatNumber = "A1", IsReserved = true };
+            var seat2 = new Seat { SeatNumber = "A2", IsReserved = true };
+            var seats = new List<Seat> { seat1, seat2 };
 
-        var selectedMovie = MovieSelector.GetSelectedMovie();
+            var reservation = new Reservation
+            {
+                ReservationId = 1,
+                Seats = seats,
+                IsCancelled = false
+            };
 
-        Assert.AreEqual("Dune: Part Two", selectedMovie.Title);
+            var reservationSystem = new ReservationSystem();
+            reservationSystem.Reservations.Add(reservation);
+
+            // Act
+            reservationSystem.CancelReservation(reservation.ReservationId);
+
+            // Assert
+            Assert.IsTrue(seat1.IsReserved == false, "Seat A1 should be available after cancellation.");
+            Assert.IsTrue(seat2.IsReserved == false, "Seat A2 should be available after cancellation.");
+        }
     }
 
-    [TestMethod]
-    public void ResetMovies_ShouldResetMovieList()
+    public class Seat
     {
-        // Arrange
-        var originalMovies = new List<Movie>
-        {
-            new Movie(
-                title: "Movie 1",
-                release: "01-01-2024",
-                director: "Director 1",
-                actors: new List<string> { "Actor 1" },
-                duration: "120 minutes",
-                genre: new List<string> { "Genre 1" },
-                ageRating: "PG-13",
-                description: "Description 1"
-            )
-        };
-        MovieSelector.movies = originalMovies;
-        MovieSelector.copyOfMovies = originalMovies.ToList();
-
-        MovieSelector.ResetMovies();
-
-        CollectionAssert.AreEqual(originalMovies, MovieSelector.movies);
+        public string SeatNumber { get; set; }
+        public bool IsReserved { get; set; }
     }
-}
+
+    public class Reservation
+    {
+        public int ReservationId { get; set; }
+        public List<Seat> Seats { get; set; }
+        public bool IsCancelled { get; set; }
+    }
+
+    public class ReservationSystem
+    {
+        public List<Reservation> Reservations { get; set; } = new List<Reservation>();
+
+        public void CancelReservation(int reservationId)
+        {
+            var reservation = Reservations.Find(r => r.ReservationId == reservationId);
+            if (reservation != null)
+            {
+                reservation.IsCancelled = true;
+                foreach (var seat in reservation.Seats)
+                {
+                    seat.IsReserved = false;
+                }
+            }
+        }
+    }
 }
