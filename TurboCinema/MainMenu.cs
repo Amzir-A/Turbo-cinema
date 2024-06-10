@@ -148,14 +148,29 @@ public static class MainScreen
     {
         string moviesFilePath = "Data/MoviesAndPlaytimes.json";
         Admin admin = new Admin(moviesFilePath);
-        admin.GeneratePlaytimes(admin._movies);
-        admin.SaveMovies(); // Opslaan van de nieuwe speeltijden in het bestand
+
+        // Vraag de gebruiker om de begin- en einddatum
+        DateTime begindatum = AnsiConsole.Prompt(
+            new TextPrompt<DateTime>("Voer de begindatum in (yyyy-MM-dd):")
+                .PromptStyle("green")
+                .Validate(date => date > DateTime.Now ? ValidationResult.Success() : ValidationResult.Error("[red]De begindatum moet in de toekomst liggen.[/]"))
+                .DefaultValue(DateTime.Now));
+
+        DateTime einddatum = AnsiConsole.Prompt(
+            new TextPrompt<DateTime>("Voer de einddatum in (yyyy-MM-dd):")
+                .PromptStyle("green")
+                .Validate(date => date > begindatum ? ValidationResult.Success() : ValidationResult.Error("[red]De einddatum moet na de begindatum liggen.[/]"))
+                .DefaultValue(begindatum.AddDays(14)));
+
+        admin.GeneratePlaytimes(admin._movies, begindatum, einddatum);
+        admin.SaveMovies();
 
         AnsiConsole.MarkupLine("[green]Speeltijden succesvol gegenereerd voor alle films.[/]");
         CE.PressAnyKey();
         CE.Clear();
         Program.ShowScreen(AdminMenu);
     }
+
 
 
 }
