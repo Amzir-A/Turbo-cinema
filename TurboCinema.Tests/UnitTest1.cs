@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace TurboCinema.Tests
 {
     [TestClass]
-    public class ReservationCancellationTests
+    public class ReservationTests
     {
         private string testFile = "Data/TestMoviesAndPlaytimes.json";
 
