@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = TurboCinema.Tests
-build_property.ProjectDir = C:\Users\Amzir\Documents\GitHub\Turbo-cinema\TurboCinema.Tests\
+build_property.ProjectDir = C:\Users\svenv\OneDrive\Documenten\GitHub\Turbo-cinema\TurboCinema.Tests\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

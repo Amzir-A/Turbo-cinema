@@ -56,15 +56,12 @@ public class Admin
         return rows;
     }
 
-    public void GeneratePlaytimes(List<Movie> movies, DateTime begindatum, DateTime einddatum)
+    public void GeneratePlaytimes(List<Movie> movies, DateTime startDate, DateTime endDate)
     {
         Random rand = new Random();
-        DateTime startDate = DateTime.Now;
-        DateTime endDate = startDate.AddDays(14);
 
         foreach (var movie in movies)
         {
-            movie.Playtimes.Clear();
             int numberOfPlaytimes = rand.Next(3, 8);
 
             for (int i = 0; i < numberOfPlaytimes; i++)
