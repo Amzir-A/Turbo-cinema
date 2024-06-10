@@ -34,7 +34,7 @@ public static class FoodAndDrinksScreen
             }
 
             AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine("[green]Gebruik de omhoog/omlaag pijltjestoetsen om te navigeren, en de links/rechts hoeveelheid aan te passen. Druk op doorgaan om door te gaan met uw selectie, of om over te slaan.[/]");
+            AnsiConsole.MarkupLine("[green]Gebruik de omhoog/omlaag pijltjestoetsen om te navigeren, en de links/rechts pijltjestoetsen om de hoeveelheid aan te passen. Druk op doorgaan om door te gaan met uw selectie, of om over te slaan.[/]");
             AnsiConsole.MarkupLine("[green]Eten en drinken wordt in uw ticket verwerkt, scan uw ticket bij de Burger King in onze locatie om te verzilveren.[/]");
 
             // Display buttons
