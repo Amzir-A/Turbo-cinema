@@ -17,7 +17,7 @@ public static class MainScreen
             AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
             AnsiConsole.Write(new Rule("Welkom bij TurboCinema!").Centered().RuleStyle("red dim"));
             AnsiConsole.Write(new Rule("Gebruik de pijltjes toetsen om te navigeren").Centered().RuleStyle("red dim"));
-            AnsiConsole.Write(new Rule("Klik op enter om een optie te kiezen").Centered().RuleStyle("red dim"));
+            AnsiConsole.Write(new Rule("Klik op Enter om een optie te kiezen").Centered().RuleStyle("red dim"));
             CE.WL();
 
             var choices = new List<string> { "Films/Reserveren", "Account beheren", "Afsluiten" };
@@ -104,7 +104,7 @@ public static class MainScreen
     public static void AddNewMovie()
     {
         string title = AnsiConsole.Ask<string>("Voer de titel van de film in:");
-        string release = AnsiConsole.Ask<string>("Voer de releasedatum van de film in (YYYY-MM-DD):");
+        string release = AnsiConsole.Ask<string>("Voer de releasedatum van de film in (JJJJ-MM-DD):");
         string director = AnsiConsole.Ask<string>("Voer de regisseur van de film in:");
         List<string> actors = AnsiConsole.Ask<string>("Voer de acteurs in (gescheiden door komma's):").Split(',').Select(a => a.Trim()).ToList();
         string duration = AnsiConsole.Ask<string>("Voer de duur van de film in (in minuten):");
@@ -151,13 +151,13 @@ public static class MainScreen
 
         // Vraag de gebruiker om de begin- en einddatum
         DateTime begindatum = AnsiConsole.Prompt(
-            new TextPrompt<DateTime>("Voer de begindatum in (yyyy-MM-dd):")
+            new TextPrompt<DateTime>("Voer de begindatum in (JJJJ-MM-dd):")
                 .PromptStyle("green")
                 .Validate(date => date > DateTime.Now ? ValidationResult.Success() : ValidationResult.Error("[red]De begindatum moet in de toekomst liggen.[/]"))
                 .DefaultValue(DateTime.Now));
 
         DateTime einddatum = AnsiConsole.Prompt(
-            new TextPrompt<DateTime>("Voer de einddatum in (yyyy-MM-dd):")
+            new TextPrompt<DateTime>("Voer de einddatum in (JJJJ-MM-dd):")
                 .PromptStyle("green")
                 .Validate(date => date > begindatum ? ValidationResult.Success() : ValidationResult.Error("[red]De einddatum moet na de begindatum liggen.[/]"))
                 .DefaultValue(begindatum.AddDays(14)));
