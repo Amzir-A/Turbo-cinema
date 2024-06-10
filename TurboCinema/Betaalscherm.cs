@@ -198,12 +198,12 @@ public class Betaalscherm
             {
                 AnsiConsole.Clear();
                 CE.Wait("Verwerken betaling");
-                AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
                 if (customer != null)
                 {
                     SaveReservation(customer, totalPrice, selectedPlaytime);
-                    AnsiConsole.Markup("[green]Uw reservering is toegevoegd aan uw account.[/]");
                 }
+                
+                ConfirmationScreen.Show(ReservationSystem.SelectedMovie, ReservationSystem.SelectedPlaytime, FoodAndDrinksScreen.SelectedItems);
                 ReservationSystem.UpdateSeatsAvailability();
             }
             else
@@ -215,8 +215,9 @@ public class Betaalscherm
         else
         {
             AnsiConsole.Clear();
-            AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
+            // AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
             ReservationSystem.UpdateSeatsAvailability();
+            ConfirmationScreen.Show(ReservationSystem.SelectedMovie, ReservationSystem.SelectedPlaytime, FoodAndDrinksScreen.SelectedItems);
         }
     }
 
