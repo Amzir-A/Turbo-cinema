@@ -156,6 +156,7 @@ public static void Register()
                             AnsiConsole.MarkupLine("tik op enter om terug te gaan naar het hoofdmenu.");
                             Console.ReadLine();
 
+                            Program.ShowScreen(MainScreen.MainMenu);
                             return;
                         } else {
                             queue = errorMsg;
