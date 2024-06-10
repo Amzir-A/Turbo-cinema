@@ -76,7 +76,7 @@ public static class MainScreen
 {
     AnsiConsole.Write(new FigletText("Admin Menu").Centered().Color(Color.Blue));
 
-    var adminActions = new List<string> { "Configureer Zaal", "Genereer Speeltijden", "Nieuwe Film Toevoegen", "Terug naar Hoofdmenu" };
+    var adminActions = new List<string> { "Zaal aanpassen", "Genereer Speeltijden", "Nieuwe Film Toevoegen", "Terug naar Hoofdmenu" };
     var actionChoice = AnsiConsole.Prompt(
         new SelectionPrompt<string>()
             .Title("Kies een actie")
