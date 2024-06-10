@@ -384,6 +384,8 @@ public static void Register()
         return customers;
     }
 
+    
+
     private static void RenderLogin(Dictionary<string, string> QI2, int index)
     {
         // Reset cursor position

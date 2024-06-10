@@ -10,6 +10,7 @@ namespace TurboCinema.Tests
     public class ReservationTests
     {
         private string testFile = "Data/TestMoviesAndPlaytimes.json";
+        private string customersFile = "Data/AccountInfo.json";
 
         [TestInitialize]
         public void Setup()
@@ -141,6 +142,65 @@ namespace TurboCinema.Tests
 
             // Assert
             Assert.AreEqual(0, customer.Reservations.Count); // Reservations should be empty
+        }
+        [TestMethod]
+        public void NoAccount_ShouldSaveReservationWithoutAccount()
+        {
+            // Arrange
+            var selectedSeats = new List<Seat>
+            {
+                new Seat("A1", true),
+                new Seat("A2", true)
+            };
+            var selectedFoodAndDrinks = new List<(string, int, decimal)>
+            {
+                ("Popcorn", 2, 5.00m),
+                ("Soda", 2, 3.50m)
+            };
+            string email = "nonaccountuser@example.com";
+            int totalPrice = 24; // 2 seats * 7 + 2 popcorn * 5 + 2 soda * 3.5
+
+            // Set up the Betaalscherm object with the necessary data
+            var selectedMovie = new Movie(
+                title: "Test Movie",
+                release: "29-02-2024",
+                director: "John Doe",
+                actors: new List<string> { "Actor 1", "Actor 2" },
+                duration: "120 minutes",
+                genre: new List<string> { "Genre 1" },
+                ageRating: "PG-13",
+                description: "Test Description");
+
+            var selectedPlaytime = new Playtime
+            {
+                DateTime = new DateTime(2024, 6, 1, 20, 0, 0),
+                Seats = new List<List<Seat>>
+                {
+                    new List<Seat>
+                    {
+                        new Seat("A1", true),
+                        new Seat("A2", true)
+                    },
+                    new List<Seat>
+                    {
+                        new Seat("B1", true),
+                        new Seat("B2", true)
+                    }
+                }
+            };
+
+            var betalingscherm = new Betaalscherm(selectedSeats, selectedMovie, selectedPlaytime, selectedFoodAndDrinks);
+
+            // Act
+            betalingscherm.NoAccount(email, totalPrice);
+
+            // Assert
+            var customers = betalingscherm.LoadCustomers(customersFile);
+            var nonAccountCustomer = customers.Find(c => c.Email == email);
+            Assert.IsNotNull(nonAccountCustomer, "Customer should be found.");
+            Assert.AreEqual(1, nonAccountCustomer.Reservations.Count, "Customer should have one reservation.");
+            Assert.AreEqual("Test Movie", nonAccountCustomer.Reservations[0].MovieTitle, "Reservation should be for the correct movie.");
+            Assert.AreEqual(new DateTime(2024, 6, 1, 20, 0, 0), nonAccountCustomer.Reservations[0].Playtime, "Reservation should be for the correct playtime.");
         }
     }
 }

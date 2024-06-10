@@ -272,7 +272,7 @@ public class Betaalscherm
         File.WriteAllText(fileName, json);
     }
 
-    private void NoAccount(string email, int totalPrice)
+    public void NoAccount(string email, int totalPrice)
     {
         Customer nonAccountCustomer = new Customer()
         {
