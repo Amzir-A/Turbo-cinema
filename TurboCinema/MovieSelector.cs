@@ -134,7 +134,6 @@ public static class MovieSelector
 
     public static void DisplayMovies()
     {
-        Console.Clear();
         AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
         AnsiConsole.WriteLine();
 
