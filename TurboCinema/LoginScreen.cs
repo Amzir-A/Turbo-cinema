@@ -229,7 +229,7 @@ public static void Register()
 
         // Clear any remaining lines from previous renders
         int currentLineCursor = Console.CursorTop;
-        for (int i = currentLineCursor; i < Console.WindowHeight; i++)
+        for (int i = currentLineCursor; i < Console.WindowHeight - 1; i++)
         {
             Console.SetCursorPosition(0, i+1);
             Console.Write(new string(' ', Console.WindowWidth));
