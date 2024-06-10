@@ -8,5 +8,35 @@
     "Postcode": "1234AB",
     "Password": "Password123",
     "Reservations": []
+  },
+  {
+    "ID": 0,
+    "FirstName": null,
+    "LastName": null,
+    "DateOfBirth": "0001-01-01T00:00:00",
+    "Email": "nonaccountuser@example.com",
+    "Postcode": null,
+    "Password": null,
+    "Reservations": [
+      {
+        "MovieTitle": "Test Movie",
+        "Playtime": "2024-06-01T20:00:00",
+        "Seats": [
+          {
+            "ID": "A1",
+            "IsAvailable": true
+          },
+          {
+            "ID": "A2",
+            "IsAvailable": true
+          }
+        ],
+        "Room": null,
+        "FoodAndDrinks": [
+          {},
+          {}
+        ]
+      }
+    ]
   }
 ]
