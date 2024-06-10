@@ -116,11 +116,11 @@ public static void Register()
                 case ConsoleKey.Enter:
                     if (index < QI.Count - 1)
                         index++;
-                    if (index == QI.Count)
+                    if (index == QI.Count + 1)
                     {
                         Program.ShowScreen(MainScreen.MainMenu);
                     }
-                    else if (index == QI.Count + 1)
+                    else if (index == QI.Count)
                     {
                         string errorMsg = ValidateInputs();
                         if (errorMsg == "")
@@ -188,19 +188,19 @@ public static void Register()
         if (index == QI.Count)
         {
             Console.SetCursorPosition(0, 14);
-            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Grey)).Centered());
-            AnsiConsole.Write(new Text("[ Doorgaan ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Doorgaan ]", new Style(Color.Yellow, Color.Grey)).Centered());
+            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
         }
         else if(index == QI.Count + 1)
         {
             Console.SetCursorPosition(0, 14);
-            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
-            AnsiConsole.Write(new Text("[ Doorgaan ]", new Style(Color.Yellow, Color.Grey)).Centered());
+            AnsiConsole.Write(new Text("[ Doorgaan ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Grey)).Centered());
         }
         else {
             Console.SetCursorPosition(0, 14);
-            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
             AnsiConsole.Write(new Text("[ Doorgaan ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
         
         }
     }
@@ -381,12 +381,32 @@ public static void Register()
             if (i == index)
             {
                 Console.Write("> ");
-                AnsiConsole.Write(new Text($"{q.Key}: {q.Value}".PadRight(Console.WindowWidth - 2), new Style(Color.Blue, Color.Black)));
+                if (q.Key == "Wachtwoord")
+                {
+                    string hidden = "";
+                    for (int j = 0; j < q.Value.Length; j++)
+                    {
+                        hidden += "*";
+                    }
+                    AnsiConsole.Write(new Text($"{q.Key}: {hidden}".PadRight(Console.WindowWidth - 2), new Style(Color.Blue, Color.Black)));
+                }
+                else
+                    AnsiConsole.Write(new Text($"{q.Key}: {q.Value}".PadRight(Console.WindowWidth - 2), new Style(Color.Blue, Color.Black)));
             }
             else
             {
                 Console.Write("  ");
-                AnsiConsole.Write(new Text($"{q.Key}: {q.Value}".PadRight(Console.WindowWidth - 2), new Style(Color.White, Color.Black)));
+                if (q.Key == "Wachtwoord")
+                {
+                    string hidden = "";
+                    for (int j = 0; j < q.Value.Length; j++)
+                    {
+                        hidden += "*";
+                    }
+                    AnsiConsole.Write(new Text($"{q.Key}: {hidden}".PadRight(Console.WindowWidth - 2), new Style(Color.White, Color.Black)));
+                }
+                else
+                    AnsiConsole.Write(new Text($"{q.Key}: {q.Value}".PadRight(Console.WindowWidth - 2), new Style(Color.White, Color.Black)));
             }
             
         }
@@ -412,18 +432,18 @@ public static void Register()
         Console.SetCursorPosition(0, 10);
         if (index == QI2.Count)
         {
-            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Grey)).Centered());
-            AnsiConsole.Write(new Text("[ Doorgaan ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Doorgaan ]", new Style(Color.Yellow, Color.Grey)).Centered());
+            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
         }
         else if (index == QI2.Count + 1)
         {
-            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
-            AnsiConsole.Write(new Text("[ Doorgaan ]", new Style(Color.Yellow, Color.Grey)).Centered());
+            AnsiConsole.Write(new Text("[ Doorgaan ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Grey)).Centered());
         }
         else
         {
-            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
             AnsiConsole.Write(new Text("[ Doorgaan ]", new Style(Color.Yellow, Color.Black)).Centered());
+            AnsiConsole.Write(new Text("[ Terug ]", new Style(Color.Yellow, Color.Black)).Centered());
         }
     }
 
@@ -477,13 +497,13 @@ public static void Register()
                 break;
 
                 case ConsoleKey.Enter:
-                    if (index < QI2.Count - 1)
+                    if (index < QI2.Count)
                         index++;
-                    if (index == QI2.Count)
+                    if (index == QI2.Count + 1)
                     {
                         Program.ShowScreen(MainScreen.MainMenu);
                     }
-                    else if (index == QI2.Count + 1)
+                    else if (index == QI2.Count)
                     {
                         queue = "";
                         Console.Clear();
