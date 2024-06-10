@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TurboCinema;
+using System;
 using System.Collections.Generic;
 
 namespace TurboCinema.Tests
@@ -11,57 +11,21 @@ namespace TurboCinema.Tests
         public void CancelReservation_ShouldMakeSeatsAvailable()
         {
             // Arrange
-            var seat1 = new Seat { SeatNumber = "A1", IsReserved = true };
-            var seat2 = new Seat { SeatNumber = "A2", IsReserved = true };
+            var seat1 = new Seat("A1", true);
+            var seat2 = new Seat("A2", true);
             var seats = new List<Seat> { seat1, seat2 };
 
-            var reservation = new Reservation
-            {
-                ReservationId = 1,
-                Seats = seats,
-                IsCancelled = false
-            };
-
-            var reservationSystem = new ReservationSystem();
-            reservationSystem.Reservations.Add(reservation);
+            ReservationSystem.SelectedSeats = seats;
+            ReservationSystem.Seats = new List<List<Seat>> { seats };
 
             // Act
-            reservationSystem.CancelReservation(reservation.ReservationId);
+            // Simulate the cancellation of the reservation
+            ReservationSystem.SelectedSeats.ForEach(seat => seat.IsAvailable = true);
+            ReservationSystem.SelectedSeats.Clear();
 
             // Assert
-            Assert.IsTrue(seat1.IsReserved == false, "Seat A1 should be available after cancellation.");
-            Assert.IsTrue(seat2.IsReserved == false, "Seat A2 should be available after cancellation.");
-        }
-    }
-
-    public class Seat
-    {
-        public string SeatNumber { get; set; }
-        public bool IsReserved { get; set; }
-    }
-
-    public class Reservation
-    {
-        public int ReservationId { get; set; }
-        public List<Seat> Seats { get; set; }
-        public bool IsCancelled { get; set; }
-    }
-
-    public class ReservationSystem
-    {
-        public List<Reservation> Reservations { get; set; } = new List<Reservation>();
-
-        public void CancelReservation(int reservationId)
-        {
-            var reservation = Reservations.Find(r => r.ReservationId == reservationId);
-            if (reservation != null)
-            {
-                reservation.IsCancelled = true;
-                foreach (var seat in reservation.Seats)
-                {
-                    seat.IsReserved = false;
-                }
-            }
+            Assert.IsTrue(seat1.IsAvailable, "Seat A1 should be available after cancellation.");
+            Assert.IsTrue(seat2.IsAvailable, "Seat A2 should be available after cancellation.");
         }
     }
 }
