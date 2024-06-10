@@ -1511,32 +1511,39 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Amzir\\.nuget\\packages\\": {}
+    "C:\\Users\\svenv\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
       "projectName": "TurboCinema.Tests",
-      "projectPath": "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
-      "packagesPath": "C:\\Users\\Amzir\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\obj\\",
+      "projectPath": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
+      "packagesPath": "C:\\Users\\svenv\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Amzir\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\svenv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
-              "projectPath": "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj"
+            "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
+              "projectPath": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj"
             }
           }
         }
@@ -1545,11 +1552,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -1595,7 +1597,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
