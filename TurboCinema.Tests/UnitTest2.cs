@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using TurboCinema;
 
 namespace TurboCinema.Tests
 {
