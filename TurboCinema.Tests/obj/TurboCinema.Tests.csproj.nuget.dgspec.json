@@ -1,33 +1,39 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj": {}
+    "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj": {
+    "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
         "projectName": "TurboCinema.Tests",
-        "projectPath": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
-        "packagesPath": "C:\\Users\\sven\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema.Tests\\obj\\",
+        "projectPath": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
+        "packagesPath": "C:\\Users\\svenv\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\sven\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\svenv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
-                "projectPath": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj"
+              "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
+                "projectPath": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj"
               }
             }
           }
@@ -85,22 +91,28 @@
         }
       }
     },
-    "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
+    "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
+        "projectUniqueName": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
         "projectName": "TurboCinema",
-        "projectPath": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
-        "packagesPath": "C:\\Users\\sven\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\obj\\",
+        "projectPath": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
+        "packagesPath": "C:\\Users\\svenv\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\sven\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\svenv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
