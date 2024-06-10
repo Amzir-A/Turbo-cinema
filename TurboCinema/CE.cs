@@ -87,7 +87,7 @@ public class CE
     }
     public static void PressAnyKey()
     {
-        Console.WriteLine("Press any key to continue...");
+        Console.WriteLine("Druk op een knop om door te gaan...");
         Console.ReadKey();
     }
 
