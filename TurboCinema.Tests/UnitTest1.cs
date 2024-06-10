@@ -1,50 +1,108 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TurboCinema; // Zorg ervoor dat je de juiste namespace gebruikt
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace TurboCinema.Tests
 {
     [TestClass]
-    public class MovieSelectorTests
+    public class ReservationCancellationTests
     {
-    [TestMethod]
-    public void GetSelectedMovie_ShouldReturnCorrectMovie()
-    {
-        // Arrange
-        var movies = new List<Movie>
+        private string testFile = "Data/TestMoviesAndPlaytimes.json";
+
+        [TestInitialize]
+        public void Setup()
         {
-            new("Dune: Part Two", "29-02-2024", "Denis Villeneuve", new List<string> { "Timothee Chalamet", "Zendaya", "Rebecca Ferguson", "Dave Bautista", "Florence Pugh" }, "166 minutes", new List<string> { "Science fiction", "Action" }, "12", "In Dune: Part Two, Paul Atreides' legendary journey continues in the company of Chani and the Fremen as he seeks revenge on those who caused his family's downfall. Paul will have to choose between the love of his life and the fate of the universe to avoid the terrible future he alone has foreseen.")
-        };
-        MovieSelector.movies = movies;
-        MovieSelector.selectedIndex = 0;
+            // Create test data
+            var testMovies = new List<Movie>
+            {
+                new Movie(
+                    title: "Test Movie",
+                    release: "29-02-2024",
+                    director: "John Doe",
+                    actors: new List<string> { "Actor 1", "Actor 2" },
+                    duration: "120 minutes",
+                    genre: new List<string> { "Genre 1" },
+                    ageRating: "PG-13",
+                    description: "Test Description")
+                {
+                    Playtimes = new List<Playtime>
+                    {
+                        new Playtime
+                        {
+                            DateTime = new DateTime(2024, 6, 1, 20, 0, 0),
+                            Seats = new List<List<Seat>>
+                            {
+                                new List<Seat>
+                                {
+                                    new Seat("A1", true),
+                                    new Seat("A2", true)
+                                },
+                                new List<Seat>
+                                {
+                                    new Seat("B1", true),
+                                    new Seat("B2", true)
+                                }
+                            }
+                        }
+                    }
+                }
+            };
 
-        var selectedMovie = MovieSelector.GetSelectedMovie();
+            string json = JsonConvert.SerializeObject(testMovies, Formatting.Indented);
+            File.WriteAllText(testFile, json);
+        }
 
-        Assert.AreEqual("Dune: Part Two", selectedMovie.Title);
-    }
-
-    [TestMethod]
-    public void ResetMovies_ShouldResetMovieList()
-    {
-        // Arrange
-        var originalMovies = new List<Movie>
+        [TestCleanup]
+        public void Cleanup()
         {
-            new Movie(
-                title: "Movie 1",
-                release: "01-01-2024",
-                director: "Director 1",
-                actors: new List<string> { "Actor 1" },
-                duration: "120 minutes",
-                genre: new List<string> { "Genre 1" },
-                ageRating: "PG-13",
-                description: "Description 1"
-            )
-        };
-        MovieSelector.movies = originalMovies;
-        MovieSelector.copyOfMovies = originalMovies.ToList();
+            if (File.Exists(testFile))
+            {
+                File.Delete(testFile);
+            }
+        }
 
-        MovieSelector.ResetMovies();
+        [TestMethod]
+        public void CancelReservation_ShouldMakeSeatsAvailable()
+        {
+            // Arrange
+            var customers = new List<Customer>
+            {
+                new Customer
+                {
+                    FirstName = "John",
+                    LastName = "Doe",
+                    DateOfBirth = new DateTime(1990, 1, 1),
+                    Email = "john.doe@example.com",
+                    Postcode = "1234AB",
+                    Password = "Password123",
+                    Reservations = new List<Reservation>
+                    {
+                        new Reservation(
+                            movieTitle: "Test Movie",
+                            playtime: new DateTime(2024, 6, 1, 20, 0, 0),
+                            seats: new List<Seat>
+                            {
+                                new Seat("A1", false),
+                                new Seat("A2", false)
+                            },
+                            room: "Room 1",
+                            foodAndDrinks: new List<(string, int, decimal)>())
+                    }
+                }
+            };
 
-        CollectionAssert.AreEqual(originalMovies, MovieSelector.movies);
+            // Act
+            var customer = customers[0];
+            var reservationToCancel = customer.Reservations[0];
+            LoginScreen.CancelReservation(customer, customers);
+
+            // Assert
+            var updatedSeats = ReservationSystem.LoadSeats("Test Movie", new DateTime(2024, 6, 1, 20, 0, 0), testFile);
+            Assert.IsTrue(updatedSeats[0][0].IsAvailable); // A1 should be available
+            Assert.IsTrue(updatedSeats[0][1].IsAvailable); // A2 should be available
+        }
     }
-}
 }

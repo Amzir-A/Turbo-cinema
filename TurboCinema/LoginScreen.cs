@@ -269,7 +269,7 @@ public static class LoginScreen
         File.WriteAllText(fileName, json);
     }
 
-    private static void CancelReservation(Customer customer, List<Customer> customers)
+    public static void CancelReservation(Customer customer, List<Customer> customers)
     {
         if (customer.Reservations.Count == 0)
         {
