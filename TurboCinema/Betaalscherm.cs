@@ -57,7 +57,7 @@ public class Betaalscherm
                 AnsiConsole.MarkupLine($"[green]{seat.ID}[/]");
             }
 
-            AnsiConsole.MarkupLine("[bold]Geselecteerde eten en drinken:[/]");
+            AnsiConsole.MarkupLine("[bold]Geselecteerd eten en drinken:[/]");
             foreach (var item in selectedFoodAndDrinks)
             {
                 AnsiConsole.MarkupLine($"[green]{item.Item1} - {item.Item2}x €{item.Item3}[/]");
@@ -175,7 +175,7 @@ public class Betaalscherm
                     .Secret());
 
             var expirationDate = AnsiConsole.Prompt(
-                new TextPrompt<string>("Voer de [green]vervaldatum[/] in (MM/YY)")
+                new TextPrompt<string>("Voer de [green]vervaldatum[/] in (MM/JJ)")
                     .PromptStyle("green"));
 
             var cvc = AnsiConsole.Prompt(
@@ -209,7 +209,7 @@ public class Betaalscherm
             else
             {
                 AnsiConsole.Clear();
-                AnsiConsole.Markup("[red]Reservering canceled![/]\n");
+                AnsiConsole.Markup("[red]Reservering geannuleerd![/]\n");
             }
         }
         else
