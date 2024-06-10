@@ -1517,11 +1517,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
       "projectName": "TurboCinema.Tests",
-      "projectPath": "c:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
+      "projectPath": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
       "packagesPath": "C:\\Users\\svenv\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\obj\\",
+      "outputPath": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1542,8 +1542,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "c:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
-              "projectPath": "c:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj"
+            "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
+              "projectPath": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj"
             }
           }
         }

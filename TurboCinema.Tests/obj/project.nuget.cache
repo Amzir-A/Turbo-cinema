@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wARSxv+QV7nEe9lA0hMqTw+gy3vtOmXMafD5eCWe4B/Q+oSswCJWUHRkJN3Q4JSx3h4Rcpy7t5aC4U6gNkg4zA==",
+  "dgSpecHash": "f3zZN+dteF97zIRWa7cUVBQggXAjSQpt5mjuWK1ojLKZeKPFZUIvDeCc7AtqKlwyOtSagDRgw+2xlSJHtDP82w==",
   "success": true,
-  "projectFilePath": "c:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
+  "projectFilePath": "C:\\Users\\svenv\\OneDrive\\Documenten\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\svenv\\.nuget\\packages\\consolegui\\1.4.2\\consolegui.1.4.2.nupkg.sha512",
     "C:\\Users\\svenv\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
