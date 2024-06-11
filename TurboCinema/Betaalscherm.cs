@@ -159,6 +159,7 @@ public class Betaalscherm
 
     private void ProcessPayment(int totalPrice, Customer customer)
     {
+        string? bank = "";
         var methode = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("Selecteer [green]betaalmethode[/]?")
@@ -171,7 +172,7 @@ public class Betaalscherm
 
         if (methode == "Ideal")
         {
-            var bank = AnsiConsole.Prompt(
+            bank = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Selecteer [green]bank[/]?")
                     .PageSize(10)
@@ -187,8 +188,6 @@ public class Betaalscherm
                         "Knab",
                         "Bunq"
                     }));
-
-            AnsiConsole.Markup($"[green]U heeft gekozen voor {methode} en {bank}[/]\n\n");
         }
         else if (methode == "Visa" || methode == "Mastercard")
         {
@@ -203,19 +202,24 @@ public class Betaalscherm
             var cvc = AnsiConsole.Prompt(
                 new TextPrompt<string>("Voer de [green]CVC[/] in")
                     .PromptStyle("green"));
-
-            AnsiConsole.Markup($"[green]U heeft gekozen voor {methode} met kaartnummer {cardNumber} en vervaldatum {expirationDate}[/]\n\n");
         }
-        else
-        {
-            AnsiConsole.Markup($"[green]U heeft gekozen voor {methode}[/]\n\n");
-        }
+        
 
         Console.WriteLine($"Bedrag: €{totalPrice},00");
 
         if (methode != "Contant [grey](Op locatie)[/]")
         {
-            if (CE.Confirm("Wilt u betalen?"))
+            string bb = "";
+            if (methode == "Ideal")
+            {
+                bb = $"[green]U heeft gekozen voor {methode} en {bank}[/]\n\n";
+            }
+            else if (methode == "Visa" || methode == "Mastercard")
+            {
+                AnsiConsole.Markup($"[green]U heeft gekozen voor {methode}[/]\n\n");
+            }
+
+            if (CE.Confirm2(bb + $"Bedrag: €{totalPrice},00\nWilt u betalen?"))
             {
                 AnsiConsole.Clear();
                 CE.Wait("Verwerken betaling");

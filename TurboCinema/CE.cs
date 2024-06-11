@@ -1,5 +1,7 @@
 // Console extension, extra functionaliteit voor het vragen om input in de console
 
+using Spectre.Console;
+
 public class CE
 {
     public static int ConfirmR(string message)
@@ -57,6 +59,36 @@ public class CE
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Ongeldige invoer. Voer 'j' of 'n' in.");
                 Console.ResetColor();
+            }
+        }
+    }
+
+    public static bool Confirm2(string message)
+    {
+        Color color = Color.Grey;
+        Color color2 = Color.Black;
+        while (true)
+        {
+            Console.Clear();
+            AnsiConsole.MarkupLine(message);
+
+            WL();
+            AnsiConsole.Write(new Text("Ja", new Style(Color.Yellow, color)).Centered());
+            AnsiConsole.Write(new Text("Nee", new Style(Color.Yellow, color2)).Centered());
+
+            ConsoleKeyInfo key = Console.ReadKey();
+            switch (key.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    color = Color.Grey;
+                    color2 = Color.Black;
+                    break;
+                case ConsoleKey.DownArrow:
+                    color = Color.Black;
+                    color2 = Color.Grey;
+                    break;
+                case ConsoleKey.Enter:
+                    return color == Color.Grey;
             }
         }
     }

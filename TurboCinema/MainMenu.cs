@@ -64,7 +64,7 @@ public static class MainScreen
         MovieSelector.SelectMovie();
         AnsiConsole.Clear();
 
-        bool startOver = CE.Confirm("Opnieuw beginnen met een nieuwe film?");
+        bool startOver = CE.Confirm2("Opnieuw beginnen met een nieuwe film?");
         if (!startOver)
         {
             Environment.Exit(0);
