@@ -1,10 +1,9 @@
-// Als gebruiker wil ik dat mijn privacy wordt gerespecteerd en mijn persoonlijke gegevens veilig worden opgeslagen.
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
-using TurboCinema;
+using System.Linq;
 
 namespace TurboCinema.Tests
 {
@@ -12,15 +11,32 @@ namespace TurboCinema.Tests
     public class MovieSelectorTest
     {
         private string testFile = "Data/TestAccountInfo.json";
+        private string testMoviesAndPlaytimes = "Data/MoviesAndPlaytimes.json";
 
         [TestInitialize]
         public void Setup()
         {
-            // Setup: Zorg dat het testbestand leeg is
+            // Ensure test files are clean
             if (File.Exists(testFile))
             {
                 File.Delete(testFile);
             }
+
+            if (File.Exists(testMoviesAndPlaytimes))
+            {
+                File.Delete(testMoviesAndPlaytimes);
+            }
+
+            // Create test movie data
+            var testMovies = new List<Movie>
+            {
+                new Movie("Action Movie", "01-01-2024", "Director 1", new List<string> { "Actor 1" }, "120 minutes", new List<string> { "Action" }, "PG-13", "Description 1"),
+                new Movie("Drama Movie", "02-02-2024", "Director 2", new List<string> { "Actor 2" }, "130 minutes", new List<string> { "Drama" }, "R", "Description 2"),
+                new Movie("Comedy Movie", "03-03-2024", "Director 3", new List<string> { "Actor 3" }, "140 minutes", new List<string> { "Comedy" }, "G", "Description 3")
+            };
+
+            string json = JsonConvert.SerializeObject(testMovies, Formatting.Indented);
+            File.WriteAllText(testMoviesAndPlaytimes, json);
         }
 
         [TestCleanup]
@@ -29,6 +45,11 @@ namespace TurboCinema.Tests
             if (File.Exists(testFile))
             {
                 File.Delete(testFile);
+            }
+
+            if (File.Exists(testMoviesAndPlaytimes))
+            {
+                File.Delete(testMoviesAndPlaytimes);
             }
         }
 
@@ -89,8 +110,6 @@ namespace TurboCinema.Tests
             Assert.AreEqual("02-02-2024", selectedMovie.Release);
             Assert.AreEqual("Director 2", selectedMovie.Director);
         }
-<<<<<<< Updated upstream
-=======
 
         [TestMethod]
         public void DisplaySortedMovies_ShouldSortMoviesByGenre()
@@ -99,22 +118,8 @@ namespace TurboCinema.Tests
             MovieSelector.movies = MovieSelector.LoadMovies();
             MovieSelector.copyOfMovies = MovieSelector.movies.ToList();
 
-            // Print movies before sorting for debugging
-            Console.WriteLine("Movies before sorting:");
-            foreach (var movie in MovieSelector.movies)
-            {
-                Console.WriteLine($"Title: {movie.Title}, Genre: {string.Join(", ", movie.Genre)}");
-            }
-
             // Act
             MovieSelector.DisplaySortedMovies("genre", "Action");
-
-            // Print movies after sorting for debugging
-            Console.WriteLine("Movies after sorting:");
-            foreach (var movie in MovieSelector.movies)
-            {
-                Console.WriteLine($"Title: {movie.Title}, Genre: {string.Join(", ", movie.Genre)}");
-            }
 
             // Assert
             var sortedMovies = MovieSelector.movies;
@@ -124,7 +129,6 @@ namespace TurboCinema.Tests
 
 
 
-        [TestMethod]      
         public void DisplaySortedMovies_ShouldSortMoviesByReleaseDate()
         {
             // Arrange
@@ -157,6 +161,5 @@ namespace TurboCinema.Tests
             Assert.AreEqual("Drama Movie", sortedMovies[1].Title);
             Assert.AreEqual("Comedy Movie", sortedMovies[2].Title);
         }
->>>>>>> Stashed changes
     }
 }
