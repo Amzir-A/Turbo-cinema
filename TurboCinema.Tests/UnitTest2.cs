@@ -119,18 +119,6 @@ namespace TurboCinema.Tests
             MovieSelector.copyOfMovies = MovieSelector.movies.ToList();
 
             // Act
-<<<<<<< HEAD
-            MovieSelector.DisplaySortedMovies("genre");
-
-            // Assert
-            var sortedMovies = MovieSelector.movies;
-            Assert.AreEqual("Action Movie", sortedMovies[0].Title);
-            Assert.AreEqual("Comedy Movie", sortedMovies[1].Title);
-            Assert.AreEqual("Drama Movie", sortedMovies[2].Title);
-        }
-
-        [TestMethod]
-=======
             MovieSelector.DisplaySortedMovies("genre", "Action");
 
             // Assert
@@ -139,9 +127,7 @@ namespace TurboCinema.Tests
             Assert.AreEqual("Action Movie", sortedMovies[0].Title);
         }
 
-
-
->>>>>>> Svennerz
+        [TestMethod]
         public void DisplaySortedMovies_ShouldSortMoviesByReleaseDate()
         {
             // Arrange
@@ -153,15 +139,9 @@ namespace TurboCinema.Tests
 
             // Assert
             var sortedMovies = MovieSelector.movies;
-<<<<<<< HEAD
-            Assert.AreEqual("Action Movie", sortedMovies[0].Title);
-            Assert.AreEqual("Drama Movie", sortedMovies[1].Title);
-            Assert.AreEqual("Comedy Movie", sortedMovies[2].Title);
-=======
             Assert.AreEqual("Comedy Movie", sortedMovies[0].Title);
             Assert.AreEqual("Drama Movie", sortedMovies[1].Title);
             Assert.AreEqual("Action Movie", sortedMovies[2].Title);
->>>>>>> Svennerz
         }
 
         [TestMethod]

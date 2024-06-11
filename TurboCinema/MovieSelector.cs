@@ -129,13 +129,6 @@ public static class MovieSelector
             }
 
             movies = sortedMovies;
-
-            // Debugging log
-            foreach (var movie in movies)
-            {
-                Console.WriteLine($"{movie.Title} - {movie.Release}");
-            }
-
             DisplayMovies();
         }
 
@@ -143,7 +136,13 @@ public static class MovieSelector
 
     public static void DisplayMovies()
     {
+            if (Console.IsOutputRedirected)
+    {
+    }
+    else
+    {
         Console.Clear();
+    }
         AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
         AnsiConsole.WriteLine();
 
