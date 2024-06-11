@@ -32,3 +32,5 @@ TurboCinema.Tests/obj/Debug/net8.0/TurboCinema.Tests.AssemblyInfoInputs.cache
 TurboCinema.Tests/obj/Debug/net8.0/TurboCinema.Tests.assets.cache
 TurboCinema.Tests/obj/Debug/net8.0/TurboCinema.Tests.csproj.AssemblyReference.cache
 TurboCinema.Tests/obj/Debug/net8.0/TurboCinema.Tests.GeneratedMSBuildEditorConfig.editorconfig
+TurboCinema/obj/Debug/net8.0/TurboCinema.AssemblyInfo.cs
+TurboCinema/obj/Debug/net8.0/TurboCinema.AssemblyInfoInputs.cache
