@@ -223,9 +223,8 @@ public class Betaalscherm
                 {
                     SaveReservation(customer, totalPrice, selectedPlaytime);
                 }
-                
-                ConfirmationScreen.Show(ReservationSystem.SelectedMovie, ReservationSystem.SelectedPlaytime, FoodAndDrinksScreen.SelectedItems);
                 ReservationSystem.UpdateSeatsAvailability();
+                ConfirmationScreen.Show(ReservationSystem.SelectedMovie, ReservationSystem.SelectedPlaytime, FoodAndDrinksScreen.SelectedItems);
             }
             else
             {
@@ -237,6 +236,7 @@ public class Betaalscherm
         {
             AnsiConsole.Clear();
             // AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
+            SaveReservation(customer, totalPrice, selectedPlaytime);
             ReservationSystem.UpdateSeatsAvailability();
             ConfirmationScreen.Show(ReservationSystem.SelectedMovie, ReservationSystem.SelectedPlaytime, FoodAndDrinksScreen.SelectedItems);
         }
