@@ -11,7 +11,7 @@ namespace TurboCinema.Tests
     public class MovieSelectorTest
     {
         private string testFile = "Data/TestAccountInfo.json";
-        private string testMoviesAndPlaytimes = "Data/TestMoviesAndPlaytimes.json";
+        private string testMoviesAndPlaytimes = "Data/MoviesAndPlaytimes.json";
 
         [TestInitialize]
         public void Setup()
