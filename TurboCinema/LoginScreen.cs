@@ -336,7 +336,7 @@ public static void Register()
         return hasCapital && hasNumber;
     }
 
-    static string HashPassword(string password)
+    public static string HashPassword(string password)
     {
         using (SHA256 sha256 = SHA256.Create())
         {
@@ -367,7 +367,7 @@ public static void Register()
         }
     }
 
-    private static List<Customer> LoadCustomers(string fileName)
+    public static List<Customer> LoadCustomers(string fileName)
     {
         List<Customer> customers;
 
@@ -383,6 +383,8 @@ public static void Register()
 
         return customers;
     }
+
+    
 
     private static void RenderLogin(Dictionary<string, string> QI2, int index)
     {
@@ -637,7 +639,7 @@ public static void Register()
     }
 
 
-    static void SaveCustomers(List<Customer> customers, string fileName)
+    public static void SaveCustomers(List<Customer> customers, string fileName)
     {
         string json = JsonSerializer.Serialize(customers, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(fileName, json);

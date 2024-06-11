@@ -29,10 +29,17 @@ public static class MovieSelector
         return selectedPlaytime;
     }
 
-    public static void SelectMovie()
+    public static void SelectMovie(string testTitle = null)
     {
         ResetMovies();
         DisplayMovies();
+
+        if (testTitle != null)
+        {
+            var movie = movies.FirstOrDefault(m => m.Title == testTitle);
+            selectedIndex = movies.IndexOf(movie);
+            return;
+        }
 
         var sortCriteria = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
@@ -127,7 +134,6 @@ public static class MovieSelector
 
     public static void DisplayMovies()
     {
-        Console.Clear();
         AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
         AnsiConsole.WriteLine();
 
