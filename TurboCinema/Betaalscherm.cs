@@ -194,7 +194,7 @@ public class Betaalscherm
         {
             var cardNumber = AnsiConsole.Prompt(
                 new TextPrompt<string>("Voer uw [green]kaartnummer[/] in")
-                    .PromptStyle("green");
+                    .PromptStyle("green"));
 
             var expirationDate = AnsiConsole.Prompt(
                 new TextPrompt<string>("Voer de [green]vervaldatum[/] in (MM/JJ)")
@@ -202,7 +202,7 @@ public class Betaalscherm
 
             var cvc = AnsiConsole.Prompt(
                 new TextPrompt<string>("Voer de [green]CVC[/] in")
-                    .PromptStyle("green");
+                    .PromptStyle("green"));
 
             AnsiConsole.Markup($"[green]U heeft gekozen voor {methode} met kaartnummer {cardNumber} en vervaldatum {expirationDate}[/]\n\n");
         }
