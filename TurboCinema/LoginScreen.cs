@@ -44,7 +44,7 @@ public static class LoginScreen
                 new SelectionPrompt<string>()
                     .Title("Welkom bij TurboCinema!")
                     .PageSize(10)
-                    .AddChoices(new[] { "Login", "Maak een account", "Terug naar hoofdmenu" }));
+                    .AddChoices(new[] { "Reserveringen bekijken", "Maak een account", "Terug naar hoofdmenu" }));
 
             switch (option)
             {
@@ -297,6 +297,9 @@ public static void Register()
     {
         foreach (char c in name)
         {
+            if (c == ' ') 
+                return true;
+
             if (!char.IsLetter(c))
             {
                 return false;
