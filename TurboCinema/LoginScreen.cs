@@ -48,7 +48,7 @@ public static class LoginScreen
 
             switch (option)
             {
-                case "Login":
+                case "Reserveringen bekijken":
                     Login();
                     break;
                 case "Maak een account":
