@@ -568,7 +568,7 @@ public static void Register()
                                     .Padding(1, 1)
                                     .SquareBorder());
 
-                                AnsiConsole.MarkupLine("Wil je (nog) een reservatie annuleren?");
+                                AnsiConsole.MarkupLine("Wil je (nog) een reservering annuleren?");
 
                                 if (index2 == 0)
                                 {
@@ -621,7 +621,7 @@ public static void Register()
 
                         }
                         else {
-                            queue = "Login gefaald. Incorrecte email of wachtwoord.";
+                            queue = "Login gefaald. Incorrect email-adres of wachtwoord.";
                         }
                     }
                     break;
