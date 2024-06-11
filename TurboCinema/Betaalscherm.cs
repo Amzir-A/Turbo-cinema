@@ -9,6 +9,7 @@ public class Betaalscherm
     private Playtime selectedPlaytime;
     private List<(string, int, decimal)> selectedFoodAndDrinks;
     private List<Customer> customers;
+    string queue = "";
     
     public int CalculateTotalPrice()
     {
@@ -82,20 +83,41 @@ public class Betaalscherm
                 case ConsoleKey.Enter:
                     AnsiConsole.Clear();
 
+                    
                     if (choice == 0)
                     {
                         while (true)
                         {
-                            string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
-                            Customer customer = FindCustomerByEmail(email);
+                            Console.Clear();
+                            AnsiConsole.Write(new Rule("[yellow bold]Inloggen[/]"){
+                                Style = new Style(Color.Yellow)
+                            }.Centered());
+                            Console.WriteLine();
+                            AnsiConsole.MarkupLine("[blue]Emailadres: [/]");
+                            AnsiConsole.MarkupLine("[blue]Wachtwoord: [/]");
+                            Console.WriteLine("\n\n");
+                            AnsiConsole.Write(new Text(queue, new Style(Color.Red)));
+                            AnsiConsole.Write("\u001b[G");
+                            AnsiConsole.Write("\u001b[5A");
+                            AnsiConsole.Write("\u001b[12C");
+                            string email = AnsiConsole.Ask<string>("");
+                            // AnsiConsole.Write("\u001b[2A");
+                            AnsiConsole.Write("\u001b[12C");
+                            string password = AnsiConsole.Ask<string>("");
+                            // AnsiConsole.Write("\u001b[22D");
+                            Customer customer = FindCustomerByEmailAndPassword(email, password);
                             if (customer != null)
                             {
+                                Console.Clear();
+                                AnsiConsole.Markup("[green]Succesvol ingelogd[/]\n");
+                                CE.WL();
+
                                 ProcessPayment(totalPrice, customer);
                                 break;
                             }
                             else
                             {
-                                AnsiConsole.Markup("[red]Geen account gevonden met dat emailadres.[/]");
+                                queue = "Geen account gevonden met dat emailadres.";
                             }
                         }
                     }
@@ -222,22 +244,18 @@ public class Betaalscherm
         }
     }
 
-    public Customer FindCustomerByEmail(string email)
+    public Customer FindCustomerByEmailAndPassword(string email, string password)
     {
         var customers = LoadCustomers("Data/AccountInfo.json");
         Customer customer = null;
 
-        do
-        {
-            customer = customers.FirstOrDefault(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+        customer = customers.Find(c => c.Email == email && c.Password == password);
 
-            if (customer == null)
-            {
-                AnsiConsole.Markup("[red]Geen account gevonden met dat emailadres. Probeer opnieuw.[/]\n");
-                email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
-            }
+        if (customer == null)
+        {
+            AnsiConsole.Markup("[red]Geen account gevonden met dat emailadres. Probeer opnieuw.[/]\n");
+            return null;
         }
-        while (customer == null);
 
         return customer;
     }

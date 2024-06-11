@@ -56,7 +56,6 @@ public static class MainScreen
                 default:
                     break;
             }
-            Console.ReadLine();
         }
     }
 
