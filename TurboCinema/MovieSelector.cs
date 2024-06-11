@@ -80,60 +80,69 @@ public static class MovieSelector
         }
     }
 
-    public static void DisplaySortedMovies(string sortBy)
-    {
-        List<Movie> sortedMovies = new List<Movie>();
-
-        switch (sortBy.ToLower())
+    public static void DisplaySortedMovies(string sortBy, string genre = null)
         {
-            case "genre":
-                var genre = AnsiConsole.Prompt(
-                    new SelectionPrompt<string>()
-                    .Title("Selecteer een genre:")
-                    .PageSize(13)
-                    .AddChoices(new[] { "Action", "Adventure", "Biography", "Comedy", "Superhero", "Supernatural", "Drama", "Horror", "Musical", "Mystery", "Romance", "Science fiction", "Thriller" })
-                );
-                sortedMovies = movies.Where(m => m.Genre.Contains(genre)).ToList();
-                break;
-            case "actor":
-                sortedMovies = movies.Where(m => m.Actors.Any()).OrderBy(m => m.Actors.FirstOrDefault()).ToList();
-                break;
-            case "publicatiedatum":
-                sortedMovies = movies.OrderByDescending(m =>
-                {
-                    DateTime releaseDate;
-                    var dateFormats = new[] { "d-MM-yyyy", "dd-MM-yyyy" };
-                    if (DateTime.TryParseExact(m.Release, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out releaseDate))
+            List<Movie> sortedMovies = new List<Movie>();
+
+            switch (sortBy.ToLower())
+            {
+                case "genre":
+                    if (genre == null)
                     {
-                        return releaseDate;
+                        genre = AnsiConsole.Prompt(
+                            new SelectionPrompt<string>()
+                            .Title("Selecteer een genre:")
+                            .PageSize(13)
+                            .AddChoices(new[] { "Action", "Adventure", "Biography", "Comedy", "Superhero", "Supernatural", "Drama", "Horror", "Musical", "Mystery", "Romance", "Science fiction", "Thriller" })
+                        );
                     }
-                    return DateTime.MinValue;
-                }).ToList();
-                break;
-            case "lengte":
-                sortedMovies = movies.OrderBy(m =>
-                {
-                    if (int.TryParse(m.Duration.Split(' ')[0], out int duration))
+                    sortedMovies = movies.Where(m => m.Genre.Contains(genre)).ToList();
+                    break;
+                case "publicatiedatum":
+                    sortedMovies = movies.OrderByDescending(m =>
                     {
-                        return duration;
-                    }
-                    return int.MaxValue;
-                }).ToList();
-                break;
-            case "Doorgaan zonder sorteren":
-                sortedMovies = movies.ToList();
-                break;
-            default:
-                sortedMovies = movies.ToList();
-                break;
+                        DateTime releaseDate;
+                        var dateFormats = new[] { "d-MM-yyyy", "dd-MM-yyyy" };
+                        if (DateTime.TryParseExact(m.Release, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out releaseDate))
+                        {
+                            return releaseDate;
+                        }
+                        return DateTime.MinValue;
+                    }).ToList();
+                    break;
+                case "lengte":
+                    sortedMovies = movies.OrderBy(m =>
+                    {
+                        if (int.TryParse(m.Duration.Split(' ')[0], out int duration))
+                        {
+                            return duration;
+                        }
+                        return int.MaxValue;
+                    }).ToList();
+                    break;
+                case "Doorgaan zonder sorteren":
+                    sortedMovies = movies.ToList();
+                    break;
+                default:
+                    sortedMovies = movies.ToList();
+                    break;
+            }
+
+            movies = sortedMovies;
+            DisplayMovies();
         }
-        movies = sortedMovies;
-        DisplayMovies();
-    }
+
 
 
     public static void DisplayMovies()
     {
+            if (Console.IsOutputRedirected)
+    {
+    }
+    else
+    {
+        Console.Clear();
+    }
         AnsiConsole.Write(new FigletText("TurboCinema").Centered().Color(Color.Red));
         AnsiConsole.WriteLine();
 

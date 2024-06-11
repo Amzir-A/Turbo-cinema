@@ -1,10 +1,9 @@
-// Als gebruiker wil ik dat mijn privacy wordt gerespecteerd en mijn persoonlijke gegevens veilig worden opgeslagen.
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
-using TurboCinema;
+using System.Linq;
 
 namespace TurboCinema.Tests
 {
@@ -12,15 +11,32 @@ namespace TurboCinema.Tests
     public class MovieSelectorTest
     {
         private string testFile = "Data/TestAccountInfo.json";
+        private string testMoviesAndPlaytimes = "Data/MoviesAndPlaytimes.json";
 
         [TestInitialize]
         public void Setup()
         {
-            // Setup: Zorg dat het testbestand leeg is
+            // Ensure test files are clean
             if (File.Exists(testFile))
             {
                 File.Delete(testFile);
             }
+
+            if (File.Exists(testMoviesAndPlaytimes))
+            {
+                File.Delete(testMoviesAndPlaytimes);
+            }
+
+            // Create test movie data
+            var testMovies = new List<Movie>
+            {
+                new Movie("Action Movie", "01-01-2024", "Director 1", new List<string> { "Actor 1" }, "120 minutes", new List<string> { "Action" }, "PG-13", "Description 1"),
+                new Movie("Drama Movie", "02-02-2024", "Director 2", new List<string> { "Actor 2" }, "130 minutes", new List<string> { "Drama" }, "R", "Description 2"),
+                new Movie("Comedy Movie", "03-03-2024", "Director 3", new List<string> { "Actor 3" }, "140 minutes", new List<string> { "Comedy" }, "G", "Description 3")
+            };
+
+            string json = JsonConvert.SerializeObject(testMovies, Formatting.Indented);
+            File.WriteAllText(testMoviesAndPlaytimes, json);
         }
 
         [TestCleanup]
@@ -29,6 +45,11 @@ namespace TurboCinema.Tests
             if (File.Exists(testFile))
             {
                 File.Delete(testFile);
+            }
+
+            if (File.Exists(testMoviesAndPlaytimes))
+            {
+                File.Delete(testMoviesAndPlaytimes);
             }
         }
 
@@ -88,6 +109,56 @@ namespace TurboCinema.Tests
             Assert.AreEqual("Movie 2", selectedMovie.Title);
             Assert.AreEqual("02-02-2024", selectedMovie.Release);
             Assert.AreEqual("Director 2", selectedMovie.Director);
+        }
+
+        [TestMethod]
+        public void DisplaySortedMovies_ShouldSortMoviesByGenre()
+        {
+            // Arrange
+            MovieSelector.movies = MovieSelector.LoadMovies();
+            MovieSelector.copyOfMovies = MovieSelector.movies.ToList();
+
+            // Act
+            MovieSelector.DisplaySortedMovies("genre", "Action");
+
+            // Assert
+            var sortedMovies = MovieSelector.movies;
+            Assert.AreEqual(1, sortedMovies.Count); // Only one movie should be in the Action genre
+            Assert.AreEqual("Action Movie", sortedMovies[0].Title);
+        }
+
+        [TestMethod]
+        public void DisplaySortedMovies_ShouldSortMoviesByReleaseDate()
+        {
+            // Arrange
+            MovieSelector.movies = MovieSelector.LoadMovies();
+            MovieSelector.copyOfMovies = MovieSelector.movies.ToList();
+
+            // Act
+            MovieSelector.DisplaySortedMovies("publicatiedatum");
+
+            // Assert
+            var sortedMovies = MovieSelector.movies;
+            Assert.AreEqual("Comedy Movie", sortedMovies[0].Title);
+            Assert.AreEqual("Drama Movie", sortedMovies[1].Title);
+            Assert.AreEqual("Action Movie", sortedMovies[2].Title);
+        }
+
+        [TestMethod]
+        public void DisplaySortedMovies_ShouldSortMoviesByDuration()
+        {
+            // Arrange
+            MovieSelector.movies = MovieSelector.LoadMovies();
+            MovieSelector.copyOfMovies = MovieSelector.movies.ToList();
+
+            // Act
+            MovieSelector.DisplaySortedMovies("lengte");
+
+            // Assert
+            var sortedMovies = MovieSelector.movies;
+            Assert.AreEqual("Action Movie", sortedMovies[0].Title);
+            Assert.AreEqual("Drama Movie", sortedMovies[1].Title);
+            Assert.AreEqual("Comedy Movie", sortedMovies[2].Title);
         }
     }
 }
