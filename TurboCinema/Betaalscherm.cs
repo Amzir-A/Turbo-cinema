@@ -103,7 +103,9 @@ public class Betaalscherm
                             string email = AnsiConsole.Ask<string>("");
                             // AnsiConsole.Write("\u001b[2A");
                             AnsiConsole.Write("\u001b[12C");
-                            string password = AnsiConsole.Ask<string>("");
+                            string password = AnsiConsole.Prompt(
+                                new TextPrompt<string>("")
+                                    .Secret());
                             // AnsiConsole.Write("\u001b[22D");
                             Customer customer = FindCustomerByEmailAndPassword(email, LoginScreen.HashPassword(password));
                             if (customer != null)
