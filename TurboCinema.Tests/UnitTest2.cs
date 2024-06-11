@@ -89,5 +89,74 @@ namespace TurboCinema.Tests
             Assert.AreEqual("02-02-2024", selectedMovie.Release);
             Assert.AreEqual("Director 2", selectedMovie.Director);
         }
+<<<<<<< Updated upstream
+=======
+
+        [TestMethod]
+        public void DisplaySortedMovies_ShouldSortMoviesByGenre()
+        {
+            // Arrange
+            MovieSelector.movies = MovieSelector.LoadMovies();
+            MovieSelector.copyOfMovies = MovieSelector.movies.ToList();
+
+            // Print movies before sorting for debugging
+            Console.WriteLine("Movies before sorting:");
+            foreach (var movie in MovieSelector.movies)
+            {
+                Console.WriteLine($"Title: {movie.Title}, Genre: {string.Join(", ", movie.Genre)}");
+            }
+
+            // Act
+            MovieSelector.DisplaySortedMovies("genre", "Action");
+
+            // Print movies after sorting for debugging
+            Console.WriteLine("Movies after sorting:");
+            foreach (var movie in MovieSelector.movies)
+            {
+                Console.WriteLine($"Title: {movie.Title}, Genre: {string.Join(", ", movie.Genre)}");
+            }
+
+            // Assert
+            var sortedMovies = MovieSelector.movies;
+            Assert.AreEqual(1, sortedMovies.Count); // Only one movie should be in the Action genre
+            Assert.AreEqual("Action Movie", sortedMovies[0].Title);
+        }
+
+
+
+        [TestMethod]      
+        public void DisplaySortedMovies_ShouldSortMoviesByReleaseDate()
+        {
+            // Arrange
+            MovieSelector.movies = MovieSelector.LoadMovies();
+            MovieSelector.copyOfMovies = MovieSelector.movies.ToList();
+
+            // Act
+            MovieSelector.DisplaySortedMovies("publicatiedatum");
+
+            // Assert
+            var sortedMovies = MovieSelector.movies;
+            Assert.AreEqual("Comedy Movie", sortedMovies[0].Title);
+            Assert.AreEqual("Drama Movie", sortedMovies[1].Title);
+            Assert.AreEqual("Action Movie", sortedMovies[2].Title);
+        }
+
+        [TestMethod]
+        public void DisplaySortedMovies_ShouldSortMoviesByDuration()
+        {
+            // Arrange
+            MovieSelector.movies = MovieSelector.LoadMovies();
+            MovieSelector.copyOfMovies = MovieSelector.movies.ToList();
+
+            // Act
+            MovieSelector.DisplaySortedMovies("lengte");
+
+            // Assert
+            var sortedMovies = MovieSelector.movies;
+            Assert.AreEqual("Action Movie", sortedMovies[0].Title);
+            Assert.AreEqual("Drama Movie", sortedMovies[1].Title);
+            Assert.AreEqual("Comedy Movie", sortedMovies[2].Title);
+        }
+>>>>>>> Stashed changes
     }
 }
