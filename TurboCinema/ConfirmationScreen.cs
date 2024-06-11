@@ -6,7 +6,6 @@ public static class ConfirmationScreen
     public static void Show(Movie selectedMovie, Playtime selectedPlaytime, List<(string, int, decimal)> selectedFoodAndDrinks)
     {
         AnsiConsole.Clear();
-        ProgressHelper.DisplayProgressBar("Reservering Bevestigen", 5);
         AnsiConsole.Write(new FigletText("Reservering Succesvol").Centered().Color(Color.Green));
         AnsiConsole.MarkupLine("[bold]Reservering succesvol! Er is een bevestiging naar uw e-mail adres verstuurd.[/]");
         AnsiConsole.WriteLine();

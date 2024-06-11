@@ -101,6 +101,7 @@ public class Betaalscherm
                     }
                     else if (choice == 1)
                     {
+                        NoAccount(AnsiConsole.Ask<string>("Wat is uw emailadres?"), totalPrice);
                         ProcessPayment(totalPrice, null);
                     }
                     else if (choice == 2)
