@@ -1511,19 +1511,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Nolan\\.nuget\\packages\\": {}
+    "C:\\Users\\Amzir\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
       "projectName": "TurboCinema.Tests",
-      "projectPath": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
-      "packagesPath": "C:\\Users\\Nolan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.Tests\\obj\\",
+      "projectPath": "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
+      "packagesPath": "C:\\Users\\Amzir\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Nolan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Amzir\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -1535,8 +1535,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema\\TurboCinema.csproj": {
-              "projectPath": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema\\TurboCinema.csproj"
+            "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
+              "projectPath": "C:\\Users\\Amzir\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj"
             }
           }
         }
@@ -1545,6 +1545,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -1590,7 +1595,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.301/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

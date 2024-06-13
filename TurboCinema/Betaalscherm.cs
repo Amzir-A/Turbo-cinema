@@ -171,8 +171,8 @@ public class Betaalscherm : PaymentProcess
                     }
                     else if (choice == 1)
                     {
-                        NoAccount(AnsiConsole.Ask<string>("Wat is uw emailadres?"), totalPrice);
-                        ProcessPayment(totalPrice, null);
+                        Customer cus = NoAccount(AnsiConsole.Ask<string>("Wat is uw emailadres?"), totalPrice);
+                        ProcessPayment(totalPrice, cus);
                     }
                     else if (choice == 2)
                     {
@@ -345,15 +345,13 @@ public class Betaalscherm : PaymentProcess
         File.WriteAllText(fileName, json);
     }
 
-    public void NoAccount(string email, int totalPrice)
+    public Customer NoAccount(string email, int totalPrice)
     {
         Customer nonAccountCustomer = new Customer()
         {
             Email = email,
             Reservations = new List<Reservation>()
         };
-        var reservation = new Reservation(selectedMovie.Title, selectedPlaytime.DateTime, selectedSeats, selectedPlaytime.Room, selectedFoodAndDrinks);
-        nonAccountCustomer.Reservations.Add(reservation);
-        SaveCustomers(nonAccountCustomer, "Data/AccountInfo.json");
+        return nonAccountCustomer;
     }
 }
