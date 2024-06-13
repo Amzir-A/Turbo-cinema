@@ -67,8 +67,6 @@ public static class LoginScreen
 
 public static void Register()
     {
-        // Check for input
-        // QI stands for question and input
         int index = 0;
 
         Console.Clear();
@@ -286,7 +284,6 @@ public static void Register()
             invalidInputs.Add("Ongeldige geboortedatum(MM-DD-JJJJ).");
         }
 
-        // Return the concatenated string of invalid inputs
         return string.Join(" ", invalidInputs);
     }
 
@@ -360,7 +357,6 @@ public static void Register()
 
         try
         {
-            // Use a regular expression to validate the email format
             string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
             return Regex.IsMatch(email, pattern);
         }

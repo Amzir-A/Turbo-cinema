@@ -83,17 +83,14 @@ public class Betaalscherm : PaymentProcess
             }
 
             AnsiConsole.Write("\u001b[G");
-            // AnsiConsole.Write("\u001b[5A");
             AnsiConsole.Write("\u001b[H");
             AnsiConsole.Write("\u001b[2B");
             AnsiConsole.Write("\u001b[12C");
             string email = AnsiConsole.Ask<string>("");
-            // AnsiConsole.Write("\u001b[2A");
             AnsiConsole.Write("\u001b[12C");
             string password = AnsiConsole.Prompt(
                 new TextPrompt<string>("")
                     .Secret());
-            // AnsiConsole.Write("\u001b[22D");
             Customer customer = FindCustomerByEmailAndPassword(email, LoginScreen.HashPassword(password));
             if (customer != null)
             {
@@ -290,7 +287,6 @@ public class Betaalscherm : PaymentProcess
         else
         {
             AnsiConsole.Clear();
-            // AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
             SaveReservation(customer, totalPrice, selectedPlaytime);
             ReservationSystem.UpdateSeatsAvailability();
             ConfirmationScreen.Show(ReservationSystem.SelectedMovie, ReservationSystem.SelectedPlaytime, FoodAndDrinksScreen.SelectedItems);

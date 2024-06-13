@@ -1,4 +1,4 @@
-// Console extension, extra functionaliteit voor het vragen om input in de console
+
 
 using Spectre.Console;
 
