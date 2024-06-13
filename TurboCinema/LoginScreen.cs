@@ -568,7 +568,7 @@ public static void Register()
                                     .Padding(1, 1)
                                     .SquareBorder());
 
-                                AnsiConsole.MarkupLine("Wil je (nog) een reservatie annuleren?");
+                                AnsiConsole.MarkupLine("Wil je (nog) een reservering annuleren? [red]LET OP: Bij herhaadelijk annuleren kan uw account gedeactiveerd worden. [/]");
 
                                 if (index2 == 0)
                                 {
@@ -621,7 +621,7 @@ public static void Register()
 
                         }
                         else {
-                            queue = "Login gefaald. Incorrecte email of wachtwoord.";
+                            queue = "Inloggen mislukt. Incorrect email-adres of wachtwoord.";
                         }
                     }
                     break;
@@ -693,7 +693,7 @@ public static void Register()
         customer.Reservations.Remove(reservationToCancel);
         SaveCustomers(customers, "Data/AccountInfo.json");
 
-        queue2 = "Reservering succesvol geannuleerd!";
+        queue2 = "Reservering succesvol geannuleerd! Uw geld wordt binnen 2-3 werkdagen teruggestort.";
     }
     public static void CancelReservation(Customer customer, List<Customer> customers, int reservationIndex)
     {
@@ -725,6 +725,6 @@ public static void Register()
         customer.Reservations.Remove(reservationToCancel);
         SaveCustomers(customers, "Data/AccountInfo.json");
 
-        queue2 = "[green]Reservering succesvol geannuleerd![/]";
+        queue2 = "[green]Reservering succesvol geannuleerd! Uw geld wordt binnen 2-3 werkdagen teruggestort.[/]";
     }
 }

@@ -96,7 +96,7 @@ namespace TurboCinema.Tests
 
             // Act
             var customer = customers[0];
-            var reservationIndex = 0; // Fixed index for testing
+            var reservationIndex = 0;
             LoginScreen.CancelReservation(customer, customers, reservationIndex);
 
             // Assert
@@ -141,7 +141,7 @@ namespace TurboCinema.Tests
             LoginScreen.CancelReservation(customer, customers, reservationIndex);
 
             // Assert
-            Assert.AreEqual(0, customer.Reservations.Count); // Reservations should be empty
+            Assert.AreEqual(0, customer.Reservations.Count); 
         }
         [TestMethod]
         public void NoAccount_ShouldSaveReservationWithoutAccount()
@@ -160,7 +160,6 @@ namespace TurboCinema.Tests
             string email = "nonaccountuser@example.com";
             int totalPrice = 24; // 2 seats * 7 + 2 popcorn * 5 + 2 soda * 3.5
 
-            // Set up the Betaalscherm object with the necessary data
             var selectedMovie = new Movie(
                 title: "Test Movie",
                 release: "29-02-2024",

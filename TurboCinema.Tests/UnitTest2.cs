@@ -16,7 +16,6 @@ namespace TurboCinema.Tests
         [TestInitialize]
         public void Setup()
         {
-            // Ensure test files are clean
             if (File.Exists(testFile))
             {
                 File.Delete(testFile);
@@ -27,7 +26,6 @@ namespace TurboCinema.Tests
                 File.Delete(testMoviesAndPlaytimes);
             }
 
-            // Create test movie data
             var testMovies = new List<Movie>
             {
                 new Movie("Action Movie", "01-01-2024", "Director 1", new List<string> { "Actor 1" }, "120 minutes", new List<string> { "Action" }, "PG-13", "Description 1"),
@@ -90,7 +88,6 @@ namespace TurboCinema.Tests
         [TestMethod]
         public void SelectMovie_ShouldReturnCorrectMovie()
         {
-            // Arrange
             var movies = new List<Movie>
             {
                 new Movie("Movie 1", "01-01-2024", "Director 1", new List<string> { "Actor 1" }, "120 minutes", new List<string> { "Genre 1" }, "PG-13", "Description 1"),
@@ -101,11 +98,9 @@ namespace TurboCinema.Tests
             MovieSelector.movies = movies;
             MovieSelector.copyOfMovies = movies.ToList();
 
-            // Act
             MovieSelector.SelectMovie("Movie 2");
             var selectedMovie = MovieSelector.GetSelectedMovie();
 
-            // Assert
             Assert.AreEqual("Movie 2", selectedMovie.Title);
             Assert.AreEqual("02-02-2024", selectedMovie.Release);
             Assert.AreEqual("Director 2", selectedMovie.Director);
@@ -123,7 +118,7 @@ namespace TurboCinema.Tests
 
             // Assert
             var sortedMovies = MovieSelector.movies;
-            Assert.AreEqual(1, sortedMovies.Count); // Only one movie should be in the Action genre
+            Assert.AreEqual(1, sortedMovies.Count);
             Assert.AreEqual("Action Movie", sortedMovies[0].Title);
         }
 

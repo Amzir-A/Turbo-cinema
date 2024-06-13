@@ -1,9 +1,9 @@
 using Spectre.Console;
 using System;
 
-public static class MainScreen
+public static class MainScreen 
 {
-    public static void MainMenu()
+    public static void MainMenu() 
     {
         string moviesFilePath = "Data/MoviesAndPlaytimes.json";
         Admin admin = new Admin(moviesFilePath);

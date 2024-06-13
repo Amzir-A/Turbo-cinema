@@ -181,7 +181,7 @@ public static class MovieSelector
                 grid.AddRow(new Text[]{
                     new Text((i + 1).ToString(), SelectedStyle).Centered(),
                     new Text(movie.Title, SelectedStyle).Centered(),
-                                        new Text(movie.Release, SelectedStyle).Centered(),
+                    new Text(movie.Release, SelectedStyle).Centered(),
                     new Text(movie.Director, SelectedStyle).Centered(),
                     new Text(movie.Duration, SelectedStyle).Centered(),
                     new Text(string.Join(", ", movie.Genre), SelectedStyle).Centered(),
@@ -366,9 +366,17 @@ public static class MovieSelector
 
     public static List<Movie> LoadMovies()
     {
-        string json = File.ReadAllText("Data/MoviesAndPlaytimes.json") ?? "";
-        List<Movie>? movies = JsonConvert.DeserializeObject<List<Movie>>(json) ?? new List<Movie>();
-        return movies;
+        try
+        {
+            string json = File.ReadAllText("Data/MoviesAndPlaytimes.json") ?? "";
+            List<Movie>? movies = JsonConvert.DeserializeObject<List<Movie>>(json) ?? new List<Movie>();
+            return movies;
+        }
+        catch (FileNotFoundException ex)
+        {
+            Console.WriteLine($"File not found: {ex.Message}");
+            return new List<Movie>();
+        }
     }
     
 }
