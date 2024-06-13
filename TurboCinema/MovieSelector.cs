@@ -181,7 +181,7 @@ public static class MovieSelector
                 grid.AddRow(new Text[]{
                     new Text((i + 1).ToString(), SelectedStyle).Centered(),
                     new Text(movie.Title, SelectedStyle).Centered(),
-                                        new Text(movie.Release, SelectedStyle).Centered(),
+                    new Text(movie.Release, SelectedStyle).Centered(),
                     new Text(movie.Director, SelectedStyle).Centered(),
                     new Text(movie.Duration, SelectedStyle).Centered(),
                     new Text(string.Join(", ", movie.Genre), SelectedStyle).Centered(),
