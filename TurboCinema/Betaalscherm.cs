@@ -9,6 +9,7 @@ public class Betaalscherm
     private Playtime selectedPlaytime;
     private List<(string, int, decimal)> selectedFoodAndDrinks;
     private List<Customer> customers;
+    string queue = "";
     
     public int CalculateTotalPrice()
     {
@@ -57,7 +58,7 @@ public class Betaalscherm
                 AnsiConsole.MarkupLine($"[green]{seat.ID}[/]");
             }
 
-            AnsiConsole.MarkupLine("[bold]Geselecteerde eten en drinken:[/]");
+            AnsiConsole.MarkupLine("[bold]Geselecteerd eten en drinken:[/]");
             foreach (var item in selectedFoodAndDrinks)
             {
                 AnsiConsole.MarkupLine($"[green]{item.Item1} - {item.Item2}x €{item.Item3}[/]");
@@ -82,20 +83,43 @@ public class Betaalscherm
                 case ConsoleKey.Enter:
                     AnsiConsole.Clear();
 
+                    
                     if (choice == 0)
                     {
                         while (true)
                         {
-                            string email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
-                            Customer customer = FindCustomerByEmail(email);
+                            Console.Clear();
+                            AnsiConsole.Write(new Rule("[yellow bold]Inloggen[/]"){
+                                Style = new Style(Color.Yellow)
+                            }.Centered());
+                            Console.WriteLine();
+                            AnsiConsole.MarkupLine("[blue]Emailadres: [/]");
+                            AnsiConsole.MarkupLine("[blue]Wachtwoord: [/]");
+                            Console.WriteLine("\n\n");
+                            AnsiConsole.Write(new Text(queue, new Style(Color.Red)));
+                            AnsiConsole.Write("\u001b[G");
+                            AnsiConsole.Write("\u001b[5A");
+                            AnsiConsole.Write("\u001b[12C");
+                            string email = AnsiConsole.Ask<string>("");
+                            // AnsiConsole.Write("\u001b[2A");
+                            AnsiConsole.Write("\u001b[12C");
+                            string password = AnsiConsole.Prompt(
+                                new TextPrompt<string>("")
+                                    .Secret());
+                            // AnsiConsole.Write("\u001b[22D");
+                            Customer customer = FindCustomerByEmailAndPassword(email, LoginScreen.HashPassword(password));
                             if (customer != null)
                             {
+                                Console.Clear();
+                                AnsiConsole.Markup("[green]Succesvol ingelogd[/]\n");
+                                CE.WL();
+
                                 ProcessPayment(totalPrice, customer);
                                 break;
                             }
                             else
                             {
-                                AnsiConsole.Markup("[red]Geen account gevonden met dat emailadres.[/]");
+                                queue = "Geen account gevonden met dat emailadres.";
                             }
                         }
                     }
@@ -137,6 +161,7 @@ public class Betaalscherm
 
     private void ProcessPayment(int totalPrice, Customer customer)
     {
+        string? bank = "";
         var methode = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("Selecteer [green]betaalmethode[/]?")
@@ -149,7 +174,7 @@ public class Betaalscherm
 
         if (methode == "Ideal")
         {
-            var bank = AnsiConsole.Prompt(
+            bank = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Selecteer [green]bank[/]?")
                     .PageSize(10)
@@ -165,78 +190,76 @@ public class Betaalscherm
                         "Knab",
                         "Bunq"
                     }));
-
-            AnsiConsole.Markup($"[green]U heeft gekozen voor {methode} en {bank}[/]\n\n");
         }
         else if (methode == "Visa" || methode == "Mastercard")
         {
             var cardNumber = AnsiConsole.Prompt(
                 new TextPrompt<string>("Voer uw [green]kaartnummer[/] in")
-                    .PromptStyle("green")
-                    .Secret());
+                    .PromptStyle("green"));
 
             var expirationDate = AnsiConsole.Prompt(
-                new TextPrompt<string>("Voer de [green]vervaldatum[/] in (MM/YY)")
+                new TextPrompt<string>("Voer de [green]vervaldatum[/] in (MM/JJ)")
                     .PromptStyle("green"));
 
             var cvc = AnsiConsole.Prompt(
                 new TextPrompt<string>("Voer de [green]CVC[/] in")
-                    .PromptStyle("green")
-                    .Secret());
-
-            AnsiConsole.Markup($"[green]U heeft gekozen voor {methode} met kaartnummer {cardNumber} en vervaldatum {expirationDate}[/]\n\n");
+                    .PromptStyle("green"));
         }
-        else
-        {
-            AnsiConsole.Markup($"[green]U heeft gekozen voor {methode}[/]\n\n");
-        }
+        
 
         Console.WriteLine($"Bedrag: €{totalPrice},00");
 
         if (methode != "Contant [grey](Op locatie)[/]")
         {
-            if (CE.Confirm("Wilt u betalen?"))
+            string bb = "";
+            if (methode == "Ideal")
+            {
+                bb = $"[green]U heeft gekozen voor {methode} en {bank}[/]\n\n";
+            }
+            else if (methode == "Visa" || methode == "Mastercard")
+            {
+                AnsiConsole.Markup($"[green]U heeft gekozen voor {methode}[/]\n\n");
+            }
+
+            if (CE.Confirm2(bb + $"Bedrag: €{totalPrice},00\nWilt u betalen?"))
             {
                 AnsiConsole.Clear();
                 CE.Wait("Verwerken betaling");
-                AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
                 if (customer != null)
                 {
                     SaveReservation(customer, totalPrice, selectedPlaytime);
-                    AnsiConsole.Markup("[green]Uw reservering is toegevoegd aan uw account.[/]");
                 }
                 ReservationSystem.UpdateSeatsAvailability();
+                ConfirmationScreen.Show(ReservationSystem.SelectedMovie, ReservationSystem.SelectedPlaytime, FoodAndDrinksScreen.SelectedItems);
             }
             else
             {
                 AnsiConsole.Clear();
-                AnsiConsole.Markup("[red]Reservering canceled![/]\n");
+                AnsiConsole.Markup("[red]Reservering geannuleerd![/]\n");
             }
         }
         else
         {
             AnsiConsole.Clear();
-            AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
+            // AnsiConsole.Markup("[green]Reservering voltooid![/]\n");
+            SaveReservation(customer, totalPrice, selectedPlaytime);
             ReservationSystem.UpdateSeatsAvailability();
+            ConfirmationScreen.Show(ReservationSystem.SelectedMovie, ReservationSystem.SelectedPlaytime, FoodAndDrinksScreen.SelectedItems);
         }
     }
 
-    public Customer FindCustomerByEmail(string email)
+    public Customer FindCustomerByEmailAndPassword(string email, string password)
     {
         var customers = LoadCustomers("Data/AccountInfo.json");
         Customer customer = null;
 
-        do
-        {
-            customer = customers.FirstOrDefault(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+        customer = customers.Find(c => c.Email == email && c.Password == password);
 
-            if (customer == null)
-            {
-                AnsiConsole.Markup("[red]Geen account gevonden met dat emailadres. Probeer opnieuw.[/]\n");
-                email = AnsiConsole.Ask<string>("Wat is uw emailadres?");
-            }
+        if (customer == null)
+        {
+            AnsiConsole.Markup("[red]Geen account gevonden met dat emailadres. Probeer opnieuw.[/]\n");
+            return null;
         }
-        while (customer == null);
 
         return customer;
     }

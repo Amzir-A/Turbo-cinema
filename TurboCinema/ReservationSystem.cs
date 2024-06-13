@@ -265,8 +265,6 @@ public static class ReservationSystem
             UpdateSeatsAvailability();
 
             // Show confirmation screen
-            ConfirmationScreen.Show(SelectedMovie, SelectedPlaytime, FoodAndDrinksScreen.SelectedItems);
-
             SelectedSeats = new List<Seat>();
         }
     }

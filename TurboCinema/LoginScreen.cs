@@ -15,6 +15,7 @@ public static class LoginScreen
     static string screenName = "Login scherm";
     public static bool IsAdmin { get; set; } = false;
     static string queue = "";
+    static string queue2 = "";
 
     static Dictionary<string, string> QI;
     static Dictionary<string, string> QI2;
@@ -44,11 +45,11 @@ public static class LoginScreen
                 new SelectionPrompt<string>()
                     .Title("Welkom bij TurboCinema!")
                     .PageSize(10)
-                    .AddChoices(new[] { "Login", "Maak een account", "Terug naar hoofdmenu" }));
+                    .AddChoices(new[] { "Reserveringen bekijken", "Maak een account", "Terug naar hoofdmenu" }));
 
             switch (option)
             {
-                case "Login":
+                case "Reserveringen bekijken":
                     Login();
                     break;
                 case "Maak een account":
@@ -144,7 +145,7 @@ public static void Register()
                                 DateOfBirth = DateTime.Parse(QI["Geboortedatum"]),
                                 Email = QI["Email"],
                                 Postcode = QI["Postcode"],
-                                Password = QI["Wachtwoord"],
+                                Password = HashPassword(QI["Wachtwoord"]),
                                 Reservations = new List<Reservation>()
                             };
 
@@ -270,7 +271,6 @@ public static void Register()
         // Validate password
         if (!IsValidPassword(QI["Wachtwoord"]))
         {
-            invalidInputs.Add("Ongeldig wachtwoord.");
             invalidInputs.Add("Ongeldig wachtwoord. Voer minimaal 5 tekens, één hoofdletter en één cijfer in.");
         }
 
@@ -283,7 +283,7 @@ public static void Register()
         // validate date
         if (!DateTime.TryParse(QI["Geboortedatum"], out _))
         {
-            invalidInputs.Add("Ongeldige geboortedatum.");
+            invalidInputs.Add("Ongeldige geboortedatum(MM-DD-JJJJ).");
         }
 
         // Return the concatenated string of invalid inputs
@@ -297,6 +297,9 @@ public static void Register()
     {
         foreach (char c in name)
         {
+            if (c == ' ') 
+                return true;
+
             if (!char.IsLetter(c))
             {
                 return false;
@@ -529,8 +532,7 @@ public static void Register()
                         Console.WriteLine("\n\n");
                         RenderLogin(QI2, index);
 
-                        // string hashedPassword = HashPassword(QI2["Wachtwoord"]);
-                        string hashedPassword = QI2["Wachtwoord"];
+                        string hashedPassword = HashPassword(QI2["Wachtwoord"]);
                         
                         var customer = customers.Find(c => c.Email == QI2["Email"] && c.Password == hashedPassword);
 
@@ -539,7 +541,7 @@ public static void Register()
                             AnsiConsole.MarkupLine("[green]Je bent succesvol ingelogd als admin![/]");
                             IsAdmin = true;
                             CE.WL("\n");
-                            Console.WriteLine("Press enter to go back to the main menu.");
+                            Console.WriteLine("Druk op Enter om terug te gaan naar het hoofdmenu");
                             Console.ReadLine();
                             Program.ShowScreen(MainScreen.MainMenu);
                         }
@@ -566,7 +568,7 @@ public static void Register()
                                     .Padding(1, 1)
                                     .SquareBorder());
 
-                                AnsiConsole.MarkupLine("Wil je (nog) een reservatie annuleren?");
+                                AnsiConsole.MarkupLine("Wil je (nog) een reservering annuleren?");
 
                                 if (index2 == 0)
                                 {
@@ -583,6 +585,12 @@ public static void Register()
                                 {
                                     Console.SetCursorPosition(0, 15);
                                     AnsiConsole.Write(new Text(queue, new Style(Color.Red, Color.Black)));
+                                }
+
+                                if (queue2 != "")
+                                {
+                                    Console.SetCursorPosition(0, 15);
+                                    AnsiConsole.Write(new Text(queue2, new Style(Color.Green, Color.Black)));
                                 }
 
                                 var key2 = Console.ReadKey(true);
@@ -613,7 +621,7 @@ public static void Register()
 
                         }
                         else {
-                            queue = "Login gefaald. Incorrecte email of wachtwoord.";
+                            queue = "Login gefaald. Incorrect email-adres of wachtwoord.";
                         }
                     }
                     break;
@@ -634,6 +642,14 @@ public static void Register()
                 AnsiConsole.Write(new Text(queue, new Style(Color.Red, Color.Black)));
             }
             queue = "";
+
+            if (queue2 != "")
+            {
+                Console.SetCursorPosition(0, 14);
+                AnsiConsole.Write(new Text(queue2, new Style(Color.Green, Color.Black)));
+            }
+
+            queue2 = "";
         }
 
     }
@@ -677,7 +693,7 @@ public static void Register()
         customer.Reservations.Remove(reservationToCancel);
         SaveCustomers(customers, "Data/AccountInfo.json");
 
-        AnsiConsole.MarkupLine("[green]Reservering succesvol geannuleerd![/]");
+        queue2 = "Reservering succesvol geannuleerd!";
     }
     public static void CancelReservation(Customer customer, List<Customer> customers, int reservationIndex)
     {
@@ -709,6 +725,6 @@ public static void Register()
         customer.Reservations.Remove(reservationToCancel);
         SaveCustomers(customers, "Data/AccountInfo.json");
 
-        AnsiConsole.MarkupLine("[green]Reservering succesvol geannuleerd![/]");
+        queue2 = "[green]Reservering succesvol geannuleerd![/]";
     }
 }
