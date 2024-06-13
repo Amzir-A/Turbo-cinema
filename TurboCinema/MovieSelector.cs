@@ -366,9 +366,17 @@ public static class MovieSelector
 
     public static List<Movie> LoadMovies()
     {
-        string json = File.ReadAllText("Data/MoviesAndPlaytimes.json") ?? "";
-        List<Movie>? movies = JsonConvert.DeserializeObject<List<Movie>>(json) ?? new List<Movie>();
-        return movies;
+        try
+        {
+            string json = File.ReadAllText("Data/MoviesAndPlaytimes.json") ?? "";
+            List<Movie>? movies = JsonConvert.DeserializeObject<List<Movie>>(json) ?? new List<Movie>();
+            return movies;
+        }
+        catch (FileNotFoundException ex)
+        {
+            Console.WriteLine($"File not found: {ex.Message}");
+            return new List<Movie>();
+        }
     }
     
 }
