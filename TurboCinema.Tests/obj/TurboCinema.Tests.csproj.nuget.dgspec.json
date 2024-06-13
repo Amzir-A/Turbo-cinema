@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj": {}
+    "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj": {
+    "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
         "projectName": "TurboCinema.Tests",
-        "projectPath": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
-        "packagesPath": "C:\\Users\\Nolan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema.Tests\\obj\\",
+        "projectPath": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema.Tests\\TurboCinema.Tests.csproj",
+        "packagesPath": "C:\\Users\\sven\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Nolan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\sven\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema\\TurboCinema.csproj": {
-                "projectPath": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema\\TurboCinema.csproj"
+              "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
+                "projectPath": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj"
               }
             }
           }
@@ -85,17 +85,17 @@
         }
       }
     },
-    "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema\\TurboCinema.csproj": {
+    "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema\\TurboCinema.csproj",
+        "projectUniqueName": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
         "projectName": "TurboCinema",
-        "projectPath": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema\\TurboCinema.csproj",
-        "packagesPath": "C:\\Users\\Nolan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nolan\\Documents\\GitHub\\Turbo-cinema\\TurboCinema\\TurboCinema\\obj\\",
+        "projectPath": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\TurboCinema.csproj",
+        "packagesPath": "C:\\Users\\sven\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sven\\school\\Turbo-cinema\\TurboCinema\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Nolan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\sven\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"

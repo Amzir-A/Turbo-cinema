@@ -118,7 +118,7 @@ namespace TurboCinema.Tests
 
             // Assert
             var sortedMovies = MovieSelector.movies;
-            Assert.AreEqual(1, sortedMovies.Count); // Only one movie should be in the Action genre
+            Assert.AreEqual(1, sortedMovies.Count);
             Assert.AreEqual("Action Movie", sortedMovies[0].Title);
         }
 
