@@ -34,24 +34,24 @@ public class Admin
             {
                 if (playtime.Room == hallName)
                 {
-                    playtime.Seats = GenerateSeats(numRows, numSeatsPerRow);
+                    var seatsArray = GenerateSeats(numRows, numSeatsPerRow);
+                    playtime.Seats = seatsArray.Select(row => row.ToList()).ToList();
                 }
             }
         }
         SaveMovies();
     }
 
-    private List<List<Seat>> GenerateSeats(int numRows, int numSeatsPerRow)
+    private Seat[][] GenerateSeats(int numRows, int numSeatsPerRow)
     {
-        var rows = new List<List<Seat>>();
-        for (int i = 1; i <= numRows; i++)
+        var rows = new Seat[numRows][];
+        for (int i = 0; i < numRows; i++)
         {
-            var row = new List<Seat>();
-            for (int j = 1; j <= numSeatsPerRow; j++)
+            rows[i] = new Seat[numSeatsPerRow];
+            for (int j = 0; j < numSeatsPerRow; j++)
             {
-                row.Add(new Seat($"Rij {i} - Stoel {j}", true));
+                rows[i][j] = new Seat($"Rij {i + 1} - Stoel {j + 1}", true);
             }
-            rows.Add(row);
         }
         return rows;
     }
@@ -69,17 +69,20 @@ public class Admin
                 DateTime randomDate = startDate.AddDays(rand.Next((endDate - startDate).Days));
                 DateTime randomTime = randomDate.AddHours(rand.Next(0, 24)).AddMinutes(rand.Next(0, 60));
 
+                Seat[][] seatsArray = GenerateSeats(5, 3);
+
                 Playtime newPlaytime = new Playtime
                 {
                     DateTime = randomTime,
                     Room = "Hall " + rand.Next(1, 11),
-                    Seats = GenerateSeats(5, 3)
+                    Seats = seatsArray.Select(row => row.ToList()).ToList()
                 };
 
                 movie.Playtimes.Add(newPlaytime);
             }
         }
     }
+
 
     public void AddMovie(Movie newMovie)
     {
