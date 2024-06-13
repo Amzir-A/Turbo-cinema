@@ -30,6 +30,87 @@ public class Betaalscherm
         this.customers = customers ?? LoadCustomers("Data/AccountInfo.json");
     }
 
+    public void login(int totalPrice)
+    {
+        bool back = true;
+        while (true)
+        {
+            Console.Clear();
+            AnsiConsole.Write(new Rule("[yellow bold]Inloggen[/]"){
+                Style = new Style(Color.Yellow)
+            }.Centered());
+            Console.WriteLine();
+            AnsiConsole.MarkupLine("[blue]Emailadres: [/]");
+            AnsiConsole.MarkupLine("[blue]Wachtwoord: [/]");
+            Console.WriteLine("");
+            AnsiConsole.Write(new Text(queue, new Style(Color.Red)));
+
+            if (queue != "")
+            {
+                while (true)
+                {
+                    Console.SetCursorPosition(0, 7);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    if (back) { Console.BackgroundColor = ConsoleColor.Gray; }
+                    Console.WriteLine("");
+                    Console.Write("[ Terug ]");
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    if (!back) { Console.BackgroundColor = ConsoleColor.Gray; }
+                    Console.Write("[ Opnieuw proberen ]");
+                    Console.ResetColor();
+
+                    var k = Console.ReadKey(true).Key;
+
+                    if (k == ConsoleKey.LeftArrow)
+                    {
+                        back = true;
+                    }
+                    else if (k == ConsoleKey.RightArrow)
+                    {
+                        back = false;
+                    }
+                    else if (k == ConsoleKey.Enter)
+                    {
+                        if (back)
+                        {
+                            Program.PreviousScreen();
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            AnsiConsole.Write("\u001b[G");
+            // AnsiConsole.Write("\u001b[5A");
+            AnsiConsole.Write("\u001b[H");
+            AnsiConsole.Write("\u001b[2B");
+            AnsiConsole.Write("\u001b[12C");
+            string email = AnsiConsole.Ask<string>("");
+            // AnsiConsole.Write("\u001b[2A");
+            AnsiConsole.Write("\u001b[12C");
+            string password = AnsiConsole.Prompt(
+                new TextPrompt<string>("")
+                    .Secret());
+            // AnsiConsole.Write("\u001b[22D");
+            Customer customer = FindCustomerByEmailAndPassword(email, LoginScreen.HashPassword(password));
+            if (customer != null)
+            {
+                Console.Clear();
+                AnsiConsole.Markup("[green]Succesvol ingelogd[/]\n");
+                CE.WL();
+
+                ProcessPayment(totalPrice, customer);
+                break;
+            }
+            else
+            {
+                queue = "Geen account gevonden met dat emailadres.";
+            }
+        }
+    }
+
     public void DisplayPaymentScreen()
     {
         int totalPrice = this.selectedSeats.Count * SeatPrice;
@@ -86,42 +167,7 @@ public class Betaalscherm
                     
                     if (choice == 0)
                     {
-                        while (true)
-                        {
-                            Console.Clear();
-                            AnsiConsole.Write(new Rule("[yellow bold]Inloggen[/]"){
-                                Style = new Style(Color.Yellow)
-                            }.Centered());
-                            Console.WriteLine();
-                            AnsiConsole.MarkupLine("[blue]Emailadres: [/]");
-                            AnsiConsole.MarkupLine("[blue]Wachtwoord: [/]");
-                            Console.WriteLine("\n\n");
-                            AnsiConsole.Write(new Text(queue, new Style(Color.Red)));
-                            AnsiConsole.Write("\u001b[G");
-                            AnsiConsole.Write("\u001b[5A");
-                            AnsiConsole.Write("\u001b[12C");
-                            string email = AnsiConsole.Ask<string>("");
-                            // AnsiConsole.Write("\u001b[2A");
-                            AnsiConsole.Write("\u001b[12C");
-                            string password = AnsiConsole.Prompt(
-                                new TextPrompt<string>("")
-                                    .Secret());
-                            // AnsiConsole.Write("\u001b[22D");
-                            Customer customer = FindCustomerByEmailAndPassword(email, LoginScreen.HashPassword(password));
-                            if (customer != null)
-                            {
-                                Console.Clear();
-                                AnsiConsole.Markup("[green]Succesvol ingelogd[/]\n");
-                                CE.WL();
-
-                                ProcessPayment(totalPrice, customer);
-                                break;
-                            }
-                            else
-                            {
-                                queue = "Geen account gevonden met dat emailadres.";
-                            }
-                        }
+                        Program.ShowScreen(login, [totalPrice]);
                     }
                     else if (choice == 1)
                     {
@@ -236,6 +282,9 @@ public class Betaalscherm
             {
                 AnsiConsole.Clear();
                 AnsiConsole.Markup("[red]Reservering geannuleerd![/]\n");
+                AnsiConsole.Markup("[green]Klik enter om terug naar het hoofdmenu te gaan[/]\n");
+                Console.ReadLine();
+                Program.ShowScreen(MainScreen.MainMenu);
             }
         }
         else

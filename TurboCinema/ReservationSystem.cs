@@ -72,7 +72,7 @@ public static class ReservationSystem
                         if (SelectedSeats.Count > 0)
                         {
                             AnsiConsole.Clear();
-                            FoodAndDrinksScreen.Show();
+                            Program.ShowScreen(FoodAndDrinksScreen.Show);
                             return;
                         }
                         else

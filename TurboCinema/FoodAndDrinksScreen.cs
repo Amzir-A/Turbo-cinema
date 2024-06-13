@@ -124,7 +124,7 @@ public static class FoodAndDrinksScreen
                                 }
                             }
                             AnsiConsole.Clear();
-                            ReservationSystem.ProceedToPayment();
+                            Program.ShowScreen(ReservationSystem.ProceedToPayment);
                             return;
                         }
                         else if (selectedIndex == items.Count + 1)
