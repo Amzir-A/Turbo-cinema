@@ -1,7 +1,7 @@
 using Spectre.Console;
 using System.Text.Json;
 
-public class Betaalscherm
+public class Betaalscherm : PaymentProcess
 {
     private List<Seat> selectedSeats;
     private const int SeatPrice = 7;
@@ -11,7 +11,7 @@ public class Betaalscherm
     private List<Customer> customers;
     string queue = "";
     
-    public int CalculateTotalPrice()
+    public override int CalculateTotalPrice()
     {
         int totalPrice = selectedSeats.Count * SeatPrice;
         foreach (var item in selectedFoodAndDrinks)
@@ -30,7 +30,7 @@ public class Betaalscherm
         this.customers = customers ?? LoadCustomers("Data/AccountInfo.json");
     }
 
-    public void DisplayPaymentScreen()
+    public override void DisplayPaymentScreen()
     {
         int totalPrice = this.selectedSeats.Count * SeatPrice;
 
@@ -159,7 +159,7 @@ public class Betaalscherm
         }
     }
 
-    private void ProcessPayment(int totalPrice, Customer customer)
+    public override void ProcessPayment(int totalPrice, Customer customer)
     {
         string? bank = "";
         var methode = AnsiConsole.Prompt(

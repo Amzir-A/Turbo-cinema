@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Admin
+public class Admin : IReservationService
 {
     public List<Movie> _movies;
     private string _moviesFilePath;
